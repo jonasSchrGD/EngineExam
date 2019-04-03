@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseComponent.h"
-#include "TextComponent.h"
+#include "TextRenderComponent.h"
+#include <deque>
 
 namespace dae
 {
@@ -10,16 +11,14 @@ namespace dae
 		FPSComponent();
 		virtual ~FPSComponent();
 
-		void UpdatePerFrame();
-
 	protected:
 		void Update() override;
-		void Render() const override;
 		void GameObjectSet() override;
 
 	private:
-		std::weak_ptr<TextComponent> m_Text;
-		float m_TimePassed;
-		int m_Frames;
+		std::weak_ptr<TextRenderComponent> m_Text;
+		std::deque<unsigned int> m_FpsCatches; //keep track of multiple frame fps calculations
+
+		unsigned int m_LastFpsUpdate, m_FpsSum;
 	};
 }

@@ -9,10 +9,11 @@ namespace dae
 	public:
 		friend Minigin;
 
-		const float& DeltaTime() const { return m_DeltaTime; };
+		const float& FrameTime() const { return m_FrameTime; };
+		const float& DeltaTime() const { return m_MsPerFrame; };
 
 	private:
-		float m_DeltaTime;
-		const float m_MsPerFrame = 16.f /1000.f; //16 for 60 fps, 33 for 30 fps
+		float m_FrameTime;
+		const float m_MsPerFrame = 1 / 60.f;
 	};
 }

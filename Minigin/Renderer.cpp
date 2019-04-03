@@ -1,8 +1,9 @@
 #include "MiniginPCH.h"
 #include "Renderer.h"
 #include <SDL.h>
-#include "SceneManager.h"
 #include "Texture2D.h"
+#include "BaseRenderComponent.h"
+#include <algorithm>
 
 void dae::Renderer::Init(SDL_Window * window)
 {
@@ -17,8 +18,11 @@ void dae::Renderer::Render()
 {
 	SDL_RenderClear(mRenderer);
 
-	SceneManager::GetInstance().Render();
-	
+	for (auto renderComponent : m_RenderComponents)
+	{
+		renderComponent.lock()->Render();
+	}
+
 	SDL_RenderPresent(mRenderer);
 }
 
@@ -29,6 +33,16 @@ void dae::Renderer::Destroy()
 		SDL_DestroyRenderer(mRenderer);
 		mRenderer = nullptr;
 	}
+}
+
+void dae::Renderer::AddRenderComponent(std::shared_ptr<BaseRenderComponent> component)
+{
+	m_RenderComponents.push_back(component);
+}
+
+void dae::Renderer::RemoveRenderComponent(std::weak_ptr<BaseRenderComponent> component)
+{
+	m_RenderComponents.erase(std::remove_if(m_RenderComponents.begin(), m_RenderComponents.end(), [component](std::weak_ptr<BaseRenderComponent> it) {return  it.lock() == component.lock(); }));
 }
 
 void dae::Renderer::RenderTexture(const Texture2D& texture, const float x, const float y) const

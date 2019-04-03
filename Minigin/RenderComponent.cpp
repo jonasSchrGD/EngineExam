@@ -6,17 +6,9 @@
 
 
 dae::RenderComponent::RenderComponent()
+	:m_AddedToRenderer(false)
 {
 }
-
-dae::RenderComponent::~RenderComponent()
-{
-}
-
-void dae::RenderComponent::Update()
-{
-}
-
 void dae::RenderComponent::SetTexture(const std::string& filename)
 {
 	mTexture = ResourceManager::GetInstance().LoadTexture(filename);
@@ -24,9 +16,9 @@ void dae::RenderComponent::SetTexture(const std::string& filename)
 
 void dae::RenderComponent::Render() const
 {
-	if (mTexture)
+	if (mTexture != nullptr)
 	{
-		const auto pos = GetGameObject()->GetPosition();
+		const auto pos = GetGameObject()->GetTransform().lock()->GetPosition();
 		Renderer::GetInstance().RenderTexture(*mTexture, pos.x, pos.y);
 	}
 }

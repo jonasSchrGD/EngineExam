@@ -4,7 +4,7 @@
 struct SDL_Window;
 namespace dae
 {
-	class TextComponent;
+	class TextRenderComponent;
 	class Minigin
 	{
 	public:

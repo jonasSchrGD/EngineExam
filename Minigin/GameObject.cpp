@@ -8,7 +8,7 @@ dae::GameObject::GameObject()
 
 dae::GameObject::~GameObject()
 {
-	for (int i = m_pComponents.size() - 1; i > -1; i--)
+	for (size_t i = m_pComponents.size() - 1; i > -1; i--)
 	{
 		m_pComponents.pop_back();
 	}
@@ -19,14 +19,6 @@ void dae::GameObject::Update()
 	for (auto child : m_pComponents)
 	{
 		child->Update();
-	}
-}
-
-void dae::GameObject::Render() const
-{
-	for(auto child : m_pComponents)
-	{
-		child->Render();
 	}
 }
 

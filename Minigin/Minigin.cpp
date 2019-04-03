@@ -9,7 +9,7 @@
 #include <SDL.h>
 #include "GameObject.h"
 #include "Scene.h"
-#include "TextComponent.h"
+#include "TextRenderComponent.h"
 #include "RenderComponent.h"
 #include "Time.h"
 
@@ -61,7 +61,7 @@ void dae::Minigin::LoadGame() const
 
 	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	auto textComp = std::make_shared<GameObject>();
-	auto to = std::make_shared<TextComponent>("Programming 4 Assignment", font);
+	auto to = std::make_shared<TextRenderComponent>("Programming 4 Assignment", font);
 	textComp->SetPosition(80, 20);
 	textComp->AddComponent(to);
 	scene.Add(textComp);
@@ -92,12 +92,13 @@ void dae::Minigin::Run()
 	{
 		auto OldT = std::chrono::high_resolution_clock::now();
 		float deltaTime{};
-		float& elapsed = Time::GetInstance().m_DeltaTime;
+		float& elapsed = Time::GetInstance().m_FrameTime;
+		const float& msPerFrame = Time::GetInstance().m_MsPerFrame;
 
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
 		auto& input = InputManager::GetInstance();
-
+		
 		bool doContinue = true;
 		while (doContinue)
 		{
@@ -109,13 +110,11 @@ void dae::Minigin::Run()
 			doContinue = input.ProcessInput();
 
 			//update
-			while(deltaTime >= Time::GetInstance().m_MsPerFrame)
+			while(deltaTime >= msPerFrame)
 			{
 				sceneManager.Update();
-				deltaTime -= Time::GetInstance().m_MsPerFrame;
+				deltaTime -= msPerFrame;
 			}
-			//update every frame
-			m_Fps->UpdatePerFrame();
 
 			renderer.Render();
 		}

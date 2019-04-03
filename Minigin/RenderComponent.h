@@ -1,23 +1,24 @@
 #pragma once
 #include "BaseComponent.h"
 #include "Texture2D.h"
+#include "BaseRenderComponent.h"
 
 namespace dae
 {
-	class RenderComponent :	public BaseComponent
+	class RenderComponent final :	public BaseRenderComponent
 	{
 	public:
 		RenderComponent();
-		virtual ~RenderComponent() override;
+		virtual ~RenderComponent() override = default;
 
 		void SetTexture(const std::string& filename);
+		virtual void Render() const;
 
 	protected:
-		void Update() override;
-		void Render() const override;
-		void GameObjectSet() override {};
+		void Update() override { AddToRenderer(); }
 
 	private:
 		std::shared_ptr<Texture2D> mTexture;
+		bool m_AddedToRenderer;
 	};
 }

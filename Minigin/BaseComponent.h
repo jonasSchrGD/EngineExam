@@ -19,7 +19,6 @@ namespace dae
 
 	protected:
 		virtual void Update() = 0;
-		virtual void Render() const = 0;
 		virtual void GameObjectSet() = 0;
 
 	private:

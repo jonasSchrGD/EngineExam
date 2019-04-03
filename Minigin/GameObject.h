@@ -11,12 +11,9 @@ namespace dae
 	{
 	public:
 		void Update() override;
-		void Render() const override;
 
 		void SetPosition(float x, float y);
 		void AddComponent(const std::shared_ptr<BaseComponent>& component);
-
-		const glm::vec3& GetPosition()const { return m_pTranform->GetPosition(); };
 
 		GameObject();
 		virtual ~GameObject() override;
@@ -25,8 +22,10 @@ namespace dae
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
+		const std::weak_ptr<TransformComponent> GetTransform() const { return m_pTranform; };
+
 	private:
 		std::vector<std::shared_ptr<BaseComponent>> m_pComponents;
-		std::unique_ptr<TransformComponent> m_pTranform;
+		std::shared_ptr<TransformComponent> m_pTranform;
 	};
 }

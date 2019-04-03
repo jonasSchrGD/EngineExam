@@ -20,6 +20,8 @@ void dae::TextRenderComponent::SetText(const std::string& text)
 
 void dae::TextRenderComponent::Update()
 {
+	AddToRenderer();
+
 	if (mNeedsUpdate)
 	{
 		//const SDL_Color color = { 255,255,255 }; // only white text is supported now
@@ -42,7 +44,7 @@ void dae::TextRenderComponent::Render() const
 {
 	if (mTexture != nullptr)
 	{
-		const auto pos = GetGameObject()->GetPosition();
+		const auto pos = GetGameObject()->GetTransform().lock()->GetPosition();
 		Renderer::GetInstance().RenderTexture(*mTexture, pos.x, pos.y);
 	}
 }

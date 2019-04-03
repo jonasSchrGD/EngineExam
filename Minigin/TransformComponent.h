@@ -17,7 +17,6 @@ namespace dae
 		~TransformComponent() override;
 	protected:
 		void Update() override;
-		void Render() const override;
 		void GameObjectSet() override{};
 	};
 }

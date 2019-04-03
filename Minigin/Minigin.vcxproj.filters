@@ -34,6 +34,9 @@
     <Filter Include="Framework Files\GameObject\Components">
       <UniqueIdentifier>{e80df482-a6a7-43f9-bf0a-bd5b44d671c8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework Files\BaseClasses">
+      <UniqueIdentifier>{79331ed7-1617-4223-b34d-1beb3467b10b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Font.h">
@@ -75,26 +78,29 @@
     <ClInclude Include="targetver.h">
       <Filter>Framework Files</Filter>
     </ClInclude>
-    <ClInclude Include="BaseComponent.h">
-      <Filter>Framework Files\GameObject\Components</Filter>
-    </ClInclude>
     <ClInclude Include="TransformComponent.h">
-      <Filter>Framework Files\GameObject\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="TextComponent.h">
       <Filter>Framework Files\GameObject\Components</Filter>
     </ClInclude>
     <ClInclude Include="RenderComponent.h">
       <Filter>Framework Files\GameObject\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="Singleton.h">
-      <Filter>Framework Files\Managers</Filter>
     </ClInclude>
     <ClInclude Include="Time.h">
       <Filter>Framework Files\Managers</Filter>
     </ClInclude>
     <ClInclude Include="FPSComponent.h">
       <Filter>Framework Files\GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TextRenderComponent.h">
+      <Filter>Framework Files\GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Singleton.h">
+      <Filter>Framework Files\BaseClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseRenderComponent.h">
+      <Filter>Framework Files\BaseClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseComponent.h">
+      <Filter>Framework Files\BaseClasses</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -134,13 +140,7 @@
     <ClCompile Include="GameObject.cpp">
       <Filter>Framework Files\GameObject</Filter>
     </ClCompile>
-    <ClCompile Include="BaseComponent.cpp">
-      <Filter>Framework Files\GameObject\Components</Filter>
-    </ClCompile>
     <ClCompile Include="TransformComponent.cpp">
-      <Filter>Framework Files\GameObject\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="TextComponent.cpp">
       <Filter>Framework Files\GameObject\Components</Filter>
     </ClCompile>
     <ClCompile Include="RenderComponent.cpp">
@@ -151,6 +151,15 @@
     </ClCompile>
     <ClCompile Include="FPSComponent.cpp">
       <Filter>Framework Files\GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="TextRenderComponent.cpp">
+      <Filter>Framework Files\GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseComponent.cpp">
+      <Filter>Framework Files\BaseClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseRenderComponent.cpp">
+      <Filter>Framework Files\BaseClasses</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
