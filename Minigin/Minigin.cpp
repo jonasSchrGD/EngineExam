@@ -12,6 +12,7 @@
 #include "TextRenderComponent.h"
 #include "RenderComponent.h"
 #include "Time.h"
+#include "CollisionHandler.h"
 
 
 void dae::Minigin::Initialize()
@@ -98,7 +99,10 @@ void dae::Minigin::Run()
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
 		auto& input = InputManager::GetInstance();
+		auto& collision = CollisionHandler::GetInstance();
 		
+		collision.Init();
+
 		bool doContinue = true;
 		while (doContinue)
 		{
@@ -113,6 +117,7 @@ void dae::Minigin::Run()
 			while(deltaTime >= msPerFrame)
 			{
 				sceneManager.Update();
+				collision.Update(); 
 				deltaTime -= msPerFrame;
 			}
 

@@ -37,6 +37,15 @@
     <Filter Include="Framework Files\BaseClasses">
       <UniqueIdentifier>{79331ed7-1617-4223-b34d-1beb3467b10b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework Files\Collision">
+      <UniqueIdentifier>{c73e1529-bbbc-4e26-9d3a-c0c8d1ae04be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework Files\Collision\Map">
+      <UniqueIdentifier>{d2ce20a5-280a-4edf-b986-c9c4fb640e6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework Files\Prefabs">
+      <UniqueIdentifier>{a395f745-00f7-457c-b540-03afd64cc655}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Font.h">
@@ -102,6 +111,21 @@
     <ClInclude Include="BaseComponent.h">
       <Filter>Framework Files\BaseClasses</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionComponent.h">
+      <Filter>Framework Files\GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="TiledMap.h">
+      <Filter>Framework Files\Collision\Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.h">
+      <Filter>Framework Files\Prefabs</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionHandler.h">
+      <Filter>Framework Files\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseMap.h">
+      <Filter>Framework Files\Collision\Map</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -160,6 +184,21 @@
     </ClCompile>
     <ClCompile Include="BaseRenderComponent.cpp">
       <Filter>Framework Files\BaseClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionComponent.cpp">
+      <Filter>Framework Files\GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="TiledMap.cpp">
+      <Filter>Framework Files\Collision\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Tile.cpp">
+      <Filter>Framework Files\Prefabs</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionHandler.cpp">
+      <Filter>Framework Files\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseMap.cpp">
+      <Filter>Framework Files\Collision\Map</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
