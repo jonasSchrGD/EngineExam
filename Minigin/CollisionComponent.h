@@ -11,7 +11,7 @@ namespace dae
 
 		void DoCollisionCheck(std::shared_ptr<CollisionComponent> other);
 
-		float2 GetBottomLeft();
+		float2 GetBottomLeft() const;
 		float GetHeight() const { return  m_Height; }
 		float GetWidth() const { return  m_Width; }
 		void SetTrigger(bool isTrigger) { m_IsTrigger = isTrigger; }

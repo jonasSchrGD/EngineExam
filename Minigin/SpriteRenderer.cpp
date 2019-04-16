@@ -18,8 +18,8 @@ dae::SpriteRenderer::SpriteRenderer(const std::string& filename, float frameTime
 	AddToRenderer();
 	int w, h;
 	SDL_QueryTexture(m_Texture->GetSDLTexture(), nullptr, nullptr, &w, &h);
-	m_SrcRect.x = w / cols;
-	m_SrcRect.y = h / rows;
+	m_SrcRect.x = w / (float)cols;
+	m_SrcRect.y = h / (float)rows;
 
 	if(drawSize.x == 0 && drawSize.y == 0)
 		m_DrwRect = m_SrcRect;
@@ -31,15 +31,15 @@ void dae::SpriteRenderer::Render() const
 {
 	const auto pos = GetGameObject()->GetTransform().lock()->GetPosition();
 	SDL_Rect srcRect, dstRect;
-	srcRect.x = m_BottomLeft.x;
-	srcRect.y = m_BottomLeft.y;
-	srcRect.w = m_SrcRect.x;
-	srcRect.h = m_SrcRect.y;
+	srcRect.x = static_cast<int>(m_BottomLeft.x);
+	srcRect.y = static_cast<int>(m_BottomLeft.y);
+	srcRect.w = static_cast<int>(m_SrcRect.x);
+	srcRect.h = static_cast<int>(m_SrcRect.y);
 
-	dstRect.x = pos.x;
-	dstRect.y = pos.y;
-	dstRect.w = m_DrwRect.x;
-	dstRect.h = m_DrwRect.y;
+	dstRect.x = static_cast<int>(pos.x);
+	dstRect.y = static_cast<int>(pos.y);
+	dstRect.w = static_cast<int>(m_DrwRect.x);
+	dstRect.h = static_cast<int>(m_DrwRect.y);
 
 	Renderer::GetInstance().RenderTexture(*m_Texture, srcRect, dstRect);
 }

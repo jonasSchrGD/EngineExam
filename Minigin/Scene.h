@@ -1,29 +1,31 @@
 #pragma once
-#include "SceneManager.h"
+#include "FPSComponent.h"
 
 namespace dae
 {
 	class SceneObject;
 	class Scene
 	{
-		friend Scene& SceneManager::CreateScene(const std::string& name);
 	public:
 		void Add(const std::shared_ptr<SceneObject>& object);
 
 		void Update();
 		void Render() const;
 
-		~Scene();
+		Scene(const std::string& name);
+		virtual ~Scene();
 		Scene(const Scene& other) = delete;
 		Scene(Scene&& other) = delete;
 		Scene& operator=(const Scene& other) = delete;
 		Scene& operator=(Scene&& other) = delete;
 
-	private: 
-		explicit Scene(const std::string& name);
+	protected:
+		void AddFpsComponent();
+		virtual void Initialize() = 0;
 
+	private: 
 		std::string mName{};
-		std::vector < std::shared_ptr<SceneObject>> mObjects{};
+		std::vector <std::shared_ptr<SceneObject>> mObjects{};
 
 		static unsigned int idCounter; 
 	};

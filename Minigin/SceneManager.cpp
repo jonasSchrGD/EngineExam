@@ -5,23 +5,14 @@
 
 void dae::SceneManager::Update()
 {
-	for(auto scene : mScenes)
-	{
-		scene->Update();
-	}
+	//only check needed here because setactivescene() makes sure m_activeScene is in range
+	if (m_Scenes.size() > 0)
+		m_Scenes[m_ActiveScene]->Update();
 }
 
 void dae::SceneManager::Render()
 {
-	for (const auto scene : mScenes)
-	{
-		scene->Render();
-	}
-}
-
-dae::Scene& dae::SceneManager::CreateScene(const std::string& name)
-{
-	const auto scene = std::shared_ptr<Scene>(new Scene(name));
-	mScenes.push_back(scene);
-	return *scene;
+	//only check needed here because setactivescene() makes sure m_activeScene is in range
+	if (m_Scenes.size() > 0)
+		m_Scenes[m_ActiveScene]->Render();
 }

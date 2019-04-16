@@ -123,11 +123,17 @@
     <ClInclude Include="CollisionHandler.h">
       <Filter>Framework Files\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="BaseMap.h">
-      <Filter>Framework Files\Collision\Map</Filter>
-    </ClInclude>
     <ClInclude Include="SpriteRenderer.h">
       <Filter>Framework Files\GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseMap.h">
+      <Filter>Framework Files\BaseClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="BoundingBox.h">
+      <Filter>Framework Files\Collision</Filter>
+    </ClInclude>
+    <ClInclude Include="DemoScene.h">
+      <Filter>Game Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -200,11 +206,17 @@
     <ClCompile Include="CollisionHandler.cpp">
       <Filter>Framework Files\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="BaseMap.cpp">
-      <Filter>Framework Files\Collision\Map</Filter>
-    </ClCompile>
     <ClCompile Include="SpriteRenderer.cpp">
       <Filter>Framework Files\GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseMap.cpp">
+      <Filter>Framework Files\BaseClasses</Filter>
+    </ClCompile>
+    <ClCompile Include="BoundingBox.cpp">
+      <Filter>Framework Files\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="DemoScene.cpp">
+      <Filter>Game Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

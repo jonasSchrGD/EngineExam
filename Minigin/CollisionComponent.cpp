@@ -9,7 +9,7 @@ dae::CollisionComponent::CollisionComponent(float width, float height)
 {
 }
 
-float2 dae::CollisionComponent::GetBottomLeft()
+float2 dae::CollisionComponent::GetBottomLeft() const
 {
 	auto pos = GetGameObject()->GetTransform().lock()->GetPosition();
 	float2 bottomLeft{};

@@ -7,13 +7,10 @@
 #include "Renderer.h"
 #include "ResourceManager.h"
 #include <SDL.h>
-#include "GameObject.h"
-#include "Scene.h"
-#include "TextRenderComponent.h"
-#include "RenderComponent.h"
 #include "Time.h"
 #include "CollisionHandler.h"
 #include "TiledMap.h"
+#include "DemoScene.h"
 
 
 void dae::Minigin::Initialize()
@@ -37,8 +34,6 @@ void dae::Minigin::Initialize()
 	}
 
 	Renderer::GetInstance().Init(window);
-
-	m_Fps = std::make_shared<FPSComponent>();
 }
 
 /**
@@ -46,32 +41,8 @@ void dae::Minigin::Initialize()
  */
 void dae::Minigin::LoadGame() const
 {
-	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
+	SceneManager::GetInstance().AddScene(std::make_shared<DemoScene>("Demo"));
 
-	auto go = std::make_shared<GameObject>();
-	auto rendercomp = std::make_shared<RenderComponent>();
-	rendercomp->SetTexture("background.jpg");
-	go->AddComponent(rendercomp);
-	scene.Add(go);
-
-	go = std::make_shared<GameObject>();
-	rendercomp = std::make_shared<RenderComponent>();
-	rendercomp->SetTexture("logo.png");
-	go->AddComponent(rendercomp);
-	go->SetPosition(216, 180);
-	scene.Add(go);
-
-	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto textComp = std::make_shared<GameObject>();
-	auto to = std::make_shared<TextRenderComponent>("Programming 4 Assignment", font);
-	textComp->SetPosition(80, 20);
-	textComp->AddComponent(to);
-	scene.Add(textComp);
-
-	go = std::make_shared<GameObject>();
-	go->AddComponent(m_Fps);
-	go->SetPosition(5, 5);
-	scene.Add(go);
 }
 
 void dae::Minigin::Cleanup()
