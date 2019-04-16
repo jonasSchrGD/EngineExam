@@ -13,6 +13,7 @@
 #include "RenderComponent.h"
 #include "Time.h"
 #include "CollisionHandler.h"
+#include "TiledMap.h"
 
 
 void dae::Minigin::Initialize()
@@ -101,7 +102,8 @@ void dae::Minigin::Run()
 		auto& input = InputManager::GetInstance();
 		auto& collision = CollisionHandler::GetInstance();
 		
-		collision.Init();
+		std::shared_ptr<TiledMap> map{};
+		collision.Init(map);
 
 		bool doContinue = true;
 		while (doContinue)

@@ -10,11 +10,15 @@ void CollisionHandler::Init(std::shared_ptr<BaseMap> map, std::vector<std::share
 
 void CollisionHandler::Update()
 {
-	//todo: add characterController
+	for (auto player : m_Players)
+	{
+		auto collision = player->GetComponent<dae::CollisionComponent>();
 
-	//check collision for player with the map
+		if (collision != nullptr)
+			m_Map->DoCollisionCheck(collision);
+	}
 
-	//check overlap for player with ai
+	//todo: check overlap for player with ai
 
 }
 		

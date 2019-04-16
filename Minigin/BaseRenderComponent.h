@@ -14,7 +14,6 @@ namespace dae
 
 	protected:
 		virtual void Update() = 0;
-		virtual void GameObjectSet() {}
 		void AddToRenderer();
 
 	private:

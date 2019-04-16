@@ -11,8 +11,3 @@ void dae::TransformComponent::SetPosition(const float x, const float y, const fl
 dae::TransformComponent::~TransformComponent()
 {
 }
-
-void dae::TransformComponent::Update()
-{
-}
-

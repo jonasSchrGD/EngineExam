@@ -7,7 +7,7 @@
 class CollisionHandler final : public dae::Singleton<CollisionHandler>
 {
 public:
-	void Init(std::shared_ptr<BaseMap> map = std::make_shared<BaseMap>(), std::vector<std::shared_ptr<dae::GameObject>> players);
+	void Init(std::shared_ptr<BaseMap> map, std::vector<std::shared_ptr<dae::GameObject>> players = std::vector<std::shared_ptr<dae::GameObject>>());
 	void Update();
 
 private:

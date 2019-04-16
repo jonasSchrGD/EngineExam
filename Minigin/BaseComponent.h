@@ -3,6 +3,7 @@
 namespace dae
 {
 	class GameObject;
+	class CollisionComponent;
 
 	class BaseComponent
 	{
@@ -18,8 +19,18 @@ namespace dae
 		BaseComponent& operator=(BaseComponent&& other) = delete;
 
 	protected:
-		virtual void Update() = 0;
-		virtual void GameObjectSet() = 0;
+		virtual void Update(){}
+		virtual void GameObjectSet(){}
+
+		//collision
+		virtual void OnCollisionEnter(std::shared_ptr<CollisionComponent> other) {}
+		virtual void OnCollisionStay(std::shared_ptr<CollisionComponent> other) {}
+		virtual void OnCollisionLeave(std::shared_ptr<CollisionComponent> other) {}
+
+		//trigger
+		virtual void OnTriggerEnter(std::shared_ptr<CollisionComponent> other) {}
+		virtual void OnTriggerStay(std::shared_ptr<CollisionComponent> other) {}
+		virtual void OnTriggerLeave(std::shared_ptr<CollisionComponent> other) {}
 
 	private:
 		friend GameObject;

@@ -15,8 +15,5 @@ namespace dae
 		void SetPosition(float x, float y, float z);
 
 		~TransformComponent() override;
-	protected:
-		void Update() override;
-		void GameObjectSet() override{};
 	};
 }

@@ -23,29 +23,29 @@ void TiledMap::DoCollisionCheck(std::shared_ptr<dae::CollisionComponent> collisi
 	float height = collisionComp->GetHeight();
 	float width = collisionComp->GetWidth();
 
-	int row = bottomLeft.y / m_TileHeight;
-	int col = bottomLeft.x / m_TileWidth;
+	int row = int(bottomLeft.y / m_TileHeight);
+	int col = int(bottomLeft.x / m_TileWidth);
 	if(row > 0 && row < m_Rows && col > 0 && col < m_Cols)
 	{
 		m_Tiles[row * m_Cols + col]->DoCollision(collisionComp);
 	}//bottomleft
 
-	row = bottomLeft.y / m_TileHeight;
-	col = (bottomLeft.x + width) / m_TileWidth;
+	row = int(bottomLeft.y / m_TileHeight);
+	col = int((bottomLeft.x + width) / m_TileWidth);
 	if (row > 0 && row < m_Rows && col > 0 && col < m_Cols)
 	{
 		m_Tiles[row * m_Cols + col]->DoCollision(collisionComp);
 	}//bottomright
 
-	row = (bottomLeft.y + height) / m_TileHeight;
-	col = (bottomLeft.x) / m_TileWidth;
+	row = int((bottomLeft.y + height) / m_TileHeight);
+	col = int((bottomLeft.x) / m_TileWidth);
 	if (row > 0 && row < m_Rows && col > 0 && col < m_Cols)
 	{
 		m_Tiles[row * m_Cols + col]->DoCollision(collisionComp);
 	}//topleft
 
-	row = (bottomLeft.y + height) / m_TileHeight;
-	col = (bottomLeft.x + width) / m_TileWidth;
+	row = int((bottomLeft.y + height) / m_TileHeight);
+	col = int((bottomLeft.x + width) / m_TileWidth);
 	if (row > 0 && row < m_Rows && col > 0 && col < m_Cols)
 	{
 		m_Tiles[row * m_Cols + col]->DoCollision(collisionComp);

@@ -3,7 +3,7 @@
 #include "Tile.h"
 #include "BaseMap.h"
 
-class TiledMap final : BaseMap
+class TiledMap final : public BaseMap
 {
 public:
 	TiledMap(float tileWidth, float tileHeight, int rows, int cols);
