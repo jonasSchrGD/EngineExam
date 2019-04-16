@@ -126,6 +126,9 @@
     <ClInclude Include="BaseMap.h">
       <Filter>Framework Files\Collision\Map</Filter>
     </ClInclude>
+    <ClInclude Include="SpriteRenderer.h">
+      <Filter>Framework Files\GameObject\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -199,6 +202,9 @@
     </ClCompile>
     <ClCompile Include="BaseMap.cpp">
       <Filter>Framework Files\Collision\Map</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteRenderer.cpp">
+      <Filter>Framework Files\GameObject\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
