@@ -9,16 +9,6 @@ dae::CollisionComponent::CollisionComponent(float width, float height)
 {
 }
 
-float2 dae::CollisionComponent::GetBottomLeft() const
-{
-	auto pos = GetGameObject()->GetTransform().lock()->GetPosition();
-	float2 bottomLeft{};
-	bottomLeft.x = pos.x - m_Width / 2;
-	bottomLeft.y = pos.y - m_Height / 2;
-
-	return  bottomLeft;
-}
-
 void dae::CollisionComponent::Update()
 {
 	m_IsOverlappingOld = m_IsOverlapping;

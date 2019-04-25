@@ -9,7 +9,7 @@ namespace dae
 	{
 	public:
 		RenderComponent();
-		virtual ~RenderComponent() override = default;
+		~RenderComponent() override = default;
 
 		void SetTexture(const std::string& filename);
 		virtual void Render() const;

@@ -12,7 +12,7 @@ namespace dae
 	{
 	public:
 		explicit TextRenderComponent(const std::string& text, std::shared_ptr<Font> font, SDL_Color color = { 255,255,255 });
-		virtual ~TextRenderComponent() = default;
+		~TextRenderComponent() = default;
 
 		void SetText(const std::string& text);
 		void Render() const;

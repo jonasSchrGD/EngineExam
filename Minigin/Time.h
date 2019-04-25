@@ -4,16 +4,16 @@
 namespace dae
 {
 	class Minigin;
-	class Time final : public Singleton<Time>
+	class Time final : public Singleton<Time> //is naar mijn mening aangenamer om te gebruiken dan deltatime door te moeten geven
 	{
 	public:
 		friend Minigin;
 
-		const float& FrameTime() const { return m_FrameTime; };
-		const float& DeltaTime() const { return m_MsPerFrame; };
+		float FrameTime() const { return m_FrameTime; };
+		float DeltaTime() const { return m_MsPerFrame; };
 
 	private:
-		float m_FrameTime;
-		const float m_MsPerFrame = 1 / 60.f;
+		float m_FrameTime; //fps component heeft deze nodig om een juiste waarde te kunnen tonen
+		const float m_MsPerFrame = 1 / 60.f; //update gebeurt met deze fixed timestamp, deze word dan ook gebruikt in de updates
 	};
 }

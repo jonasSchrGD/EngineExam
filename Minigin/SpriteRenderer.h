@@ -4,7 +4,7 @@
 
 namespace dae
 {
-	class SpriteRenderer : public BaseRenderComponent
+	class SpriteRenderer final : public BaseRenderComponent
 	{
 	public:
 		//if drawSize is {0,0} the size of a sprite will be used

@@ -2,6 +2,8 @@
 #include "Singleton.h"
 #include "TextRenderComponent.h"
 
+#include <vector>
+
 struct SDL_Window;
 struct SDL_Renderer;
 

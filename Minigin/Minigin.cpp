@@ -1,62 +1,16 @@
 #include "MiniginPCH.h"
 #include "Minigin.h"
 #include <chrono>
-#include <thread>
-#include "InputManager.h"
-#include "SceneManager.h"
-#include "Renderer.h"
-#include "ResourceManager.h"
-#include <SDL.h>
-#include "Time.h"
 #include "CollisionHandler.h"
-#include "TiledMap.h"
-#include "DemoScene.h"
-
-
-void dae::Minigin::Initialize()
-{
-	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
-	{
-		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
-	}
-
-	window = SDL_CreateWindow(
-		"Programming 4 assignment",
-		SDL_WINDOWPOS_UNDEFINED,
-		SDL_WINDOWPOS_UNDEFINED,
-		640,
-		480,
-		SDL_WINDOW_OPENGL
-	);
-	if (window == nullptr) 
-	{
-		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
-	}
-
-	Renderer::GetInstance().Init(window);
-}
-
-/**
- * Code constructing the scene world starts here
- */
-void dae::Minigin::LoadGame() const
-{
-	SceneManager::GetInstance().AddScene(std::make_shared<DemoScene>("Demo"));
-
-}
-
-void dae::Minigin::Cleanup()
-{
-	Renderer::GetInstance().Destroy();
-	SDL_DestroyWindow(window);
-	window = nullptr;
-	SDL_Quit();
-}
+#include "Renderer.h"
+#include "SceneManager.h"
+#include "InputManager.h"
+#include "ResourceManager.h"
 
 void dae::Minigin::Run()
 {
 	// tell the resource manager where he can find the game data
-	ResourceManager::GetInstance().Init("../Data/");
+	dae::ResourceManager::GetInstance().Init("../Data/");
 
 	Initialize();
 
@@ -66,15 +20,12 @@ void dae::Minigin::Run()
 		auto OldT = std::chrono::high_resolution_clock::now();
 		float deltaTime{};
 		float& elapsed = Time::GetInstance().m_FrameTime;
-		const float& msPerFrame = Time::GetInstance().m_MsPerFrame;
+		float msPerFrame = dae::Time::GetInstance().m_MsPerFrame;;//nu hoeft de waarde alleen in de time class aangepast te worden
 
-		auto& renderer = Renderer::GetInstance();
-		auto& sceneManager = SceneManager::GetInstance();
-		auto& input = InputManager::GetInstance();
+		auto& renderer = dae::Renderer::GetInstance();
+		auto& sceneManager = dae::SceneManager::GetInstance();
+		auto& input = dae::InputManager::GetInstance();
 		auto& collision = CollisionHandler::GetInstance();
-		
-		std::shared_ptr<TiledMap> map{};
-		collision.Init(map);
 
 		bool doContinue = true;
 		while (doContinue)
@@ -87,10 +38,10 @@ void dae::Minigin::Run()
 			doContinue = input.ProcessInput();
 
 			//update
-			while(deltaTime >= msPerFrame)
+			while (deltaTime >= msPerFrame)
 			{
 				sceneManager.Update();
-				collision.Update(); 
+				collision.Update();
 				deltaTime -= msPerFrame;
 			}
 
@@ -99,4 +50,35 @@ void dae::Minigin::Run()
 	}
 
 	Cleanup();
+}
+
+void dae::Minigin::Initialize()
+{
+	if (SDL_Init(SDL_INIT_VIDEO) != 0)
+	{
+		throw std::runtime_error(std::string("SDL_Init Error: ") + SDL_GetError());
+	}
+
+		window = SDL_CreateWindow(
+		"Programming 4 assignment",
+		SDL_WINDOWPOS_UNDEFINED,
+		SDL_WINDOWPOS_UNDEFINED,
+		640,
+		480,
+		SDL_WINDOW_OPENGL
+	);
+	if (window == nullptr)
+	{
+		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
+	}
+
+	dae::Renderer::GetInstance().Init(window);
+}
+
+void dae::Minigin::Cleanup()
+{
+	dae::Renderer::GetInstance().Destroy();
+	SDL_DestroyWindow(window);
+	window = nullptr;
+	SDL_Quit();
 }

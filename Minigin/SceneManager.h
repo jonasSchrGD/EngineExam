@@ -1,6 +1,9 @@
 #pragma once
 #include "Singleton.h"
 
+#include <vector>
+#include <memory>
+
 namespace dae
 {
 	class Scene;
@@ -10,7 +13,7 @@ namespace dae
 		void AddScene(std::shared_ptr<Scene> scene) { m_Scenes.push_back(scene); }
 		void SetActiveScene(int sceneId)
 		{
-			if (sceneId >= 0 && sceneId < m_Scenes.size())
+			if (sceneId >= 0 && sceneId < (int)m_Scenes.size())
 				m_ActiveScene = sceneId;
 		}
 

@@ -1,5 +1,4 @@
 #pragma once
-#include "FPSComponent.h"
 
 namespace dae
 {

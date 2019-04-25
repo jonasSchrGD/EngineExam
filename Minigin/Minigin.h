@@ -1,5 +1,5 @@
 #pragma once
-#include "FPSComponent.h"
+#include "Time.h"
 
 struct SDL_Window;
 namespace dae
@@ -8,13 +8,15 @@ namespace dae
 	class Minigin
 	{
 	public:
-		void Initialize();
-		void LoadGame() const;
-		void Cleanup();
-		void Run();
+		virtual ~Minigin() = default;
+		virtual void Run();
+
+	protected:
+		virtual void Initialize();
+		virtual void LoadGame() const = 0;
+		virtual void Cleanup();
 
 	private:
 		SDL_Window* window{};
-		std::shared_ptr<FPSComponent> m_Fps;
 	};
 }

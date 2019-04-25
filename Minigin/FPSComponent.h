@@ -5,11 +5,11 @@
 
 namespace dae
 {
-	class FPSComponent : public BaseComponent
+	class FPSComponent final : public BaseComponent
 	{
 	public:
 		FPSComponent();
-		virtual ~FPSComponent();
+		~FPSComponent();
 
 	protected:
 		void Update() override;

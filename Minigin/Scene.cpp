@@ -1,6 +1,7 @@
 #include "MiniginPCH.h"
 #include "Scene.h"
 #include "GameObject.h"
+#include "FPSComponent.h"
 
 unsigned int dae::Scene::idCounter = 0;
 
