@@ -5,7 +5,7 @@
 #include "GameObject.h"
 #include "ResourceManager.h"
 
-dae::SpriteRenderer::SpriteRenderer(const std::string& filename, float frameTime, int cols, int rows, int nrOfAnimations, float2 drawSize)
+dae::SpriteRenderer::SpriteRenderer(const std::string& filename, float frameTime, int cols, int rows, int framesForSingleAnim, int nrOfAnimations, float2 drawSize)
 	:m_Texture(ResourceManager::GetInstance().LoadTexture(filename))
 	,m_BottomLeft({0,0})
 	,m_Cols(cols)
@@ -14,6 +14,7 @@ dae::SpriteRenderer::SpriteRenderer(const std::string& filename, float frameTime
 	,m_CurrentFrame(0)
 	,m_ElapsedFrameTime(0)
 	,m_NrOfAnimations(nrOfAnimations)
+	,m_FramesPerAnim()
 {
 	AddToRenderer();
 	int w, h;
@@ -25,6 +26,11 @@ dae::SpriteRenderer::SpriteRenderer(const std::string& filename, float frameTime
 		m_DrwRect = m_SrcRect;
 	else
 		m_DrwRect = drawSize;
+
+	if(nrOfAnimations = 1)
+	{
+		m_FramesPerAnim.push_back(framesForSingleAnim);
+	}
 }
 
 void dae::SpriteRenderer::Render() const
@@ -50,9 +56,12 @@ void dae::SpriteRenderer::Update()
 
 	if (m_ElapsedFrameTime >= m_FrameTime)
 	{
-		const int framesPerAnim = m_Cols * m_Rows / m_NrOfAnimations;
-		m_CurrentFrame = m_CurrentFrame++ % framesPerAnim;
-		m_CurrentFrame += framesPerAnim * m_Animation;
+		const int AnimFrames = m_FramesPerAnim[m_Animation];
+		m_CurrentFrame = (m_CurrentFrame + 1) % AnimFrames;
+		for(int i = 0; i < m_Animation; ++i)
+		{
+			m_CurrentFrame += m_FramesPerAnim[i];
+		}
 
 		m_BottomLeft.x = (m_CurrentFrame % m_Cols) * m_SrcRect.x;
 		m_BottomLeft.y = ((m_CurrentFrame / m_Cols) + 1) * m_SrcRect.y;
