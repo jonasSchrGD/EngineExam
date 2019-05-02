@@ -1,19 +1,45 @@
 #pragma once
-#include "BaseMap.h"
 #include "Singleton.h"
-#include "GameObject.h"
+#include "Box2D/Box2D.h"
+#include "CollisionComponent.h"
+#include <unordered_map>
+#include "MiniginContactListener.h"
 
-//class that handles all the collision in the game, collision in digdug is verry simple
-class CollisionHandler final : public dae::Singleton<CollisionHandler>
+namespace dae
 {
-public:
-	void Init(std::shared_ptr<BaseMap> map, std::vector<std::shared_ptr<dae::GameObject>> players = std::vector<std::shared_ptr<dae::GameObject>>());
-	void Update();
+	//class that handles all the collision in the game, collision in digdug is verry simple
+	class CollisionHandler final : public Singleton<CollisionHandler>
+	{
+	public:
+		CollisionHandler();
 
-private:
-	std::shared_ptr<BaseMap> m_Map;
+		void Update();
 
-	//players will only be set during gamemode selection, no need for a objectpool or something related
-	std::vector<std::shared_ptr<dae::GameObject>> m_Players;
-};
+		b2World GetWorld() const { return m_Map; }
 
+		int AddCollisionComp(std::shared_ptr<CollisionComponent> comp)
+		{
+			m_collisionComponents.at(m_NewIdx) = comp;
+			m_NewIdx++;
+
+			return m_NewIdx - 1;
+		}
+
+		void RemoveCollisionComp(int idx)
+		{
+			m_collisionComponents.erase(idx);
+		}
+
+		std::shared_ptr<CollisionComponent> GetSharedPtr(int idx)
+		{
+			return m_collisionComponents.at(idx);
+		}
+
+	private:
+		b2World m_Map;
+		MiniginContactListener m_ContactListener;
+
+		int m_NewIdx = 0;
+		std::unordered_map<int, std::shared_ptr<CollisionComponent>> m_collisionComponents;
+	};
+}

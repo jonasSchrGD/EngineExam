@@ -1,24 +1,16 @@
 #include "MiniginPCH.h"
 #include "CollisionHandler.h"
+#include "Time.h"
 
-
-void CollisionHandler::Init(std::shared_ptr<BaseMap> map, std::vector<std::shared_ptr<dae::GameObject>> players)
+dae::CollisionHandler::CollisionHandler()
+	:m_Map(b2Vec2(0, 0))
+	,m_ContactListener()
 {
-	m_Map = map;
-	m_Players = players;
+	m_Map.SetContactListener(&m_ContactListener);
 }
 
-void CollisionHandler::Update()
+void dae::CollisionHandler::Update()
 {
-	for (auto player : m_Players)
-	{
-		auto collision = player->GetComponent<dae::CollisionComponent>();
-
-		if (collision != nullptr)
-			m_Map->DoCollisionCheck(collision);
-	}
-
-	//todo: check overlap for player with ai
-
+	m_Map.Step(dae::Time::GetInstance().DeltaTime(), 8, 3);
 }
 		

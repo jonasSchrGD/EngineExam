@@ -1,30 +1,38 @@
 #pragma once
 #include "BaseComponent.h"
+#include "Box2D/Box2D.h"
 
 namespace dae
 {
-	class CollisionComponent : public BaseComponent
+	class CollisionComponent final : public BaseComponent, std::enable_shared_from_this<CollisionComponent>
 	{
 	public:
-		CollisionComponent(float width, float height);
-		~CollisionComponent() = default;
-
-		void DoCollisionCheck(std::shared_ptr<CollisionComponent> other);
+		CollisionComponent(float width, float height, bool fixedRotation = false);
+		~CollisionComponent();
 
 		float GetHeight() const { return  m_Height; }
 		float GetWidth() const { return  m_Width; }
-		void SetTrigger(bool isTrigger) { m_IsTrigger = isTrigger; }
+
+		void SetTrigger(bool isTrigger) { m_pCollision->GetFixtureList()->SetSensor(isTrigger); }
+
+		void SetOverlapping(bool isoverlapping, CollisionComponent* other)
+		{
+			m_IsOverlapping = isoverlapping;
+			m_pColliding = other;
+		}
 
 	protected:
 		void Update() override;
 
 	private:
 		float m_Width, m_Height;
-		bool m_IsOverlapping, m_IsOverlappingOld;
-		bool m_IsTrigger;
+		int m_Idx;
+		bool m_IsOverlapping = false, m_IsOverlappingOld, m_IsTrigger;
 
-		void HandleCollision(std::shared_ptr<CollisionComponent> other, float xDistance, float yDistance);
-		void InvokeCorrespondingFunction(std::shared_ptr<CollisionComponent> other);
+		b2Body* m_pCollision;
+		CollisionComponent* m_pColliding = nullptr;
+
+		void InvokeCorrespondingFunction();
 	};
 }
 			

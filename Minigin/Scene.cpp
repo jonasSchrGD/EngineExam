@@ -10,11 +10,6 @@ dae::Scene::Scene(const std::string& name)
 {
 }
 
-dae::Scene::~Scene()
-{
-	
-}
-
 void dae::Scene::AddFpsComponent()
 {
 	auto go = std::make_shared<GameObject>();

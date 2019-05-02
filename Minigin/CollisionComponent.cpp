@@ -1,67 +1,50 @@
 #include "MiniginPCH.h"
 #include "CollisionComponent.h"
 #include "GameObject.h"
+#include "CollisionHandler.h"
 
-dae::CollisionComponent::CollisionComponent(float width, float height)
+dae::CollisionComponent::CollisionComponent(float width, float height, bool fixedRotation)
 	:m_Width(width)
 	,m_Height(height)
-	,m_IsTrigger(false)
 {
+	m_Idx = CollisionHandler::GetInstance().AddCollisionComp(shared_from_this());
+
+	b2BodyDef bodydef;
+	bodydef.type = b2_dynamicBody;
+	bodydef.fixedRotation = fixedRotation;
+
+	m_pCollision = CollisionHandler::GetInstance().GetWorld().CreateBody(&bodydef);
+	m_pCollision->SetUserData(this);
+
+	b2PolygonShape box;
+	box.SetAsBox(width / 2, height / 2);
+
+	b2FixtureDef fixture;
+	fixture.shape = &box;
+	fixture.isSensor = false;
+	fixture.density = 1;
+	fixture.friction = 0.f;
+
+	m_pCollision->CreateFixture(&fixture);
+}
+
+dae::CollisionComponent::~CollisionComponent()
+{
+	CollisionHandler::GetInstance().RemoveCollisionComp(m_Idx);
 }
 
 void dae::CollisionComponent::Update()
 {
 	m_IsOverlappingOld = m_IsOverlapping;
+
+	if (m_pColliding)
+		InvokeCorrespondingFunction();
 }
 
-void dae::CollisionComponent::DoCollisionCheck(std::shared_ptr<CollisionComponent> other)
-{
-	auto pos = GetGameObject()->GetTransform().lock()->GetPosition();
-	auto otherPos = other->GetGameObject()->GetTransform().lock()->GetPosition();
-	bool XOverlapping = false;
-	bool YOverlapping = false;
-
-	float xDistance = pos.x - otherPos.x;
-	float xMaxOverlappingDist = m_Height / 2 + other->m_Height / 2;
-	if (xDistance < xMaxOverlappingDist && xDistance > -xMaxOverlappingDist)
-		XOverlapping = true;
-
-	float yDistance = pos.y - otherPos.y;
-	float yMaxOverlappingDist = m_Width / 2 + other->m_Width / 2;
-	if (yDistance < yMaxOverlappingDist && yDistance > -yMaxOverlappingDist)
-		YOverlapping = true;
-
-	if (XOverlapping && YOverlapping)
-	{
-		m_IsOverlapping = true;
-		if (!m_IsTrigger)
-			HandleCollision(other, xDistance, yDistance);
-	}
-	else
-		m_IsOverlapping = false;
-
-	InvokeCorrespondingFunction(other);
-}
-
-void dae::CollisionComponent::HandleCollision(std::shared_ptr<CollisionComponent> other, float xDistance, float yDistance)
-{
-	auto pos = GetGameObject()->GetTransform().lock()->GetPosition();
-	auto otherPos = other->GetGameObject()->GetTransform().lock()->GetPosition();
-
-	if (xDistance > yDistance)
-	{
-		int sign = 1 - 2 * xDistance < 0;
-		other->GetGameObject()->GetTransform().lock()->SetPosition(pos.x - m_Height / 2 * sign, otherPos.y, otherPos.z);
-	}
-	else
-	{
-		int sign = 1 - 2 * yDistance < 0;
-		other->GetGameObject()->GetTransform().lock()->SetPosition(otherPos.x, pos.y + m_Width / 2 * sign, otherPos.z);
-	}
-}
-void dae::CollisionComponent::InvokeCorrespondingFunction(std::shared_ptr<CollisionComponent> other)
+void dae::CollisionComponent::InvokeCorrespondingFunction()
 {
 	auto gameObject = GetGameObject();
+	auto other = CollisionHandler::GetInstance().GetSharedPtr(m_Idx);
 
 	if(m_IsTrigger)
 	{
@@ -70,7 +53,10 @@ void dae::CollisionComponent::InvokeCorrespondingFunction(std::shared_ptr<Collis
 			if (m_IsOverlapping)
 				gameObject->OnTriggerStay(other);
 			else
+			{
 				gameObject->OnTriggerLeave(other);
+				m_pColliding = nullptr;
+			}
 		}
 		else if(m_IsOverlapping)
 			gameObject->OnTriggerEnter(other);
@@ -82,7 +68,10 @@ void dae::CollisionComponent::InvokeCorrespondingFunction(std::shared_ptr<Collis
 			if (m_IsOverlapping)
 				gameObject->OnCollisionStay(other);
 			else
+			{
 				gameObject->OnCollisionLeave(other);
+				m_pColliding = nullptr;
+			}
 		}
 		else if (m_IsOverlapping)
 			gameObject->OnCollisionEnter(other);

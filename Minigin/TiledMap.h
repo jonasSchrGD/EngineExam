@@ -1,5 +1,4 @@
 #pragma once
-#include "CollisionComponent.h"
 #include "Tile.h"
 #include "BaseMap.h"
 
@@ -10,8 +9,6 @@ public:
 	~TiledMap() = default;
 
 	void Update() override {}
-
-	void DoCollisionCheck(std::shared_ptr<dae::CollisionComponent> collisionComp) const override;
 
 private:
 	std::vector<std::shared_ptr<dae::Tile>> m_Tiles;

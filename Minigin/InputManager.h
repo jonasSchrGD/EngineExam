@@ -1,6 +1,7 @@
 #pragma once
 #include <XInput.h>
 #include "Singleton.h"
+#include <SDL.h>
 
 namespace dae
 {
@@ -31,6 +32,8 @@ namespace dae
 		JoystickRY
 	};
 
+	using input = std::pair<SDL_Keycode, int>;
+
 	class InputManager final : public Singleton<InputManager>
 	{
 	private:
@@ -43,18 +46,36 @@ namespace dae
 			void update()
 			{
 				previousState = currentState;
+				currentState = XINPUT_STATE();
+			}
+		};
+		struct MouseState
+		{
+			float2 mousePos;
+			bool isPressed, isPressedOld;
+
+			void Update()
+			{
+				isPressedOld = isPressed;
+				isPressed = false;
 			}
 		};
 
 	public:
+		InputManager();
+		~InputManager();
+
 		bool ProcessInput();
-		bool IsDown(ControllerButton button, int controller)const;
-		bool IsReleased(ControllerButton button, int controller)const;
-		bool IsPressed(ControllerButton button, int controller) const;
+		bool IsDown(input button, int controller = -1)const;
+		bool IsReleased(input button, int controller = -1)const;
+		bool IsPressed(input button, int controller = -1) const;
 		float GetAxis(ControllerAxis axis, int controller) const;
+		const float2& GetMousePos() const { return m_Mouse.mousePos; }
 
 	private:
 		ControllerInfo m_Controllers[4] = {};
+		std::vector<SDL_Keycode> *m_CurrentKeyBoardState, *m_OldKeyBoardState;
+		MouseState m_Mouse;
 	};//geen commands gebruikt omdat het veel vrijheid wegneemt naar mijn mening
 
 }

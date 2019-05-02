@@ -3,6 +3,12 @@
 #include "Scene.h"
 
 
+void dae::SceneManager::AddScene(std::shared_ptr<Scene> scene)
+{
+	m_Scenes.push_back(scene);
+	scene->Initialize();
+}
+
 void dae::SceneManager::Update()
 {
 	//only check needed here because setactivescene() makes sure m_activeScene is in range

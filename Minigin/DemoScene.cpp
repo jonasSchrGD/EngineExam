@@ -8,8 +8,6 @@
 dae::DemoScene::DemoScene(const std::string& name)
 	:Scene(name)
 {
-	Initialize();
-	AddFpsComponent();
 }
 
 void dae::DemoScene::Initialize()
@@ -33,4 +31,6 @@ void dae::DemoScene::Initialize()
 	textComp->SetPosition(80, 20);
 	textComp->AddComponent(to);
 	Add(textComp);
+
+	AddFpsComponent();
 }

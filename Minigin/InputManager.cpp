@@ -4,6 +4,19 @@
 #include <SDL.h>
 #pragma comment(lib, "Xinput.lib")
 
+dae::InputManager::InputManager()
+	:m_CurrentKeyBoardState(new std::vector<SDL_Keycode>())
+	,m_OldKeyBoardState(new std::vector<SDL_Keycode>())
+{
+	
+}
+
+dae::InputManager::~InputManager()
+{
+	delete m_CurrentKeyBoardState;
+	delete m_OldKeyBoardState;
+}
+
 bool dae::InputManager::ProcessInput()
 {
 	ZeroMemory(&m_Controllers[0].currentState, sizeof(XINPUT_STATE));
@@ -15,6 +28,10 @@ bool dae::InputManager::ProcessInput()
 		m_Controllers[i].isConnected = (result != ERROR_NOT_CONNECTED);
 	}
 	
+	auto KeyboardState = m_CurrentKeyBoardState;
+	m_CurrentKeyBoardState = m_OldKeyBoardState;
+	m_OldKeyBoardState = KeyboardState;
+	m_CurrentKeyBoardState->clear();
 
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
@@ -22,42 +39,48 @@ bool dae::InputManager::ProcessInput()
 			return false;
 		}
 		if (e.type == SDL_KEYDOWN) {
-			
+			m_CurrentKeyBoardState->push_back(e.key.keysym.sym);
 		}
+		m_Mouse.mousePos.x = (float)e.button.x;
+		m_Mouse.mousePos.y = (float)e.button.y;
 		if (e.type == SDL_MOUSEBUTTONDOWN) {
-			
+			m_Mouse.isPressed = true;
 		}
 	}
 
 	return true;
 }
 
-bool dae::InputManager::IsDown(ControllerButton button, int controller) const
+bool dae::InputManager::IsDown(input button, int controller) const
 {
-	if (m_Controllers[controller].isConnected)
-		return (m_Controllers[controller].currentState.Gamepad.wButtons & (unsigned short)button) == (unsigned short)button;
-	else
-		return false;
+	if (button.second > 0 && controller > 0 && m_Controllers[controller].isConnected)
+		return (m_Controllers[controller].currentState.Gamepad.wButtons & (unsigned short)button.second) == (unsigned short)button.second;
+	
+	return std::find(m_CurrentKeyBoardState->begin(), m_CurrentKeyBoardState->end(), button.first) != m_CurrentKeyBoardState->end();
 }
 
-bool dae::InputManager::IsReleased(ControllerButton button, int controller) const
+bool dae::InputManager::IsReleased(input button, int controller) const
 {
-	if (m_Controllers[controller].isConnected)
+	if (button.second > 0 && controller > 0 && m_Controllers[controller].isConnected)
 		return
-		(m_Controllers[controller].previousState.Gamepad.wButtons & (unsigned short)button) == (unsigned short)button
-		&& (m_Controllers[controller].currentState.Gamepad.wButtons & (unsigned short)button) != (unsigned short)button;
-	else
-		return false;
+		(m_Controllers[controller].previousState.Gamepad.wButtons & (unsigned short)button.second) == (unsigned short)button.second
+		&& (m_Controllers[controller].currentState.Gamepad.wButtons & (unsigned short)button.second) != (unsigned short)button.second;
+
+	return
+		(std::find(m_CurrentKeyBoardState->begin(), m_CurrentKeyBoardState->end(), button.first) == m_CurrentKeyBoardState->end()
+			&& std::find(m_OldKeyBoardState->begin(), m_OldKeyBoardState->end(), button.first) != m_OldKeyBoardState->end());
 }
 
-bool dae::InputManager::IsPressed(ControllerButton button, int controller) const
+bool dae::InputManager::IsPressed(input button, int controller) const
 {
-	if (m_Controllers[controller].isConnected)
+	if (button.second > 0 && controller > 0 && m_Controllers[controller].isConnected)
 		return
-		(m_Controllers[controller].currentState.Gamepad.wButtons & (unsigned short)button) == (unsigned short)button
-		&& (m_Controllers[controller].previousState.Gamepad.wButtons & (unsigned short)button) != (unsigned short)button;
-	else
-		return false;
+		(m_Controllers[controller].currentState.Gamepad.wButtons & (unsigned short)button.second) == (unsigned short)button.second
+		&& (m_Controllers[controller].previousState.Gamepad.wButtons & (unsigned short)button.second) != (unsigned short)button.second;
+
+	return
+		(std::find(m_CurrentKeyBoardState->begin(), m_CurrentKeyBoardState->end(), button.first) != m_CurrentKeyBoardState->end()
+			&& std::find(m_OldKeyBoardState->begin(), m_OldKeyBoardState->end(), button.first) == m_OldKeyBoardState->end());
 }
 
 float dae::InputManager::GetAxis(ControllerAxis axis, int controller) const
