@@ -11,9 +11,10 @@ namespace dae
 	class TextRenderComponent final : public BaseRenderComponent
 	{
 	public:
-		explicit TextRenderComponent(const std::string& text, std::shared_ptr<Font> font, SDL_Color color = { 255,255,255 });
+		TextRenderComponent(const std::string& text, std::shared_ptr<Font> font, SDL_Color color = { 255,255,255 });
 		~TextRenderComponent() = default;
 
+		void SetColor(SDL_Color color) { m_Color = color; }
 		void SetText(const std::string& text);
 		void Render() const;
 

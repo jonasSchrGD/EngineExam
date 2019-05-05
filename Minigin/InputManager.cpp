@@ -5,16 +5,12 @@
 #pragma comment(lib, "Xinput.lib")
 
 dae::InputManager::InputManager()
-	:m_CurrentKeyBoardState(new std::vector<SDL_Keycode>())
-	,m_OldKeyBoardState(new std::vector<SDL_Keycode>())
+	: m_Mouse()
 {
-	
 }
 
 dae::InputManager::~InputManager()
 {
-	delete m_CurrentKeyBoardState;
-	delete m_OldKeyBoardState;
 }
 
 bool dae::InputManager::ProcessInput()
@@ -27,60 +23,74 @@ bool dae::InputManager::ProcessInput()
 		auto result = XInputGetState(0, &m_Controllers[i].currentState);
 		m_Controllers[i].isConnected = (result != ERROR_NOT_CONNECTED);
 	}
-	
-	auto KeyboardState = m_CurrentKeyBoardState;
-	m_CurrentKeyBoardState = m_OldKeyBoardState;
-	m_OldKeyBoardState = KeyboardState;
-	m_CurrentKeyBoardState->clear();
+
+	UpdateKeys();
 
 	SDL_Event e;
 	while (SDL_PollEvent(&e)) {
-		if (e.type == SDL_QUIT) {
+		if (e.type == SDL_QUIT ) {
 			return false;
 		}
 		if (e.type == SDL_KEYDOWN) {
-			m_CurrentKeyBoardState->push_back(e.key.keysym.sym);
+			if (m_Keys.find(e.key.keysym.sym) == m_Keys.end())
+				m_Keys.insert(std::pair<SDL_Keycode, KeyState>(e.key.keysym.sym, KeyState::pressed));
 		}
 		m_Mouse.mousePos.x = (float)e.button.x;
 		m_Mouse.mousePos.y = (float)e.button.y;
+		if(e.type == SDL_KEYUP)
+		{
+			m_Keys[e.key.keysym.sym] = KeyState::released;
+		}
 		if (e.type == SDL_MOUSEBUTTONDOWN) {
 			m_Mouse.isPressed = true;
 		}
 	}
 
-	return true;
+	return !m_Exit;
 }
 
-bool dae::InputManager::IsDown(input button, int controller) const
+bool dae::InputManager::IsDown(input button, int controller)
 {
-	if (button.second > 0 && controller > 0 && m_Controllers[controller].isConnected)
-		return (m_Controllers[controller].currentState.Gamepad.wButtons & (unsigned short)button.second) == (unsigned short)button.second;
+	if (controller > -1 && m_Controllers[controller].isConnected)
+		if ((m_Controllers[controller].currentState.Gamepad.wButtons & (unsigned short)button.second) != 0)
+			return true;
 	
-	return std::find(m_CurrentKeyBoardState->begin(), m_CurrentKeyBoardState->end(), button.first) != m_CurrentKeyBoardState->end();
+	if (m_Keys.find(button.first) != m_Keys.end())
+	{
+		auto key = m_Keys[button.first];
+		return key == KeyState::down;
+	}
+	return false;
 }
 
-bool dae::InputManager::IsReleased(input button, int controller) const
+bool dae::InputManager::IsReleased(input button, int controller)
 {
-	if (button.second > 0 && controller > 0 && m_Controllers[controller].isConnected)
-		return
-		(m_Controllers[controller].previousState.Gamepad.wButtons & (unsigned short)button.second) == (unsigned short)button.second
-		&& (m_Controllers[controller].currentState.Gamepad.wButtons & (unsigned short)button.second) != (unsigned short)button.second;
+	if (controller > -1 && m_Controllers[controller].isConnected)
+		if(
+		(m_Controllers[controller].previousState.Gamepad.wButtons & (unsigned short)button.second) != 0
+		&& (m_Controllers[controller].currentState.Gamepad.wButtons & (unsigned short)button.second) == 0)
+			return true;
 
-	return
-		(std::find(m_CurrentKeyBoardState->begin(), m_CurrentKeyBoardState->end(), button.first) == m_CurrentKeyBoardState->end()
-			&& std::find(m_OldKeyBoardState->begin(), m_OldKeyBoardState->end(), button.first) != m_OldKeyBoardState->end());
+	if (m_Keys.find(button.first) != m_Keys.end())
+	{
+		return m_Keys[button.first] == KeyState::released;
+	}
+	return false;
 }
 
-bool dae::InputManager::IsPressed(input button, int controller) const
+bool dae::InputManager::IsPressed(input button, int controller)
 {
-	if (button.second > 0 && controller > 0 && m_Controllers[controller].isConnected)
-		return
-		(m_Controllers[controller].currentState.Gamepad.wButtons & (unsigned short)button.second) == (unsigned short)button.second
-		&& (m_Controllers[controller].previousState.Gamepad.wButtons & (unsigned short)button.second) != (unsigned short)button.second;
+	if (controller > -1 && m_Controllers[controller].isConnected)
+		if (
+			(m_Controllers[controller].currentState.Gamepad.wButtons & (unsigned short)button.second) != 0
+			&& (m_Controllers[controller].previousState.Gamepad.wButtons & (unsigned short)button.second) == 0)
+			return true;
 
-	return
-		(std::find(m_CurrentKeyBoardState->begin(), m_CurrentKeyBoardState->end(), button.first) != m_CurrentKeyBoardState->end()
-			&& std::find(m_OldKeyBoardState->begin(), m_OldKeyBoardState->end(), button.first) == m_OldKeyBoardState->end());
+	if (m_Keys.find(button.first) != m_Keys.end())
+	{
+		return m_Keys[button.first] == KeyState::pressed;
+	}
+	return false;
 }
 
 float dae::InputManager::GetAxis(ControllerAxis axis, int controller) const
@@ -90,19 +100,37 @@ float dae::InputManager::GetAxis(ControllerAxis axis, int controller) const
 		switch (axis)
 		{
 		case ControllerAxis::TriggerL:
-			return m_Controllers[controller].currentState.Gamepad.bLeftTrigger;
+			return (m_Controllers[controller].currentState.Gamepad.bLeftTrigger - 128) / 128.f;
 		case ControllerAxis::TriggerR:
-			return m_Controllers[controller].currentState.Gamepad.bRightTrigger;
+			return (m_Controllers[controller].currentState.Gamepad.bRightTrigger - 128) / 128.f;
 		case ControllerAxis::JoystickLX:
-			return m_Controllers[controller].currentState.Gamepad.sThumbLX;
+			return m_Controllers[controller].currentState.Gamepad.sThumbLX / 32768.f;
 		case ControllerAxis::JoystickLY:
-			return m_Controllers[controller].currentState.Gamepad.sThumbLY;
+			return m_Controllers[controller].currentState.Gamepad.sThumbLY / 32768.f;
 		case ControllerAxis::JoystickRX:
-			return m_Controllers[controller].currentState.Gamepad.sThumbRX;
+			return m_Controllers[controller].currentState.Gamepad.sThumbRX / 32768.f;
 		case ControllerAxis::JoystickRY:
-			return m_Controllers[controller].currentState.Gamepad.sThumbRY;
+			return m_Controllers[controller].currentState.Gamepad.sThumbRY / 32768.f;
 		}
 	}
 	return 0;
+}
+
+void dae::InputManager::UpdateKeys()
+{
+	std::vector<SDL_Keycode> keysToRemove{};
+	for (auto& key : m_Keys)
+	{
+		if (key.second == KeyState::released)
+			keysToRemove.push_back(key.first);
+
+		if (key.second == KeyState::pressed)
+			key.second = KeyState::down;
+	}
+
+	for (auto keyToRemove : keysToRemove)
+	{
+		m_Keys.erase(keyToRemove);
+	}
 }
 

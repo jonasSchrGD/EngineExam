@@ -24,10 +24,6 @@ namespace dae
 		void Render();
 		void Destroy();
 
-		void AddRenderComponent(std::shared_ptr<BaseRenderComponent> component);
-
-		void RemoveRenderComponent(std::weak_ptr<BaseRenderComponent> component);
-
 		void RenderTexture(const Texture2D& texture, float x, float y) const;
 		void RenderTexture(const Texture2D& texture, float x, float y, float width, float height) const;
 		void RenderTexture(const Texture2D& texture, const SDL_Rect& srcRect, const SDL_Rect& dstRect) const;

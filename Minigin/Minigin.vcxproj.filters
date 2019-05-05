@@ -39,6 +39,9 @@
     <Filter Include="Framework Files\Observer">
       <UniqueIdentifier>{5d463e20-48aa-4951-945c-2a34b544ab34}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework Files\Commands">
+      <UniqueIdentifier>{1a1f89a2-7437-4b98-b679-7214dcc76f77}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Font.h">
@@ -134,7 +137,15 @@
     <ClInclude Include="BaseState.h">
       <Filter>Framework Files\BaseClasses</Filter>
     </ClInclude>
-    <ClInclude Include="Command.h" />
+    <ClInclude Include="structs.h">
+      <Filter>Framework Files\BaseClasses</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseCommand.h">
+      <Filter>Framework Files\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ExitCommand.h">
+      <Filter>Framework Files\Commands</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -215,8 +226,11 @@
     <ClCompile Include="Subject.cpp">
       <Filter>Framework Files\Observer</Filter>
     </ClCompile>
-    <ClCompile Include="Command.cpp">
-      <Filter>Framework Files</Filter>
+    <ClCompile Include="BaseCommand.cpp">
+      <Filter>Framework Files\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ExitCommand.cpp">
+      <Filter>Framework Files\Commands</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -27,7 +27,7 @@ dae::SpriteRenderer::SpriteRenderer(const std::string& filename, float frameTime
 	else
 		m_DrwRect = drawSize;
 
-	if(nrOfAnimations = 1)
+	if(nrOfAnimations == 1)
 	{
 		m_FramesPerAnim.push_back(framesForSingleAnim);
 	}

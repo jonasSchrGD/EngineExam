@@ -175,6 +175,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
   <ItemGroup>
     <ClInclude Include="ChangeSceneCommand.h" />
     <ClInclude Include="DigDug.h" />
+    <ClInclude Include="DigDugLevel.h" />
     <ClInclude Include="MenuInputHandler.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="StartScreen.h" />
@@ -182,6 +183,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
   <ItemGroup>
     <ClCompile Include="ChangeSceneCommand.cpp" />
     <ClCompile Include="DigDug.cpp" />
+    <ClCompile Include="DigDugLevel.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MenuInputHandler.cpp" />
     <ClCompile Include="pch.cpp">

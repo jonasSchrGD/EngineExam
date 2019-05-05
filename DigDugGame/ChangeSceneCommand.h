@@ -1,7 +1,7 @@
 #pragma once
-#include <Command.h>
+#include <BaseCommand.h>
 
-class ChangeSceneCommand final : public dae::Command
+class ChangeSceneCommand final : public dae::BaseCommand
 {
 public:
 	ChangeSceneCommand(int newScene);

@@ -23,9 +23,14 @@ namespace dae
 		{
 			for (auto component : m_pComponents)
 			{
-				if (typeid(*component) == typeid(T))
+				auto raw = component.get();
+				if (typeid(raw) == typeid(T))
+					return std::static_pointer_cast<T>(component);
+
+				if(dynamic_cast<T*>(raw))
 					return std::static_pointer_cast<T>(component);
 			}
+
 			return std::shared_ptr<T>();
 		}
 

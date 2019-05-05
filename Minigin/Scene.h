@@ -1,4 +1,5 @@
 #pragma once
+#include "BaseRenderComponent.h"
 
 namespace dae
 {
@@ -26,6 +27,7 @@ namespace dae
 	private: 
 		std::string mName{};
 		std::vector <std::shared_ptr<SceneObject>> mObjects{};
+		std::vector<std::shared_ptr<BaseRenderComponent>> m_RenderComponents;
 
 		static unsigned int idCounter; 
 	};

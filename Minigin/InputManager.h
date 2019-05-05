@@ -2,9 +2,13 @@
 #include <XInput.h>
 #include "Singleton.h"
 #include <SDL.h>
+#include "structs.h"
+#include <map>
 
 namespace dae
 {
+	class ExitCommand;
+
 	enum class ControllerButton
 	{
 		A = XINPUT_GAMEPAD_A,
@@ -36,6 +40,7 @@ namespace dae
 
 	class InputManager final : public Singleton<InputManager>
 	{
+		friend ExitCommand;
 	private:
 		struct ControllerInfo
 		{
@@ -61,21 +66,31 @@ namespace dae
 			}
 		};
 
+		enum class KeyState
+		{
+			pressed,
+			down,
+			released
+		};
+
 	public:
 		InputManager();
 		~InputManager();
 
 		bool ProcessInput();
-		bool IsDown(input button, int controller = -1)const;
-		bool IsReleased(input button, int controller = -1)const;
-		bool IsPressed(input button, int controller = -1) const;
+		bool IsDown(input button, int controller = -1);
+		bool IsReleased(input button, int controller = -1);
+		bool IsPressed(input button, int controller = -1);
 		float GetAxis(ControllerAxis axis, int controller) const;
 		const float2& GetMousePos() const { return m_Mouse.mousePos; }
 
 	private:
+		void UpdateKeys();
+
 		ControllerInfo m_Controllers[4] = {};
-		std::vector<SDL_Keycode> *m_CurrentKeyBoardState, *m_OldKeyBoardState;
+		std::map<SDL_Keycode, KeyState> m_Keys;
 		MouseState m_Mouse;
+		bool m_Exit = false;
 	};//geen commands gebruikt omdat het veel vrijheid wegneemt naar mijn mening
 
 }
