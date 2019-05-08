@@ -42,6 +42,12 @@
     <Filter Include="Framework Files\Commands">
       <UniqueIdentifier>{1a1f89a2-7437-4b98-b679-7214dcc76f77}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework Files\States">
+      <UniqueIdentifier>{40879435-2fc3-471c-8a8b-9c7435f7b734}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework Files\Commands\CharacterRelated">
+      <UniqueIdentifier>{c865f5c0-e6c8-42f0-8950-1e023a0d50ed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Font.h">
@@ -110,9 +116,6 @@
     <ClInclude Include="BoundingBox.h">
       <Filter>Framework Files\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="CharacterControllerComponent.h">
-      <Filter>Framework Files\GameObject\Components</Filter>
-    </ClInclude>
     <ClInclude Include="Minigin.h">
       <Filter>Framework Files\GameLoop</Filter>
     </ClInclude>
@@ -134,9 +137,6 @@
     <ClInclude Include="Subject.h">
       <Filter>Framework Files\Observer</Filter>
     </ClInclude>
-    <ClInclude Include="BaseState.h">
-      <Filter>Framework Files\BaseClasses</Filter>
-    </ClInclude>
     <ClInclude Include="structs.h">
       <Filter>Framework Files\BaseClasses</Filter>
     </ClInclude>
@@ -145,6 +145,18 @@
     </ClInclude>
     <ClInclude Include="ExitCommand.h">
       <Filter>Framework Files\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseState.h">
+      <Filter>Framework Files\States</Filter>
+    </ClInclude>
+    <ClInclude Include="ChangeSceneCommand.h">
+      <Filter>Framework Files\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterControllerComponent.h">
+      <Filter>Framework Files\GameObject\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderCompObserver.h">
+      <Filter>Framework Files\Observer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -205,9 +217,6 @@
     <ClCompile Include="BoundingBox.cpp">
       <Filter>Framework Files\Collision</Filter>
     </ClCompile>
-    <ClCompile Include="CharacterControllerComponent.cpp">
-      <Filter>Framework Files\GameObject\Components</Filter>
-    </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Framework Files\GameLoop</Filter>
     </ClCompile>
@@ -231,6 +240,15 @@
     </ClCompile>
     <ClCompile Include="ExitCommand.cpp">
       <Filter>Framework Files\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ChangeSceneCommand.cpp">
+      <Filter>Framework Files\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterControllerComponent.cpp">
+      <Filter>Framework Files\GameObject\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderCompObserver.cpp">
+      <Filter>Framework Files\Observer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -2,8 +2,6 @@
 #include "Renderer.h"
 #include <SDL.h>
 #include "Texture2D.h"
-#include "BaseRenderComponent.h"
-#include <algorithm>
 #include "SceneManager.h"
 
 void dae::Renderer::Init(SDL_Window * window)

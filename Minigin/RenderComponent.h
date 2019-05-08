@@ -5,20 +5,22 @@
 
 namespace dae
 {
-	class RenderComponent final :	public BaseRenderComponent
+	class RenderComponent final : public BaseRenderComponent
 	{
 	public:
-		RenderComponent();
+		RenderComponent(int width = 0, int height = 0);
 		~RenderComponent() override = default;
 
+		void SetDimensions(int width, int height) { m_Width = width; m_Height = height; }
 		void SetTexture(const std::string& filename);
 		virtual void Render() const;
 
 	protected:
-		void Update() override { AddToRenderer(); }
+		void Update() override {}
 
 	private:
 		std::shared_ptr<Texture2D> mTexture;
+		int m_Width, m_Height;
 		bool m_AddedToRenderer;
 	};
 }

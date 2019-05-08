@@ -1,5 +1,5 @@
 #include "MiniginPCH.h"
-#include "Command.h"
+#include "BaseCommand.h"
 
 
 dae::BaseCommand::BaseCommand()

@@ -5,8 +5,9 @@
 #include "ResourceManager.h"
 
 dae::FPSComponent::FPSComponent()
-	:m_Text()
-	,m_FpsSum()
+	: m_Text()
+	, m_LastFpsUpdate(0)
+	, m_FpsSum()
 {
 }
 
@@ -32,10 +33,10 @@ void dae::FPSComponent::Update()
 	m_LastFpsUpdate = fps;
 }
 
-void dae::FPSComponent::GameObjectSet()
+void dae::FPSComponent::Initialize()
 {
-	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 24);
-	auto text = std::make_shared<TextRenderComponent>("60 fps", font, SDL_Color{ 255,255,0 });
+	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 20, true);
+	auto text = std::make_shared<TextRenderComponent>("60 fps", font, SDL_Color{ 255,255,0, 255 });
 	GetGameObject()->AddComponent(text);
 	m_Text = text;
 }

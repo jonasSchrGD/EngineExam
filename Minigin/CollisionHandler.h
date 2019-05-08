@@ -4,6 +4,7 @@
 #include "CollisionComponent.h"
 #include <unordered_map>
 #include "MiniginContactListener.h"
+#include "Subject.h"
 
 namespace dae
 {
@@ -35,11 +36,14 @@ namespace dae
 			return m_collisionComponents.at(idx);
 		}
 
+		MiniginContactListener& GetContactListener() { return  m_ContactListener; }
+
 	private:
 		b2World m_Map;
 		MiniginContactListener m_ContactListener;
 
 		int m_NewIdx = 0;
 		std::unordered_map<int, std::shared_ptr<CollisionComponent>> m_collisionComponents;
+		Subject m_subject;
 	};
 }

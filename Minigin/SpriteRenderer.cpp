@@ -5,7 +5,7 @@
 #include "GameObject.h"
 #include "ResourceManager.h"
 
-dae::SpriteRenderer::SpriteRenderer(const std::string& filename, float frameTime, int cols, int rows, int framesForSingleAnim, int nrOfAnimations, float2 drawSize)
+dae::SpriteRenderer::SpriteRenderer(const std::string& filename, float frameTime, int cols, int rows, int nrOfAnimations, float2 drawSize)
 	:m_Texture(ResourceManager::GetInstance().LoadTexture(filename))
 	,m_BottomLeft({0,0})
 	,m_Cols(cols)
@@ -14,9 +14,9 @@ dae::SpriteRenderer::SpriteRenderer(const std::string& filename, float frameTime
 	,m_CurrentFrame(0)
 	,m_ElapsedFrameTime(0)
 	,m_NrOfAnimations(nrOfAnimations)
+	,m_Animation(0)
 	,m_FramesPerAnim()
 {
-	AddToRenderer();
 	int w, h;
 	SDL_QueryTexture(m_Texture->GetSDLTexture(), nullptr, nullptr, &w, &h);
 	m_SrcRect.x = w / (float)cols;
@@ -29,7 +29,14 @@ dae::SpriteRenderer::SpriteRenderer(const std::string& filename, float frameTime
 
 	if(nrOfAnimations == 1)
 	{
-		m_FramesPerAnim.push_back(framesForSingleAnim);
+		m_FramesPerAnim.push_back(cols * rows);
+	}
+	else
+	{
+		for (int i = 0; i < nrOfAnimations; i++)
+		{
+			m_FramesPerAnim.push_back((cols * rows) / nrOfAnimations);
+		}
 	}
 }
 
@@ -64,6 +71,8 @@ void dae::SpriteRenderer::Update()
 		}
 
 		m_BottomLeft.x = (m_CurrentFrame % m_Cols) * m_SrcRect.x;
-		m_BottomLeft.y = ((m_CurrentFrame / m_Cols) + 1) * m_SrcRect.y;
+		m_BottomLeft.y = (m_CurrentFrame / m_Cols) * m_SrcRect.y;
+
+		m_ElapsedFrameTime -= m_FrameTime;
 	}
 }

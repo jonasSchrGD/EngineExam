@@ -3,6 +3,8 @@
 
 #include "SceneObject.h"
 #include "TransformComponent.h"
+#include "Observer.h"
+#include "Subject.h"
 
 namespace dae
 {
@@ -13,10 +15,14 @@ namespace dae
 		friend CollisionComponent;
 
 		void Update() override;
+		void Initialize() override;
 
 		void SetPosition(float x, float y);
 		void AddComponent(const std::shared_ptr<BaseComponent>& component);
-		const std::weak_ptr<TransformComponent> GetTransform() const { return m_pTranform; };
+		std::weak_ptr<TransformComponent> GetTransform() const { return m_pTranform; };
+
+		void AddObServer(std::shared_ptr<Observer> observer);
+		void RemoveObserver(std::shared_ptr<Observer> observer);
 
 		template<class  T>
 		std::shared_ptr<T> GetComponent()
@@ -27,7 +33,7 @@ namespace dae
 				if (typeid(raw) == typeid(T))
 					return std::static_pointer_cast<T>(component);
 
-				if(dynamic_cast<T*>(raw))
+				if (dynamic_cast<T*>(raw))
 					return std::static_pointer_cast<T>(component);
 			}
 
@@ -35,7 +41,7 @@ namespace dae
 		}
 
 		GameObject();
-		virtual ~GameObject() override;
+		~GameObject() override;
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
 		GameObject& operator=(const GameObject& other) = delete;
@@ -44,6 +50,8 @@ namespace dae
 	private:
 		std::vector<std::shared_ptr<BaseComponent>> m_pComponents;
 		std::shared_ptr<TransformComponent> m_pTranform;
+		Subject m_Subject;
+		bool m_IsInitialized;
 
 		//collision
 		void OnCollisionEnter(std::shared_ptr<CollisionComponent> other) {}

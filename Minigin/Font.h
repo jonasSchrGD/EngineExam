@@ -8,7 +8,7 @@ namespace dae
 	{
 	public:
 		TTF_Font* GetFont() const;
-		explicit Font(const std::string& fullPath, unsigned int size);
+		explicit Font(const std::string& fullPath, unsigned int size, bool bold);
 		~Font();
 
 		Font(const Font &) = delete;

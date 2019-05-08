@@ -6,6 +6,7 @@
 void dae::SceneManager::AddScene(std::shared_ptr<Scene> scene)
 {
 	m_Scenes.push_back(scene);
+	scene->LoadScene();
 	scene->Initialize();
 }
 

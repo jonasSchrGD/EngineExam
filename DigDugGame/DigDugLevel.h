@@ -7,6 +7,6 @@ public:
 	DigDugLevel(const std::string& name, bool singlePlayer = true);
 	~DigDugLevel();
 
-	void Initialize() override;
+	void LoadScene() override;
 };
 

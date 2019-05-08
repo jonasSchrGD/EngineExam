@@ -15,7 +15,7 @@ StartScreen::~StartScreen()
 {
 }
 
-void StartScreen::Initialize()
+void StartScreen::LoadScene()
 {
 	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	std::vector<std::shared_ptr<dae::GameObject>> buttons{};
@@ -27,7 +27,7 @@ void StartScreen::Initialize()
 	singlePlayer->AddComponent(comp);
 	Add(singlePlayer);
 	buttons.push_back(singlePlayer);
-	commands.push_back(std::make_shared<ChangeSceneCommand>(1));
+	commands.push_back(std::make_shared<dae::ChangeSceneCommand>(1));
 
 	std::shared_ptr<dae::GameObject> coop{ std::make_shared<dae::GameObject>() };
 	coop->SetPosition(30, 80);
@@ -35,7 +35,7 @@ void StartScreen::Initialize()
 	coop->AddComponent(comp);
 	Add(coop);
 	buttons.push_back(coop);
-	commands.push_back(std::make_shared<ChangeSceneCommand>(0));
+	commands.push_back(std::make_shared<dae::ChangeSceneCommand>(0));
 
 	std::shared_ptr<dae::GameObject> versus{ std::make_shared<dae::GameObject>() };
 	versus->SetPosition(30, 130);
@@ -43,7 +43,7 @@ void StartScreen::Initialize()
 	versus->AddComponent(comp);
 	Add(versus);
 	buttons.push_back(versus);
-	commands.push_back(std::make_shared<ChangeSceneCommand>(0));
+	commands.push_back(std::make_shared<dae::ChangeSceneCommand>(0));
 
 	std::shared_ptr<dae::GameObject> exitButton{ std::make_shared<dae::GameObject>() };
 	exitButton->SetPosition(30, 180);
@@ -54,7 +54,7 @@ void StartScreen::Initialize()
 	commands.push_back(std::make_shared<dae::ExitCommand>());
 
 	std::shared_ptr<dae::GameObject> inputHandler{ std::make_shared<dae::GameObject>() };
-	SDL_Color unselected{255,0,0}, selected{255,255,0};
+	SDL_Color unselected{255,0,0, 255}, selected{255,255,0, 255};
 	auto inputHandling = std::make_shared<MenuInputHandler>(buttons, commands, unselected, selected);
 	inputHandler->AddComponent(inputHandling);
 	Add(inputHandler);

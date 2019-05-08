@@ -1,5 +1,7 @@
 #include "MiniginPCH.h"
 #include "Subject.h"
+#include "Observer.h"
+#include "GameObject.h"
 #include <algorithm>
 
 
@@ -19,7 +21,7 @@ void dae::Subject::Notify(std::shared_ptr<GameObject> entity, int event)
 
 	for (auto observer : observers)
 	{
-		observer->Notify();
+		observer->Notify(entity);
 	}
 }
 

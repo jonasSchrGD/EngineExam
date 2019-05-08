@@ -14,10 +14,8 @@ namespace dae
 		virtual void Render() const{}
 
 	protected:
-		virtual void Update() = 0;
-		void AddToRenderer();
+		void Update() override {}
 
-	private:
-		bool m_AddedToRenderer;
+		void Initialize() override;
 	};
 }

@@ -31,11 +31,15 @@ dae::CollisionComponent::CollisionComponent(float width, float height, bool fixe
 dae::CollisionComponent::~CollisionComponent()
 {
 	CollisionHandler::GetInstance().RemoveCollisionComp(m_Idx);
+	CollisionHandler::GetInstance().GetWorld().DestroyBody(m_pCollision);
 }
 
 void dae::CollisionComponent::Update()
 {
 	m_IsOverlappingOld = m_IsOverlapping;
+
+	auto pos = GetGameObject()->GetTransform().lock()->GetPosition();
+	m_pCollision->SetTransform(b2Vec2(pos.x, pos.y), 0);
 
 	if (m_pColliding)
 		InvokeCorrespondingFunction();

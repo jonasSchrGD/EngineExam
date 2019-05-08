@@ -20,8 +20,6 @@ void dae::TextRenderComponent::SetText(const std::string& text)
 
 void dae::TextRenderComponent::Update()
 {
-	AddToRenderer();
-
 	if (mNeedsUpdate)
 	{
 		//const SDL_Color color = { 255,255,255 }; // only white text is supported now

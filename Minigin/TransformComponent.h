@@ -13,6 +13,7 @@ namespace dae
 	public:
 		const glm::vec3& GetPosition() const { return mPosition; }
 		void SetPosition(float x, float y, float z);
+		void Translate(float x, float y, float z);
 
 		~TransformComponent() override;
 	};

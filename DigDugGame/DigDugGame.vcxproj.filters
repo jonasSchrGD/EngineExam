@@ -33,14 +33,14 @@
     <ClInclude Include="StartScreen.h">
       <Filter>Game\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="ChangeSceneCommand.h">
-      <Filter>Game\Commands</Filter>
-    </ClInclude>
     <ClInclude Include="MenuInputHandler.h">
       <Filter>Game\Components</Filter>
     </ClInclude>
     <ClInclude Include="DigDugLevel.h">
       <Filter>Game\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="DigDugAnimationHandler.h">
+      <Filter>Game\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -56,14 +56,14 @@
     <ClCompile Include="StartScreen.cpp">
       <Filter>Game\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="ChangeSceneCommand.cpp">
-      <Filter>Game\Commands</Filter>
-    </ClCompile>
     <ClCompile Include="MenuInputHandler.cpp">
       <Filter>Game\Components</Filter>
     </ClCompile>
     <ClCompile Include="DigDugLevel.cpp">
       <Filter>Game\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="DigDugAnimationHandler.cpp">
+      <Filter>Game\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

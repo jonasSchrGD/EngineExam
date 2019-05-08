@@ -41,7 +41,7 @@ std::shared_ptr<dae::Texture2D> dae::ResourceManager::LoadTexture(const std::str
 	return std::make_shared<Texture2D>(texture);
 }
 
-std::shared_ptr<dae::Font> dae::ResourceManager::LoadFont(const std::string& file, unsigned int size)
+std::shared_ptr<dae::Font> dae::ResourceManager::LoadFont(const std::string& file, unsigned int size, bool bold)
 {
-	return std::make_shared<Font>(mDataPath + file, size);
+	return std::make_shared<Font>(mDataPath + file, size, bold);
 }

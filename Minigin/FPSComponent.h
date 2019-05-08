@@ -13,7 +13,7 @@ namespace dae
 
 	protected:
 		void Update() override;
-		void GameObjectSet() override;
+		void Initialize() override;
 
 	private:
 		std::weak_ptr<TextRenderComponent> m_Text;

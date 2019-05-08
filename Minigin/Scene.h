@@ -1,10 +1,11 @@
 #pragma once
-#include "BaseRenderComponent.h"
 
 namespace dae
 {
 	class SceneObject;
-	class Scene
+	class BaseRenderComponent;
+	class RenderCompObserver;
+	class Scene : public std::enable_shared_from_this<Scene>
 	{
 	public:
 		void Add(const std::shared_ptr<SceneObject>& object);
@@ -12,7 +13,8 @@ namespace dae
 		void Update();
 		void Render() const;
 
-		virtual void Initialize() = 0;
+		void Initialize();
+		virtual void LoadScene() = 0;
 
 		Scene(const std::string& name);
 		virtual ~Scene() = default;
@@ -26,10 +28,14 @@ namespace dae
 
 	private: 
 		std::string mName{};
-		std::vector <std::shared_ptr<SceneObject>> mObjects{};
+		std::vector<std::shared_ptr<SceneObject>> mObjects{};
 		std::vector<std::shared_ptr<BaseRenderComponent>> m_RenderComponents;
 
-		static unsigned int idCounter; 
+		std::shared_ptr<RenderCompObserver> m_Observer;
+
+		static unsigned int idCounter;
+
+		bool m_IsInitialized;
 	};
 
 }

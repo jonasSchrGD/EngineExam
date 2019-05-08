@@ -10,7 +10,7 @@ dae::DemoScene::DemoScene(const std::string& name)
 {
 }
 
-void dae::DemoScene::Initialize()
+void dae::DemoScene::LoadScene()
 {
 	auto go = std::make_shared<GameObject>();
 	auto rendercomp = std::make_shared<RenderComponent>();
@@ -31,6 +31,4 @@ void dae::DemoScene::Initialize()
 	textComp->SetPosition(80, 20);
 	textComp->AddComponent(to);
 	Add(textComp);
-
-	AddFpsComponent();
 }

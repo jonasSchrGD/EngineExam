@@ -20,10 +20,10 @@ void dae::Minigin::Run()
 		auto OldT = std::chrono::high_resolution_clock::now();
 		float deltaTime{};
 		float& elapsed = Time::GetInstance().m_FrameTime;
-		float msPerFrame = dae::Time::GetInstance().m_MsPerFrame;;//nu hoeft de waarde alleen in de time class aangepast te worden
+		float msPerFrame = Time::GetInstance().m_MsPerFrame;;//nu hoeft de waarde alleen in de time class aangepast te worden
 
-		auto& renderer = dae::Renderer::GetInstance();
-		auto& sceneManager = dae::SceneManager::GetInstance();
+		auto& renderer = Renderer::GetInstance();
+		auto& sceneManager = SceneManager::GetInstance();
 		auto& input = dae::InputManager::GetInstance();
 		auto& collision = CollisionHandler::GetInstance();
 
@@ -63,8 +63,8 @@ void dae::Minigin::Initialize()
 		"Programming 4 assignment",
 		SDL_WINDOWPOS_UNDEFINED,
 		SDL_WINDOWPOS_UNDEFINED,
-		640,
-		480,
+		560,
+		720,
 		SDL_WINDOW_OPENGL
 	);
 	if (window == nullptr)

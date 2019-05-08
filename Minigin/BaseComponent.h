@@ -21,7 +21,7 @@ namespace dae
 
 	protected:
 		virtual void Update(){}
-		virtual void GameObjectSet(){}
+		virtual void Initialize(){}
 
 		//collision
 		virtual void OnCollisionEnter(std::shared_ptr<CollisionComponent> other) {}

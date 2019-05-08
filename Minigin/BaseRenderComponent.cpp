@@ -1,9 +1,8 @@
 #include "MiniginPCH.h"
 #include "BaseRenderComponent.h"
-#include "Renderer.h"
+//#include "GameObject.h"
 
 dae::BaseRenderComponent::BaseRenderComponent()
-	:m_AddedToRenderer(false)
 {
 }
 
@@ -11,10 +10,7 @@ dae::BaseRenderComponent::~BaseRenderComponent()
 {
 }
 
-void dae::BaseRenderComponent::AddToRenderer()
+void dae::BaseRenderComponent::Initialize()
 {
-	if (!m_AddedToRenderer)
-	{
-		m_AddedToRenderer = true;
-	}
+	//GetGameObject()->GetScene()
 }
