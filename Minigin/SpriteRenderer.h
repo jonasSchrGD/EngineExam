@@ -13,7 +13,15 @@ namespace dae
 		~SpriteRenderer() = default;
 
 		//can be used with an enum
-		void SetAnimation(int animationNr) { m_Animation = animationNr; }
+		void SetAnimation(int animationNr)
+		{
+			if(m_Animation != animationNr)
+			{
+				m_Animation = animationNr;
+				m_AnimationChanged = true;
+			}
+		}
+		int GetAnimation() const { return m_Animation; }
 		void SetFramesPerAnim(const std::vector<int>& framesPerAnim) { m_FramesPerAnim = framesPerAnim; }
 
 		void Render() const override;
@@ -34,5 +42,6 @@ namespace dae
 
 		const int m_Cols, m_Rows, m_NrOfAnimations;
 		int m_Animation, m_CurrentFrame;
+		bool m_AnimationChanged;
 	};
 }

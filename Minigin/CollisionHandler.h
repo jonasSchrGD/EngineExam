@@ -16,11 +16,11 @@ namespace dae
 
 		void Update();
 
-		b2World GetWorld() const { return m_Map; }
+		b2World& GetWorld() { return m_Map; }
 
 		int AddCollisionComp(std::shared_ptr<CollisionComponent> comp)
 		{
-			m_collisionComponents.at(m_NewIdx) = comp;
+			m_collisionComponents.insert(std::pair<int, std::shared_ptr<CollisionComponent>>(m_NewIdx, comp));
 			m_NewIdx++;
 
 			return m_NewIdx - 1;

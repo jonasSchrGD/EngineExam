@@ -9,13 +9,13 @@ dae::Font::Font(const std::string& fullPath, unsigned size, bool bold) : mFont(n
 {
 	mFont = TTF_OpenFont(fullPath.c_str(), size);
 	
-	if (bold)
-		TTF_SetFontStyle(mFont, TTF_STYLE_BOLD);
-	
 	if (mFont == nullptr) 
 	{
 		throw std::runtime_error(std::string("Failed to load font: ") + SDL_GetError());
 	}
+
+	if (bold)
+		TTF_SetFontStyle(mFont, TTF_STYLE_BOLD);
 }
 
 dae::Font::~Font()

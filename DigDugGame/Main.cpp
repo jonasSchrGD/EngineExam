@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "SDL.h"
 #include "DigDug.h"
+#include <vld.h>
 
 int main(int argc, char *args[]){
 	UNREFERENCED_PARAMETER(argc);

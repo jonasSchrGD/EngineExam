@@ -15,10 +15,55 @@ dae::GameObject::~GameObject()
 	{
 		m_pComponents.pop_back();
 	}
-};
+}
+
+void dae::GameObject::OnCollisionEnter(std::shared_ptr<CollisionComponent> other)
+{
+	for (auto child : m_pComponents)
+	{
+		child->OnCollisionEnter(other);
+	}
+}
+void dae::GameObject::OnCollisionStay(std::shared_ptr<CollisionComponent> other)
+{
+	for (auto child : m_pComponents)
+	{
+		child->OnCollisionStay(other);
+	}
+}
+void dae::GameObject::OnCollisionLeave(std::shared_ptr<CollisionComponent> other)
+{
+	for (auto child : m_pComponents)
+	{
+		child->OnCollisionLeave(other);
+	}
+}
+
+void dae::GameObject::OnTriggerEnter(std::shared_ptr<CollisionComponent> other)
+{
+	for (auto child : m_pComponents)
+	{
+		child->OnTriggerEnter(other);
+	}
+}
+void dae::GameObject::OnTriggerStay(std::shared_ptr<CollisionComponent> other)
+{
+	for (auto child : m_pComponents)
+	{
+		child->OnTriggerStay(other);
+	}
+}
+void dae::GameObject::OnTriggerLeave(std::shared_ptr<CollisionComponent> other)
+{
+	for (auto child : m_pComponents)
+	{
+		child->OnTriggerLeave(other);
+	}
+}
 
 void dae::GameObject::Update()
 {
+	//todo: use an allocator for less memory acces
 	for (auto child : m_pComponents)
 	{
 		child->Update();
@@ -30,6 +75,22 @@ void dae::GameObject::Initialize()
 	for (auto child : m_pComponents)
 	{
 		child->Initialize();
+	}
+}
+
+void dae::GameObject::Load()
+{
+	for (auto child : m_pComponents)
+	{
+		child->Load();
+	}
+}
+
+void dae::GameObject::Unload()
+{
+	for (auto child : m_pComponents)
+	{
+		child->Unload();
 	}
 }
 

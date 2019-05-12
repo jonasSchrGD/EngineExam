@@ -5,12 +5,15 @@
 #include "Renderer.h"
 #include "SceneManager.h"
 #include "InputManager.h"
-#include "ResourceManager.h"
+#include "Time.h"
+#include "ContentManager.h"
 
 void dae::Minigin::Run()
 {
 	// tell the resource manager where he can find the game data
-	dae::ResourceManager::GetInstance().Init("../Data/");
+	ContentManager::GetInstance().Initialize("../Data/");
+
+	InitializeCustomLoaders();
 
 	Initialize();
 
@@ -20,18 +23,20 @@ void dae::Minigin::Run()
 		auto OldT = std::chrono::high_resolution_clock::now();
 		float deltaTime{};
 		float& elapsed = Time::GetInstance().m_FrameTime;
-		float msPerFrame = Time::GetInstance().m_MsPerFrame;;//nu hoeft de waarde alleen in de time class aangepast te worden
+		float msPerFrame = Time::GetInstance().m_MsPerFrame;;//value only needs to be changed in time class
 
 		auto& renderer = Renderer::GetInstance();
 		auto& sceneManager = SceneManager::GetInstance();
-		auto& input = dae::InputManager::GetInstance();
+		auto& input = InputManager::GetInstance();
 		auto& collision = CollisionHandler::GetInstance();
+
+		sceneManager.Initialize();
 
 		bool doContinue = true;
 		while (doContinue)
 		{
 			auto currentT = std::chrono::high_resolution_clock::now();
-			elapsed = (float)std::chrono::duration_cast<std::chrono::milliseconds>(currentT - OldT).count() / 1000.f;
+			elapsed = (float)std::chrono::duration_cast<std::chrono::microseconds>(currentT - OldT).count() / 1000000;
 			OldT = currentT;
 			deltaTime += elapsed;
 
@@ -47,6 +52,9 @@ void dae::Minigin::Run()
 
 			renderer.Render();
 		}
+
+		ContentManager::GetInstance().Destroy();
+		sceneManager.Clear();
 	}
 
 	Cleanup();
@@ -72,12 +80,12 @@ void dae::Minigin::Initialize()
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
 
-	dae::Renderer::GetInstance().Init(window);
+	Renderer::GetInstance().Init(window);
 }
 
 void dae::Minigin::Cleanup()
 {
-	dae::Renderer::GetInstance().Destroy();
+	Renderer::GetInstance().Destroy();
 	SDL_DestroyWindow(window);
 	window = nullptr;
 	SDL_Quit();

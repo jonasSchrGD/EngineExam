@@ -5,14 +5,20 @@
 
 namespace dae
 {
-	class SceneObject
+	class SceneObject //todo: remove sceneObject, i don't get the point of this
 	{
 		public:
 		virtual void Update() = 0;
 		virtual void Initialize() = 0;
 
+		virtual void Load() = 0;
+		virtual void Unload() = 0;
+
 		void SetScene(std::shared_ptr<Scene> scene) { m_Scene = scene; }
-		std::shared_ptr<Scene> GetScene() { return m_Scene.lock(); }
+		std::shared_ptr<Scene> GetScene()
+		{
+			return m_Scene.lock();
+		}
 		
 		SceneObject() = default;
 		virtual ~SceneObject() = default;

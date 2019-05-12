@@ -18,8 +18,8 @@ private:
 	std::vector<std::shared_ptr<dae::BaseCommand>> m_Commands;
 
 	dae::input m_Select{ SDLK_RETURN, (int)dae::ControllerButton::A };
-	dae::input m_Up{ SDLK_UP, 0 };
-	dae::input m_Down{ SDLK_DOWN, 0 };
+	dae::input m_Up{ SDLK_w, 0 };
+	dae::input m_Down{ SDLK_s, 0 };
 
 	SDL_Color m_ColorUnselected, m_ColorSelected;
 

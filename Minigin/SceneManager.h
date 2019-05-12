@@ -10,15 +10,15 @@ namespace dae
 	class SceneManager final : public Singleton<SceneManager>
 	{
 	public:
+		void Initialize();
+
 		void AddScene(std::shared_ptr<Scene> scene);
-		void SetActiveScene(int sceneId)
-		{
-			if (sceneId >= 0 && sceneId < (int)m_Scenes.size())
-				m_ActiveScene = sceneId;
-		}
+		void SetActiveScene(int sceneId);
 
 		void Update();
 		void Render();
+
+		void Clear();
 
 	private:
 		std::vector<std::shared_ptr<Scene>> m_Scenes;

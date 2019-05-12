@@ -5,5 +5,6 @@ class DigDug final : public dae::Minigin
 {
 protected:
 	void LoadGame()const override;
+	void InitializeCustomLoaders() override;
 };
 

@@ -6,13 +6,16 @@ namespace dae
 	class GameObject;
 	class CollisionComponent;
 
-	class BaseComponent
+	class BaseComponent : public std::enable_shared_from_this<BaseComponent>
 	{
 	public:
 		std::shared_ptr<GameObject> GetGameObject() const { return m_GameObject.lock(); };
 
 		BaseComponent();
 		virtual  ~BaseComponent() = default;
+
+		virtual void Load(){}
+		virtual void Unload(){}
 
 		BaseComponent(const BaseComponent& other) = delete;
 		BaseComponent(const BaseComponent&& other) = delete;

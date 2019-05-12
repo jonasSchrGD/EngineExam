@@ -2,11 +2,24 @@
 #include "CharacterControllerComponent.h"
 
 
-dae::CharacterControllerComponent::CharacterControllerComponent()
+dae::CharacterControllerComponent::CharacterControllerComponent(std::shared_ptr<BaseState> startState)
+	:m_CurrentState(startState)
 {
 }
 
-
-dae::CharacterControllerComponent::~CharacterControllerComponent()
+void dae::CharacterControllerComponent::Update()
 {
+	auto gameobject = GetGameObject();
+	BaseCommand* command{};
+
+	auto newstate = m_CurrentState->Update(gameobject, command);
+	if (newstate)
+		m_CurrentState = newstate;
+
+	if(command != nullptr)
+	{
+		command->Execute(gameobject);
+		delete command;
+	}
 }
+

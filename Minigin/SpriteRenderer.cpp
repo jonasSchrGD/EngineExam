@@ -3,19 +3,19 @@
 #include "Time.h"
 #include "Renderer.h"
 #include "GameObject.h"
-#include "ResourceManager.h"
+#include "ContentManager.h"
 
 dae::SpriteRenderer::SpriteRenderer(const std::string& filename, float frameTime, int cols, int rows, int nrOfAnimations, float2 drawSize)
-	:m_Texture(ResourceManager::GetInstance().LoadTexture(filename))
+	:m_Texture(ContentManager::GetInstance().Load<Texture2D>(filename))
 	,m_BottomLeft({0,0})
 	,m_Cols(cols)
 	,m_Rows(rows)
 	,m_FrameTime(frameTime)
+	, m_NrOfAnimations(nrOfAnimations)
 	,m_CurrentFrame(0)
 	,m_ElapsedFrameTime(0)
-	,m_NrOfAnimations(nrOfAnimations)
 	,m_Animation(0)
-	,m_FramesPerAnim()
+	,m_AnimationChanged(false)
 {
 	int w, h;
 	SDL_QueryTexture(m_Texture->GetSDLTexture(), nullptr, nullptr, &w, &h);
@@ -59,20 +59,24 @@ void dae::SpriteRenderer::Render() const
 
 void dae::SpriteRenderer::Update()
 {
-	m_ElapsedFrameTime += Time::GetInstance().DeltaTime();
-
-	if (m_ElapsedFrameTime >= m_FrameTime)
+	if (m_AnimationChanged || m_FramesPerAnim[m_Animation] > 1)
 	{
-		const int AnimFrames = m_FramesPerAnim[m_Animation];
-		m_CurrentFrame = (m_CurrentFrame + 1) % AnimFrames;
-		for(int i = 0; i < m_Animation; ++i)
+		m_ElapsedFrameTime += Time::GetInstance().DeltaTime();
+
+		if (m_AnimationChanged || m_ElapsedFrameTime >= m_FrameTime)
 		{
-			m_CurrentFrame += m_FramesPerAnim[i];
+			const int AnimFrames = m_FramesPerAnim[m_Animation];
+			m_CurrentFrame = (m_CurrentFrame + 1) % AnimFrames;
+			for (int i = 0; i < m_Animation; ++i)
+			{
+				m_CurrentFrame += m_FramesPerAnim[i];
+			}
+
+			m_BottomLeft.x = (m_CurrentFrame % m_Cols) * m_SrcRect.x;
+			m_BottomLeft.y = (m_CurrentFrame / m_Cols) * m_SrcRect.y;
+
+			m_ElapsedFrameTime -= m_FrameTime;
 		}
-
-		m_BottomLeft.x = (m_CurrentFrame % m_Cols) * m_SrcRect.x;
-		m_BottomLeft.y = (m_CurrentFrame / m_Cols) * m_SrcRect.y;
-
-		m_ElapsedFrameTime -= m_FrameTime;
+		m_AnimationChanged = false;
 	}
 }

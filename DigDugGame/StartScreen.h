@@ -8,6 +8,6 @@ public:
 	~StartScreen() override;
 
 protected:
-	void LoadScene() override;
+	void SetupScene() override;
 };
 

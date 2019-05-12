@@ -2,15 +2,15 @@
 #include "DemoScene.h"
 #include "GameObject.h"
 #include "TextRenderComponent.h"
-#include "ResourceManager.h"
 #include "RenderComponent.h"
+#include "ContentManager.h"
 
 dae::DemoScene::DemoScene(const std::string& name)
 	:Scene(name)
 {
 }
 
-void dae::DemoScene::LoadScene()
+void dae::DemoScene::SetupScene()
 {
 	auto go = std::make_shared<GameObject>();
 	auto rendercomp = std::make_shared<RenderComponent>();
@@ -25,7 +25,7 @@ void dae::DemoScene::LoadScene()
 	go->SetPosition(216, 180);
 	Add(go);
 
-	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	auto font = ContentManager::GetInstance().LoadFont("Lingua.otf", 36);
 	auto textComp = std::make_shared<GameObject>();
 	auto to = std::make_shared<TextRenderComponent>("Programming 4 Assignment", font);
 	textComp->SetPosition(80, 20);

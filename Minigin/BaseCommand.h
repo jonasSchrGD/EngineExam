@@ -9,6 +9,6 @@ namespace dae
 		BaseCommand();
 		virtual ~BaseCommand() {}
 
-		virtual void Execute(std::shared_ptr<GameObject> gameObject) = 0;
+		virtual void Execute(std::shared_ptr<GameObject> gameObject){}
 	};
 }

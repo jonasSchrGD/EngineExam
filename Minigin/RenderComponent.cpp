@@ -1,8 +1,8 @@
 #include "MiniginPCH.h"
 #include "RenderComponent.h"
 #include "Renderer.h"
-#include "ResourceManager.h"
 #include "GameObject.h"
+#include "ContentManager.h"
 
 
 dae::RenderComponent::RenderComponent(int width, int height)
@@ -13,7 +13,7 @@ dae::RenderComponent::RenderComponent(int width, int height)
 }
 void dae::RenderComponent::SetTexture(const std::string& filename)
 {
-	mTexture = ResourceManager::GetInstance().LoadTexture(filename);
+	mTexture = ContentManager::GetInstance().Load<Texture2D>(filename);
 	if(m_Width == 0 || m_Height == 0)
 	{
 		SDL_QueryTexture(mTexture->GetSDLTexture(), nullptr, nullptr, &m_Width, &m_Height);

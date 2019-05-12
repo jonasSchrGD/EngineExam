@@ -8,6 +8,6 @@ namespace dae
 		DemoScene(const std::string& name);
 		~DemoScene() = default;
 
-		void LoadScene() override;
+		void SetupScene() override;
 	};
 }

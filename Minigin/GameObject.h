@@ -17,6 +17,9 @@ namespace dae
 		void Update() override;
 		void Initialize() override;
 
+		void Load() override;
+		void Unload() override;
+
 		void SetPosition(float x, float y);
 		void AddComponent(const std::shared_ptr<BaseComponent>& component);
 		std::weak_ptr<TransformComponent> GetTransform() const { return m_pTranform; };
@@ -54,13 +57,13 @@ namespace dae
 		bool m_IsInitialized;
 
 		//collision
-		void OnCollisionEnter(std::shared_ptr<CollisionComponent> other) {}
-		void OnCollisionStay(std::shared_ptr<CollisionComponent> other) {}
-		void OnCollisionLeave(std::shared_ptr<CollisionComponent> other) {}
+		void OnCollisionEnter(std::shared_ptr<CollisionComponent> other);
+		void OnCollisionStay(std::shared_ptr<CollisionComponent> other);
+		void OnCollisionLeave(std::shared_ptr<CollisionComponent> other);
 
 		//trigger
-		void OnTriggerEnter(std::shared_ptr<CollisionComponent> other) {}
-		void OnTriggerStay(std::shared_ptr<CollisionComponent> other) {}
-		void OnTriggerLeave(std::shared_ptr<CollisionComponent> other) {}
+		void OnTriggerEnter(std::shared_ptr<CollisionComponent> other);
+		void OnTriggerStay(std::shared_ptr<CollisionComponent> other);
+		void OnTriggerLeave(std::shared_ptr<CollisionComponent> other);
 	};
 }

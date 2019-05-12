@@ -14,7 +14,10 @@ namespace dae
 		void Render() const;
 
 		void Initialize();
-		virtual void LoadScene() = 0;
+		virtual void SetupScene() = 0;
+
+		void LoadScene();
+		void UnloadScene();
 
 		Scene(const std::string& name);
 		virtual ~Scene() = default;

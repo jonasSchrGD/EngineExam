@@ -2,7 +2,7 @@
 #include "FPSComponent.h"
 #include "Time.h"
 #include "GameObject.h"
-#include "ResourceManager.h"
+#include "ContentManager.h"
 
 dae::FPSComponent::FPSComponent()
 	: m_Text()
@@ -27,7 +27,6 @@ void dae::FPSComponent::Update()
 	m_FpsSum += m_FpsCatches[m_FpsCatches.size() - 1];
 
 	unsigned int fps{m_FpsSum / (unsigned int)m_FpsCatches.size()};
-
 	if (m_LastFpsUpdate != fps)
 		m_Text.lock()->SetText(std::to_string(fps) + " fps");
 	m_LastFpsUpdate = fps;
@@ -35,7 +34,7 @@ void dae::FPSComponent::Update()
 
 void dae::FPSComponent::Initialize()
 {
-	auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 20, true);
+	auto font = ContentManager::GetInstance().LoadFont("Lingua.otf", 20, true);
 	auto text = std::make_shared<TextRenderComponent>("60 fps", font, SDL_Color{ 255,255,0, 255 });
 	GetGameObject()->AddComponent(text);
 	m_Text = text;

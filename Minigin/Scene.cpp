@@ -65,3 +65,19 @@ void dae::Scene::Initialize()
 			m_RenderComponents.push_back(renderComp);
 	}
 }
+
+void dae::Scene::LoadScene()
+{
+	for (auto object : mObjects)
+	{
+		object->Load();
+	}
+}
+
+void dae::Scene::UnloadScene()
+{
+	for (auto object : mObjects)
+	{
+		object->Unload();
+	}
+}

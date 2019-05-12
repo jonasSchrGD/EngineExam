@@ -22,6 +22,12 @@
     <Filter Include="Game\Commands">
       <UniqueIdentifier>{98d7505d-8879-4be6-9afc-47dfe99e2336}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\states">
+      <UniqueIdentifier>{2a790e43-f7b6-4942-8547-bddb44920131}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\states\PlayerStates">
+      <UniqueIdentifier>{2d6d707b-23da-4740-80f7-e39340210523}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DigDug.h">
@@ -41,6 +47,39 @@
     </ClInclude>
     <ClInclude Include="DigDugAnimationHandler.h">
       <Filter>Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveLeftCommand.h">
+      <Filter>Game\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="Animations.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveRightCommand.h">
+      <Filter>Game\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveUpCommand.h">
+      <Filter>Game\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveDownCommand.h">
+      <Filter>Game\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelLoader.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="HorizontalMoveState.h">
+      <Filter>Game\states\PlayerStates</Filter>
+    </ClInclude>
+    <ClInclude Include="IdleState.h">
+      <Filter>Game\states\PlayerStates</Filter>
+    </ClInclude>
+    <ClInclude Include="VerticalMoveState.h">
+      <Filter>Game\states\PlayerStates</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="TunnelUpdate.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +103,36 @@
     </ClCompile>
     <ClCompile Include="DigDugAnimationHandler.cpp">
       <Filter>Game\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveLeftCommand.cpp">
+      <Filter>Game\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveRightCommand.cpp">
+      <Filter>Game\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveUpCommand.cpp">
+      <Filter>Game\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="MoveDownCommand.cpp">
+      <Filter>Game\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelLoader.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="HorizontalMoveState.cpp">
+      <Filter>Game\states\PlayerStates</Filter>
+    </ClCompile>
+    <ClCompile Include="IdleState.cpp">
+      <Filter>Game\states\PlayerStates</Filter>
+    </ClCompile>
+    <ClCompile Include="VerticalMoveState.cpp">
+      <Filter>Game\states\PlayerStates</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="TunnelUpdate.cpp">
+      <Filter>GameLoop</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

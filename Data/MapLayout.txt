@@ -1,0 +1,124 @@
+mapInfo:
+{
+	rows: 16;
+	cols: 14;
+	width: 40;
+	height: 40;
+	offsetX: 0;
+	offsetY: 40;
+}
+
+tileInfo:
+{
+	tile: 34;
+	sprite: straightVertical;
+}
+{
+	tile: 43;
+	sprite: down;
+}
+{
+	tile: 48;
+	sprite: straightVertical;
+}
+{
+	tile: 51;
+	sprite: right;
+}
+{
+	tile: 52;
+	sprite: straightHorizontal;
+}
+{
+	tile: 53;
+	sprite: straightHorizontal;
+}
+{
+	tile: 54;
+	sprite: left;
+}
+{
+	tile: 57;
+	sprite: straightVertical;
+}
+{
+	tile: 62;
+	sprite: straightVertical;
+}
+{
+	tile: 71;
+	sprite: straightVertical;
+}
+{
+	tile: 76;
+	sprite: straightVertical;
+}
+
+{
+	tile: 85;
+	sprite: straightVertical;
+}
+{
+	tile: 90;
+	sprite: straightVertical;
+}
+{
+	tile: 99;
+	sprite: up;
+}
+{
+	tile: 104;
+	sprite: straightVertical;
+}
+{
+	tile: 117;
+	sprite: right;
+}
+{
+	tile: 118;
+	sprite: tUp;
+}
+{
+	tile: 119;
+	sprite: left;
+}
+{
+	tile: 149;
+	sprite: down;
+}
+{
+	tile: 156;
+	sprite: right;
+}
+{
+	tile: 157;
+	sprite: straightHorizontal;
+}
+{
+	tile: 158;
+	sprite: straightHorizontal;
+}
+{
+	tile: 159;
+	sprite: left;
+}
+{
+	tile: 157;
+	sprite: straightHorizontal;
+}
+{
+	tile: 163;
+	sprite: straightVertical;
+}
+{
+	tile: 177;
+	sprite: straightVertical;
+}
+{
+	tile: 191;
+	sprite: straightVertical;
+}
+{
+	tile: 205;
+	sprite: up;
+}

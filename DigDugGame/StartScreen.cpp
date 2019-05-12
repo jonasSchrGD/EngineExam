@@ -2,10 +2,10 @@
 #include "StartScreen.h"
 #include "GameObject.h"
 #include "TextRenderComponent.h"
-#include "ResourceManager.h"
 #include "MenuInputHandler.h"
 #include "ChangeSceneCommand.h"
 #include "ExitCommand.h"
+#include "ContentManager.h"
 
 StartScreen::StartScreen()
 	:Scene("DigDug StartScreen")
@@ -15,9 +15,9 @@ StartScreen::~StartScreen()
 {
 }
 
-void StartScreen::LoadScene()
+void StartScreen::SetupScene()
 {
-	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	auto font = dae::ContentManager::GetInstance().LoadFont("Lingua.otf", 36);
 	std::vector<std::shared_ptr<dae::GameObject>> buttons{};
 	std::vector<std::shared_ptr<dae::BaseCommand>> commands{};
 
