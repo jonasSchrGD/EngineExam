@@ -10,8 +10,5 @@ namespace dae
 		virtual ~Observer() = default;
 
 		virtual void Notify(std::shared_ptr<GameObject>) = 0;
-
-	protected:
-		void SubScribe(int event);
 	};
 }

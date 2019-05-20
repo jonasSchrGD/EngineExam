@@ -35,7 +35,7 @@ void StartScreen::SetupScene()
 	coop->AddComponent(comp);
 	Add(coop);
 	buttons.push_back(coop);
-	commands.push_back(std::make_shared<dae::ChangeSceneCommand>(0));
+	commands.push_back(std::make_shared<dae::ChangeSceneCommand>(2));
 
 	std::shared_ptr<dae::GameObject> versus{ std::make_shared<dae::GameObject>() };
 	versus->SetPosition(30, 130);
@@ -43,7 +43,7 @@ void StartScreen::SetupScene()
 	versus->AddComponent(comp);
 	Add(versus);
 	buttons.push_back(versus);
-	commands.push_back(std::make_shared<dae::ChangeSceneCommand>(0));
+	commands.push_back(std::make_shared<dae::ChangeSceneCommand>(3));
 
 	std::shared_ptr<dae::GameObject> exitButton{ std::make_shared<dae::GameObject>() };
 	exitButton->SetPosition(30, 180);

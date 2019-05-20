@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "CollisionComponent.h"
 #include "Animations.h"
+#include "DigDugColllision.h"
 
 TunnelUpdate::TunnelUpdate()
 	: m_Center()
@@ -16,15 +17,16 @@ void TunnelUpdate::OnTriggerEnter(std::shared_ptr<dae::CollisionComponent> other
 	{
 		auto& pos = other->GetGameObject()->GetTransform().lock()->GetPosition();
 		float2 charCenter{ float(pos.x + other->GetWidth() / 2), float(pos.y + other->GetHeight() / 2) };
+		auto gameobject = other->GetGameObject();
 
 		if (charCenter.y > m_Center.y)
-			UpdateDown(animation);
+			UpdateDown(gameobject, animation, charCenter.y - m_Center.y);
 		else if (charCenter.y < m_Center.y)
-			UpdateUp(animation);
+			UpdateUp(gameobject, animation, m_Center.y - charCenter.y);
 		else if (charCenter.x > m_Center.x)
-			UpdateRight(animation);
+			UpdateRight(gameobject, animation, charCenter.x - m_Center.x);
 		else if (charCenter.x < m_Center.x)
-			UpdateLeft(animation);
+			UpdateLeft(gameobject, animation, m_Center.x - charCenter.x);
 	}
 }
 
@@ -35,15 +37,16 @@ void TunnelUpdate::OnTriggerStay(std::shared_ptr<dae::CollisionComponent> other)
 	{
 		auto& pos = other->GetGameObject()->GetTransform().lock()->GetPosition();
 		float2 charCenter{ float(pos.x + other->GetWidth() / 2), float(pos.y + other->GetHeight() / 2) };
+		auto gameobject = other->GetGameObject();
 
 		if (charCenter.y > m_Center.y)
-			UpdateDown(animation);
+			UpdateDown(gameobject, animation, charCenter.y - m_Center.y);
 		else if (charCenter.y < m_Center.y)
-			UpdateUp(animation);
+			UpdateUp(gameobject, animation, m_Center.y - charCenter.y);
 		else if (charCenter.x > m_Center.x)
-			UpdateRight(animation);
+			UpdateRight(gameobject, animation, charCenter.x - m_Center.x);
 		else if (charCenter.x < m_Center.x)
-			UpdateLeft(animation);
+			UpdateLeft(gameobject, animation, m_Center.x - charCenter.x);
 	}
 }
 
@@ -57,152 +60,216 @@ void TunnelUpdate::Initialize()
 	m_Center.y = float(pos.y + collision->GetHeight() / 2);
 }
 
-void TunnelUpdate::UpdateDown(const TunnelSprite& currentSprite)
+void TunnelUpdate::UpdateDown(std::shared_ptr<dae::GameObject> other, const TunnelSprite& currentSprite, float distanceToCenter)
 {
 	TunnelSprite animation = TunnelSprite::none;
+	bool digging{ true };
 
 	switch (currentSprite)
 	{
 	case TunnelSprite::straightHorizontal:
-		animation = TunnelSprite::tDown;
+		if (distanceToCenter > 10)
+			animation = TunnelSprite::tDown;
 		break;
 	case TunnelSprite::cornerLU:
-		animation = TunnelSprite::tLeft;
+		if (distanceToCenter > 10)
+			animation = TunnelSprite::tLeft;
 		break;
 	case TunnelSprite::cornerRU:
-		animation = TunnelSprite::tRight;
+		if (distanceToCenter > 10)
+			animation = TunnelSprite::tRight;
 		break;
 	case TunnelSprite::tUp:
-		animation = TunnelSprite::all;
+		if (distanceToCenter > 10)
+			animation = TunnelSprite::all;
 		break;
 	case TunnelSprite::left:
-		animation = TunnelSprite::cornerLD;
+		if (distanceToCenter > 10)
+			animation = TunnelSprite::cornerLD;
 		break;
 	case TunnelSprite::up:
-		animation = TunnelSprite::straightVertical;
+		if (distanceToCenter > 10)
+			animation = TunnelSprite::straightVertical;
 		break;
 	case TunnelSprite::right:
-		animation = TunnelSprite::cornerRD;
+		if (distanceToCenter > 10)
+			animation = TunnelSprite::cornerRD;
 		break;
 	case TunnelSprite::none:
-		animation = TunnelSprite::down;
+		if (distanceToCenter < 5)
+			animation = TunnelSprite::down;
 		break;
 	default:
+		digging = false;
 		break;
+	}
+
+	auto digdug = other->GetComponent<DigDugColllision>();
+	if (digdug)
+	{
+		digdug->SetDigging(digging);
 	}
 
 	if (animation != TunnelSprite::none)
 		m_SpriteRenderer->SetAnimation(int(animation));
 }
 
-void TunnelUpdate::UpdateUp(const TunnelSprite& currentSprite)
+void TunnelUpdate::UpdateUp(std::shared_ptr<dae::GameObject> other, const TunnelSprite& currentSprite, float distanceToCenter)
 {
 	TunnelSprite animation = TunnelSprite::none;
+	bool digging{ true };
 
 	switch (currentSprite)
 	{
 	case TunnelSprite::straightHorizontal:
-		animation = TunnelSprite::tUp;
+		if (distanceToCenter > 10)
+			animation = TunnelSprite::tUp;
 		break;
 	case TunnelSprite::cornerLD:
-		animation = TunnelSprite::tLeft;
+		if (distanceToCenter > 10)
+			animation = TunnelSprite::tLeft;
 		break;
 	case TunnelSprite::cornerRD:
-		animation = TunnelSprite::tRight;
+		if (distanceToCenter > 10)
+			animation = TunnelSprite::tRight;
 		break;
 	case TunnelSprite::tDown:
-		animation = TunnelSprite::all;
+		if (distanceToCenter > 10)
+			animation = TunnelSprite::all;
 		break;
 	case TunnelSprite::left:
-		animation = TunnelSprite::cornerLU;
+		if (distanceToCenter > 10)
+			animation = TunnelSprite::cornerLU;
 		break;
 	case TunnelSprite::right:
-		animation = TunnelSprite::cornerRU;
+		if (distanceToCenter > 10)
+			animation = TunnelSprite::cornerRU;
 		break;
 	case TunnelSprite::down:
-		animation = TunnelSprite::straightVertical;
+		if (distanceToCenter > 10)
+			animation = TunnelSprite::straightVertical;
 		break;
 	case TunnelSprite::none:
-		animation = TunnelSprite::up;
+		if (distanceToCenter < 5)
+			animation = TunnelSprite::up;
 		break;
 	default:
+		digging = false;
 		break;
+	}
+
+	auto digdug = other->GetComponent<DigDugColllision>();
+	if (digdug)
+	{
+		digdug->SetDigging(digging);
 	}
 
 	if (animation != TunnelSprite::none)
 		m_SpriteRenderer->SetAnimation(int(animation));
 }
 
-void TunnelUpdate::UpdateLeft(const TunnelSprite& currentSprite)
+void TunnelUpdate::UpdateLeft(std::shared_ptr<dae::GameObject> other, const TunnelSprite& currentSprite, float distanceToCenter)
 {
 	TunnelSprite animation = TunnelSprite::none;
+	bool digging{ true };
 
 	switch (currentSprite)
 	{
 	case TunnelSprite::straightVertical: 
-		animation = TunnelSprite::tLeft;
+		if (distanceToCenter > 10)
+			animation = TunnelSprite::tLeft;
 		break;
 	case TunnelSprite::cornerRU:
-		animation = TunnelSprite::tUp;
+		if (distanceToCenter > 10)
+			animation = TunnelSprite::tUp;
 		break;
 	case TunnelSprite::cornerRD: 
-		animation = TunnelSprite::tDown;
+		if (distanceToCenter > 10)
+			animation = TunnelSprite::tDown;
 		break;
 	case TunnelSprite::tRight: 
-		animation = TunnelSprite::all;
+		if (distanceToCenter > 10)
+			animation = TunnelSprite::all;
 		break;
 	case TunnelSprite::up: 
-		animation = TunnelSprite::cornerLU;
+		if (distanceToCenter > 10)
+			animation = TunnelSprite::cornerLU;
 		break;
 	case TunnelSprite::right: 		
-		animation = TunnelSprite::straightHorizontal;
+		if (distanceToCenter > 10)
+			animation = TunnelSprite::straightHorizontal;
 		break;
 	case TunnelSprite::down: 
-		animation = TunnelSprite::cornerLD;
+		if (distanceToCenter > 10)
+			animation = TunnelSprite::cornerLD;
 		break;
 	case TunnelSprite::none: 
-		animation = TunnelSprite::left;
+		if (distanceToCenter < 5)
+			animation = TunnelSprite::left;
 		break;
 	default:
+		digging = false;
 		break;
+	}
+
+	auto digdug = other->GetComponent<DigDugColllision>();
+	if (digdug)
+	{
+		digdug->SetDigging(digging);
 	}
 
 	if (animation != TunnelSprite::none)
 		m_SpriteRenderer->SetAnimation(int(animation));
 }
 
-void TunnelUpdate::UpdateRight(const TunnelSprite& currentSprite)
+void TunnelUpdate::UpdateRight(std::shared_ptr<dae::GameObject> other, const TunnelSprite& currentSprite, float distanceToCenter)
 {
 	TunnelSprite animation = TunnelSprite::none;
+	bool digging{ true };
 
 	switch (currentSprite)
 	{
 	case TunnelSprite::straightVertical: 
-		animation = TunnelSprite::tRight;
+		if (distanceToCenter > 10)
+			animation = TunnelSprite::tRight;
 		break;
 	case TunnelSprite::cornerLU: 
-		animation = TunnelSprite::tUp;
+		if (distanceToCenter > 10)
+			animation = TunnelSprite::tUp;
 		break;
 	case TunnelSprite::cornerLD: 
-		animation = TunnelSprite::tDown;
+		if (distanceToCenter > 10)
+			animation = TunnelSprite::tDown;
 		break;
 	case TunnelSprite::tLeft: 
-		animation = TunnelSprite::all;
+		if (distanceToCenter > 10)
+			animation = TunnelSprite::all;
 		break;
 	case TunnelSprite::left: 
-		animation = TunnelSprite::straightHorizontal;
+		if (distanceToCenter > 10)
+			animation = TunnelSprite::straightHorizontal;
 		break;
 	case TunnelSprite::up: 
-		animation = TunnelSprite::cornerRU;
+		if (distanceToCenter > 10)
+			animation = TunnelSprite::cornerRU;
 		break;
 	case TunnelSprite::down: 
-		animation = TunnelSprite::cornerRD;
+		if (distanceToCenter > 10)
+			animation = TunnelSprite::cornerRD;
 		break;
 	case TunnelSprite::none: 
-		animation = TunnelSprite::right;
+		if (distanceToCenter < 5)
+			animation = TunnelSprite::right;
 		break;
 	default:
+		digging = false;
 		break;
+	}
+
+	auto digdug = other->GetComponent<DigDugColllision>();
+	if (digdug)
+	{
+		digdug->SetDigging(digging);
 	}
 
 	if (animation != TunnelSprite::none)

@@ -11,12 +11,9 @@ namespace dae
 	public:
 		void AddObserver(std::shared_ptr<Observer> observer);
 		void RemoveObserver(std::shared_ptr<Observer> observer);
-		void Notify(std::shared_ptr<GameObject> entity, int event) ;
-
-		void SubScribe(std::shared_ptr<Observer> observer, int event);
+		void Notify(std::shared_ptr<GameObject> entity);
 
 	private:
 		std::vector<std::shared_ptr<Observer>> m_Observers;
-		std::map<int, std::vector<std::shared_ptr<Observer>>> m_Events;
 	};
 }

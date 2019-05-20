@@ -1,41 +1,58 @@
 mapInfo:
 {
-	rows: 16;
+	rows: 14;
 	cols: 14;
 	width: 40;
 	height: 40;
 	offsetX: 0;
-	offsetY: 40;
+	offsetY: 120;
 }
 
 tileInfo:
 {
-	tile: 34;
+	tile: 6;
+	sprite: straightVertical;
+}
+{
+	tile: 15;
+	sprite: down;
+	spawn: Pooka;
+}
+{
+	tile: 20;
+	sprite: straightVertical;
+}
+{
+	tile: 23;
+	sprite: right;
+}
+{
+	tile: 24;
+	sprite: straightHorizontal;
+}
+{
+	tile: 25;
+	sprite: straightHorizontal;
+}
+{
+	tile: 26;
+	sprite: left;
+}
+{
+	tile: 29;
+	sprite: straightVertical;
+}
+{
+	tile: 34;14:50 5/20/19
 	sprite: straightVertical;
 }
 {
 	tile: 43;
-	sprite: down;
+	sprite: straightVertical;
 }
 {
 	tile: 48;
 	sprite: straightVertical;
-}
-{
-	tile: 51;
-	sprite: right;
-}
-{
-	tile: 52;
-	sprite: straightHorizontal;
-}
-{
-	tile: 53;
-	sprite: straightHorizontal;
-}
-{
-	tile: 54;
-	sprite: left;
 }
 {
 	tile: 57;
@@ -47,64 +64,55 @@ tileInfo:
 }
 {
 	tile: 71;
-	sprite: straightVertical;
+	sprite: up;
+	spawn: Fygar;
 }
 {
 	tile: 76;
 	sprite: straightVertical;
 }
-
 {
-	tile: 85;
-	sprite: straightVertical;
+	tile: 89;
+	sprite: right;
+	spawn: DigDugM1;
 }
 {
 	tile: 90;
-	sprite: straightVertical;
-}
-{
-	tile: 99;
-	sprite: up;
-}
-{
-	tile: 104;
-	sprite: straightVertical;
-}
-{
-	tile: 117;
-	sprite: right;
-}
-{
-	tile: 118;
 	sprite: tUp;
+	spawn: DigDugS;
 }
 {
-	tile: 119;
+	tile: 91;
 	sprite: left;
+	spawn: DigDugM2;
 }
 {
-	tile: 149;
+	tile: 121;
 	sprite: down;
 }
 {
-	tile: 156;
+	tile: 128;
 	sprite: right;
 }
 {
-	tile: 157;
+	tile: 129;
 	sprite: straightHorizontal;
 }
 {
-	tile: 158;
+	tile: 130;
 	sprite: straightHorizontal;
 }
 {
-	tile: 159;
+	tile: 131;
 	sprite: left;
 }
 {
-	tile: 157;
-	sprite: straightHorizontal;
+	tile: 135;
+	sprite: straightVertical;
+}
+{
+	tile: 149;
+	sprite: straightVertical;
 }
 {
 	tile: 163;
@@ -112,13 +120,5 @@ tileInfo:
 }
 {
 	tile: 177;
-	sprite: straightVertical;
-}
-{
-	tile: 191;
-	sprite: straightVertical;
-}
-{
-	tile: 205;
 	sprite: up;
 }

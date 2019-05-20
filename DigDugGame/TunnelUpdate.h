@@ -19,9 +19,9 @@ private:
 	std::shared_ptr<dae::SpriteRenderer> m_SpriteRenderer;
 	float2 m_Center;
 
-	void UpdateDown(const TunnelSprite& currentSprite);
-	void UpdateUp(const TunnelSprite& currentSprite);
-	void UpdateLeft(const TunnelSprite& currentSprite);
-	void UpdateRight(const TunnelSprite& currentSprite);
+	void UpdateDown(std::shared_ptr<dae::GameObject> other, const TunnelSprite& currentSprite, float distanceToCenter);
+	void UpdateUp(std::shared_ptr<dae::GameObject> other, const TunnelSprite& currentSprite, float distanceToCenter);
+	void UpdateLeft(std::shared_ptr<dae::GameObject> other, const TunnelSprite& currentSprite, float distanceToCenter);
+	void UpdateRight(std::shared_ptr<dae::GameObject> other, const TunnelSprite& currentSprite, float distanceToCenter);
 };
 

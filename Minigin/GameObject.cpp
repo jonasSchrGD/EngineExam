@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "BaseComponent.h"
 #include "BaseRenderComponent.h"
+#include <algorithm>
 
 dae::GameObject::GameObject()
 	: m_pTranform(std::make_unique<TransformComponent>())
@@ -66,15 +67,31 @@ void dae::GameObject::Update()
 	//todo: use an allocator for less memory acces
 	for (auto child : m_pComponents)
 	{
-		child->Update();
+		if (std::find(m_pComponentsToRemove.begin(), m_pComponentsToRemove.end(), child) == m_pComponentsToRemove.end())
+			child->Update();
 	}
+
+	for (int i = 0; i < m_pComponentsToRemove.size(); ++i)
+	{
+		m_pComponents.erase(std::remove(m_pComponents.begin(), m_pComponents.end(), m_pComponentsToRemove[i]));
+	}
+	m_pComponentsToRemove.clear();
 }
 
 void dae::GameObject::Initialize()
 {
-	for (auto child : m_pComponents)
+	if (!m_IsInitialized)
 	{
-		child->Initialize();
+		//for (auto child : m_pComponents)//can't handle change in container
+		for (int i = 0; i < m_pComponents.size(); ++i)
+		{
+			auto raw = m_pComponents[i].get();
+			if (dynamic_cast<BaseRenderComponent*>(raw))
+				m_Subject.Notify(shared_from_this());
+
+			m_pComponents[i]->Initialize();
+		}
+		m_IsInitialized = true;
 	}
 }
 
@@ -99,17 +116,19 @@ void dae::GameObject::SetPosition(float x, float y)
 	m_pTranform->SetPosition(x, y, 0.0f);
 }
 
-void dae::GameObject::AddComponent(const std::shared_ptr<BaseComponent>& component)
+void dae::GameObject::AddComponent(std::shared_ptr<BaseComponent> component)
 {
 	m_pComponents.push_back(component);
 	component->m_GameObject = weak_from_this();
 
-	auto raw = component.get();
-	if (dynamic_cast<BaseRenderComponent*>(raw))
-		m_Subject.Notify(shared_from_this(), 0);
+	//auto raw = component.get();
+	//if (dynamic_cast<BaseRenderComponent*>(raw))
+	//	m_Subject.Notify(shared_from_this());
 
 	if (m_IsInitialized)
+	{
 		component->Initialize();
+	}
 }
 
 void dae::GameObject::AddObServer(std::shared_ptr<Observer> observer)

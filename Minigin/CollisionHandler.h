@@ -28,12 +28,18 @@ namespace dae
 
 		void RemoveCollisionComp(int idx)
 		{
-			m_collisionComponents.erase(idx);
+			if (m_collisionComponents.find(idx) != m_collisionComponents.end())
+			{
+				m_collisionComponents.at(idx).reset();
+				m_collisionComponents.erase(idx);
+			}
 		}
 
 		std::shared_ptr<CollisionComponent> GetSharedPtr(int idx)
 		{
-			return m_collisionComponents.at(idx);
+			if (m_collisionComponents.find(idx) != m_collisionComponents.end())
+				return m_collisionComponents.at(idx).lock();
+			return std::shared_ptr<CollisionComponent>();
 		}
 
 		MiniginContactListener& GetContactListener() { return  m_ContactListener; }
@@ -43,7 +49,7 @@ namespace dae
 		MiniginContactListener m_ContactListener;
 
 		int m_NewIdx = 0;
-		std::unordered_map<int, std::shared_ptr<CollisionComponent>> m_collisionComponents;
+		std::unordered_map<int, std::weak_ptr<CollisionComponent>> m_collisionComponents;
 		Subject m_subject;
 	};
 }

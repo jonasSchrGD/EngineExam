@@ -6,9 +6,9 @@
 #include "Animations.h"
 #include "TunnelUpdate.h"
 
-
 LevelLoader::LevelLoader()
-	: m_Rows(0)
+	: m_Spawns()
+	, m_Rows(0)
 	, m_Cols(0)
 	, m_TileWidth(0)
 	, m_TileHeight(0)
@@ -36,6 +36,8 @@ std::shared_ptr<Level> LevelLoader::LoadContent(const std::string& assetFile)
 			ReadTiles(input);
 			m_Level->SetOffset(m_OffsetX, m_OffsetY);
 			m_Level->SetTileSize(m_TileWidth, m_TileHeight);
+			m_Level->SetSpawn(m_Spawns);
+			m_Level->SetRowCol(m_Rows, m_Cols);
 		}
 
 		if (line == "mapInfo:")
@@ -285,7 +287,33 @@ void LevelLoader::ReadTiles(std::ifstream& input)
 
 			m_Level->AddGameObject(tile);
 			tilesAdded = tileId + 1;
+
 			std::getline(input, line);
+
+			if(std::find(line.begin(), line.end(), '}') == line.end())
+			{
+				it = (int)line.find("spawn:");
+				it += 7;
+				end = (int)line.find(';');
+				std::string spawnType = line.substr(it, end - it);
+
+				if (spawnType == "DigDugS")
+					m_Spawns.DigDugSinglePlayer = tileId;
+
+				if (spawnType == "DigDugM1")
+					m_Spawns.DigDugMultiPlayer1 = tileId;
+
+				if (spawnType == "DigDugM2")
+					m_Spawns.DigDugMultiPlayer2 = tileId;
+
+				if (spawnType == "Pooka")
+					m_Spawns.PookaSpawns.push_back(tileId);
+
+				if (spawnType == "Fygar")
+					m_Spawns.FygarSpawns.push_back(tileId);
+
+				std::getline(input, line);
+			}
 		}
 	}
 	AddEmptyTiles(tilesAdded, m_Cols * m_Rows);

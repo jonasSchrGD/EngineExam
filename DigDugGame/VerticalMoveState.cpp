@@ -16,11 +16,11 @@ std::shared_ptr<dae::BaseState> VerticalMoveState::Update(std::shared_ptr<dae::G
 
 	if (dae::InputManager::GetInstance().IsDown(m_Up) || dae::InputManager::GetInstance().GetAxis(dae::ControllerAxis::JoystickLY, 0) > 0.75f)
 	{
-		commandOutput = new MoveUpCommand(50);
+		commandOutput = new MoveUpCommand(50, m_Level);
 	}
 	else if (dae::InputManager::GetInstance().IsDown(m_Down) || dae::InputManager::GetInstance().GetAxis(dae::ControllerAxis::JoystickLY, 0) < -0.75f)
 	{
-		commandOutput = new MoveDownCommand(50);
+		commandOutput = new MoveDownCommand(50, m_Level);
 	}
 	else
 	{

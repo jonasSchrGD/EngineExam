@@ -5,7 +5,15 @@ enum class DigDugAnimation
 	left,
 	right,
 	down,
-	up
+	up,
+	digLeft,
+	digRight,
+	digDown,
+	digUp,
+	pump,
+	flatH,
+	flatV,
+	death
 };
 
 enum class TunnelSprite

@@ -10,6 +10,8 @@ void DigDug::LoadGame() const
 {
 	dae::SceneManager::GetInstance().AddScene(std::make_shared<StartScreen>());
 	dae::SceneManager::GetInstance().AddScene(std::make_shared<DigDugLevel>("SinglePlayer"));
+	dae::SceneManager::GetInstance().AddScene(std::make_shared<DigDugLevel>("coop", false));
+	dae::SceneManager::GetInstance().AddScene(std::make_shared<DigDugLevel>("versus", false, false));
 }
 
 void DigDug::InitializeCustomLoaders()

@@ -22,6 +22,7 @@ private:
 	void ReadTiles(std::ifstream& input);
 
 	std::shared_ptr<Level> m_Level;
+	Level::Spawns m_Spawns;
 	int m_Rows, m_Cols;
 	float m_TileWidth, m_TileHeight;
 	float m_OffsetX, m_OffsetY;

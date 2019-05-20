@@ -175,9 +175,11 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
   <ItemGroup>
     <ClInclude Include="Animations.h" />
     <ClInclude Include="DigDug.h" />
-    <ClInclude Include="DigDugAnimationHandler.h" />
+    <ClInclude Include="DigDugColllision.h" />
     <ClInclude Include="DigDugLevel.h" />
+    <ClInclude Include="EnemyCollisionHandler.h" />
     <ClInclude Include="HorizontalMoveState.h" />
+    <ClInclude Include="IdleCommand.h" />
     <ClInclude Include="IdleState.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="LevelLoader.h" />
@@ -187,15 +189,21 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="MoveRightCommand.h" />
     <ClInclude Include="MoveUpCommand.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Prefabs.h" />
+    <ClInclude Include="RockBehaviour.h" />
+    <ClInclude Include="Spawner.h" />
     <ClInclude Include="StartScreen.h" />
     <ClInclude Include="TunnelUpdate.h" />
     <ClInclude Include="VerticalMoveState.h" />
+    <ClInclude Include="WanderState.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DigDug.cpp" />
-    <ClCompile Include="DigDugAnimationHandler.cpp" />
+    <ClCompile Include="DigDugColllision.cpp" />
     <ClCompile Include="DigDugLevel.cpp" />
+    <ClCompile Include="EnemyCollisionHandler.cpp" />
     <ClCompile Include="HorizontalMoveState.cpp" />
+    <ClCompile Include="IdleCommand.cpp" />
     <ClCompile Include="IdleState.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
@@ -211,9 +219,11 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="RockBehaviour.cpp" />
     <ClCompile Include="StartScreen.cpp" />
     <ClCompile Include="TunnelUpdate.cpp" />
     <ClCompile Include="VerticalMoveState.cpp" />
+    <ClCompile Include="WanderState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Minigin\Minigin.vcxproj">

@@ -16,6 +16,7 @@ dae::SpriteRenderer::SpriteRenderer(const std::string& filename, float frameTime
 	,m_ElapsedFrameTime(0)
 	,m_Animation(0)
 	,m_AnimationChanged(false)
+	,m_loop(true)
 {
 	int w, h;
 	SDL_QueryTexture(m_Texture->GetSDLTexture(), nullptr, nullptr, &w, &h);
@@ -62,8 +63,19 @@ void dae::SpriteRenderer::Update()
 	if (m_AnimationChanged || m_FramesPerAnim[m_Animation] > 1)
 	{
 		m_ElapsedFrameTime += Time::GetInstance().DeltaTime();
+		bool updateAnim{true};
 
-		if (m_AnimationChanged || m_ElapsedFrameTime >= m_FrameTime)
+		if (!m_loop)
+		{
+			int localframe = m_CurrentFrame;
+			for (int i = 0; i < m_Animation; ++i)
+			{
+				localframe -= m_FramesPerAnim[i];
+			}
+			updateAnim = localframe != m_FramesPerAnim[m_Animation] - 1;
+		}
+
+		if (m_AnimationChanged || m_ElapsedFrameTime >= m_FrameTime && updateAnim)
 		{
 			const int AnimFrames = m_FramesPerAnim[m_Animation];
 			m_CurrentFrame = (m_CurrentFrame + 1) % AnimFrames;

@@ -16,10 +16,10 @@ std::shared_ptr<dae::BaseState> HorizontalMoveState::Update(std::shared_ptr<dae:
 	std::shared_ptr<BaseState> returnState;
 
 	if (dae::InputManager::GetInstance().IsDown(m_Right) || dae::InputManager::GetInstance().GetAxis(dae::ControllerAxis::JoystickLX, 0) > 0.75f)
-		commandOutput = new MoveRightCommand(50);
+		commandOutput = new MoveRightCommand(50, m_Level);
 
 	else if (dae::InputManager::GetInstance().IsDown(m_Left) || dae::InputManager::GetInstance().GetAxis(dae::ControllerAxis::JoystickLX, 0) < -0.75f)
-		commandOutput = new MoveLeftCommand(50);
+		commandOutput = new MoveLeftCommand(50, m_Level);
 	else
 	{
 		returnState = std::make_shared<IdleState>(m_Level);

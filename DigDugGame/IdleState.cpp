@@ -2,6 +2,7 @@
 #include "IdleState.h"
 #include "HorizontalMoveState.h"
 #include "VerticalMoveState.h"
+#include "IdleCommand.h"
 
 
 IdleState::IdleState(std::shared_ptr<Level> level)
@@ -11,9 +12,9 @@ IdleState::IdleState(std::shared_ptr<Level> level)
 
 std::shared_ptr<dae::BaseState> IdleState::Update(std::shared_ptr<dae::GameObject> gameObject, dae::BaseCommand*& commandOutput)
 {
-	UNREFERENCED_PARAMETER(commandOutput);
-
 	std::shared_ptr<BaseState> returnState{};
+
+	commandOutput = new IdleCommand();
 
 	if (dae::InputManager::GetInstance().IsDown(m_Right) || dae::InputManager::GetInstance().GetAxis(dae::ControllerAxis::JoystickLX, 0) > 0.75f)
 	{

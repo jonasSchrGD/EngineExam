@@ -15,17 +15,10 @@ void dae::Subject::RemoveObserver(std::shared_ptr<Observer> observer)
 	m_Observers.erase(std::remove(m_Observers.begin(), m_Observers.end(), observer));
 }
 
-void dae::Subject::Notify(std::shared_ptr<GameObject> entity, int event)
+void dae::Subject::Notify(std::shared_ptr<GameObject> entity)
 {
-	auto& observers = m_Events[event];
-
-	for (auto observer : observers)
+	for (auto observer : m_Observers)
 	{
 		observer->Notify(entity);
 	}
-}
-
-void dae::Subject::SubScribe(std::shared_ptr<Observer> observer, int event)
-{
-	m_Events[event].push_back(observer);
 }

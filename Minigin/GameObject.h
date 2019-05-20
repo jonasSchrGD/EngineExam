@@ -21,7 +21,12 @@ namespace dae
 		void Unload() override;
 
 		void SetPosition(float x, float y);
-		void AddComponent(const std::shared_ptr<BaseComponent>& component);
+		void AddComponent(std::shared_ptr<BaseComponent> component);
+		void RemoveComponent(std::shared_ptr<BaseComponent> component)
+		{
+			if(component != nullptr)
+			 m_pComponentsToRemove.push_back(component);
+		}
 		std::weak_ptr<TransformComponent> GetTransform() const { return m_pTranform; };
 
 		void AddObServer(std::shared_ptr<Observer> observer);
@@ -52,6 +57,7 @@ namespace dae
 
 	private:
 		std::vector<std::shared_ptr<BaseComponent>> m_pComponents;
+		std::vector<std::shared_ptr<BaseComponent>> m_pComponentsToRemove;
 		std::shared_ptr<TransformComponent> m_pTranform;
 		Subject m_Subject;
 		bool m_IsInitialized;

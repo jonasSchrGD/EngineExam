@@ -2,8 +2,10 @@
 #include "CharacterControllerComponent.h"
 
 
-dae::CharacterControllerComponent::CharacterControllerComponent(std::shared_ptr<BaseState> startState)
+dae::CharacterControllerComponent::CharacterControllerComponent(std::shared_ptr<BaseState> startState, int playerNr)
 	:m_CurrentState(startState)
+	,m_PlayerNr(playerNr)
+	,m_pCurrentCommand()
 {
 }
 
@@ -18,8 +20,23 @@ void dae::CharacterControllerComponent::Update()
 
 	if(command != nullptr)
 	{
-		command->Execute(gameobject);
-		delete command;
+		if (m_pCurrentCommand != nullptr)
+		{
+			if(typeid(*m_pCurrentCommand) != typeid(*command))
+			{
+				delete m_pCurrentCommand;
+				m_pCurrentCommand = command;
+			}
+			else
+				delete command;
+		}
+		else
+		{
+			m_pCurrentCommand = command;
+		}
 	}
+
+	if(m_pCurrentCommand != nullptr)
+		m_pCurrentCommand->Execute(gameobject);
 }
 

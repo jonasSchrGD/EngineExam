@@ -13,12 +13,13 @@ namespace dae
 		~SpriteRenderer() = default;
 
 		//can be used with an enum
-		void SetAnimation(int animationNr)
+		void SetAnimation(int animationNr, bool loop = true)
 		{
-			if(m_Animation != animationNr)
+			if(m_Animation != animationNr && animationNr < m_NrOfAnimations && animationNr >= 0)
 			{
 				m_Animation = animationNr;
 				m_AnimationChanged = true;
+				m_loop = loop;
 			}
 		}
 		int GetAnimation() const { return m_Animation; }
@@ -42,6 +43,6 @@ namespace dae
 
 		const int m_Cols, m_Rows, m_NrOfAnimations;
 		int m_Animation, m_CurrentFrame;
-		bool m_AnimationChanged;
+		bool m_AnimationChanged, m_loop;
 	};
 }

@@ -4,6 +4,8 @@
 #include "FPSComponent.h"
 #include "BaseRenderComponent.h"
 #include "RenderCompObserver.h"
+#include "CollisionComponent.h"
+#include <algorithm>
 
 unsigned int dae::Scene::idCounter = 0;
 
@@ -33,7 +35,23 @@ void dae::Scene::Add(const std::shared_ptr<SceneObject>& object)
 		go->AddObServer(m_Observer);
 
 	if (m_IsInitialized)
+	{
 		object->Initialize();
+		object->Load();
+	}
+}
+
+void dae::Scene::Remove(const std::shared_ptr<SceneObject>& object)
+{
+	auto rendercomp = std::static_pointer_cast<GameObject>(object)->GetComponent<BaseRenderComponent>();
+	if (rendercomp)
+		m_RenderComponents.erase(std::remove(m_RenderComponents.begin(), m_RenderComponents.end(), rendercomp));
+
+	auto collisioncomp = std::static_pointer_cast<GameObject>(object)->GetComponent<CollisionComponent>();
+	if (collisioncomp)
+		collisioncomp->Unload();
+
+	mObjects.erase(std::remove(mObjects.begin(), mObjects.end(), object));
 }
 
 void dae::Scene::Update()
@@ -59,11 +77,12 @@ void dae::Scene::Initialize()
 	{
 		gameObject->Initialize();
 
-		//gameobject already notified if a rendercomponent has been added
-		std::shared_ptr<BaseRenderComponent> renderComp = std::dynamic_pointer_cast<GameObject>(gameObject)->GetComponent<BaseRenderComponent>();
-		if (renderComp)
-			m_RenderComponents.push_back(renderComp);
+		////gameobject already notified if a rendercomponent has been added
+		//std::shared_ptr<BaseRenderComponent> renderComp = std::dynamic_pointer_cast<GameObject>(gameObject)->GetComponent<BaseRenderComponent>();
+		//if (renderComp)
+		//	m_RenderComponents.push_back(renderComp);
 	}
+	m_IsInitialized = true;
 }
 
 void dae::Scene::LoadScene()

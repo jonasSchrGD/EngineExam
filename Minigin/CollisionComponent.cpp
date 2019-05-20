@@ -7,7 +7,7 @@ dae::CollisionComponent::CollisionComponent(float width, float height, bool fixe
 	: m_Width(width)
 	, m_Height(height)
 	, m_FixedRotation(fixedRotation)
-	,m_IsStatic(isStatic)
+	, m_IsStatic(isStatic)
 	, m_Idx(0)
 	, m_IsOverlapping(false)
 	, m_IsOverlappingOld(false)
@@ -20,6 +20,9 @@ dae::CollisionComponent::CollisionComponent(float width, float height, bool fixe
 dae::CollisionComponent::~CollisionComponent()
 {
 	m_pColliding = nullptr;
+
+	CollisionHandler::GetInstance().RemoveCollisionComp(m_Idx);
+
 	if (m_pCollision)
 		CollisionHandler::GetInstance().GetWorld().DestroyBody(m_pCollision);
 }
@@ -77,35 +80,38 @@ void dae::CollisionComponent::InvokeCorrespondingFunction()
 	auto gameObject = GetGameObject();
 	auto other = CollisionHandler::GetInstance().GetSharedPtr(m_pColliding->m_Idx);
 
-	if(m_IsTrigger)
+	if (other)
 	{
-		if(m_IsOverlappingOld)
+		if (m_IsTrigger)
 		{
-			if (m_IsOverlapping)
-				gameObject->OnTriggerStay(other);
-			else
+			if (m_IsOverlappingOld)
 			{
-				gameObject->OnTriggerLeave(other);
-				m_pColliding = nullptr;
+				if (m_IsOverlapping)
+					gameObject->OnTriggerStay(other);
+				else
+				{
+					gameObject->OnTriggerLeave(other);
+					m_pColliding = nullptr;
+				}
 			}
+			else if (m_IsOverlapping)
+				gameObject->OnTriggerEnter(other);
 		}
-		else if(m_IsOverlapping)
-			gameObject->OnTriggerEnter(other);
-	}
-	else
-	{
-		if (m_IsOverlappingOld)
+		else
 		{
-			if (m_IsOverlapping)
-				gameObject->OnCollisionStay(other);
-			else
+			if (m_IsOverlappingOld)
 			{
-				gameObject->OnCollisionLeave(other);
-				m_pColliding = nullptr;
+				if (m_IsOverlapping)
+					gameObject->OnCollisionStay(other);
+				else
+				{
+					gameObject->OnCollisionLeave(other);
+					m_pColliding = nullptr;
+				}
 			}
+			else if (m_IsOverlapping)
+				gameObject->OnCollisionEnter(other);
 		}
-		else if (m_IsOverlapping)
-			gameObject->OnCollisionEnter(other);
 	}
 }
 

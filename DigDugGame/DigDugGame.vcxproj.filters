@@ -28,6 +28,12 @@
     <Filter Include="Game\states\PlayerStates">
       <UniqueIdentifier>{2d6d707b-23da-4740-80f7-e39340210523}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\states\ai">
+      <UniqueIdentifier>{d3de4982-905f-453b-8a48-022583a07180}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Level">
+      <UniqueIdentifier>{b9211cab-3310-45a8-8844-e75374984944}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DigDug.h">
@@ -45,9 +51,6 @@
     <ClInclude Include="DigDugLevel.h">
       <Filter>Game\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="DigDugAnimationHandler.h">
-      <Filter>Game\Components</Filter>
-    </ClInclude>
     <ClInclude Include="MoveLeftCommand.h">
       <Filter>Game\Commands</Filter>
     </ClInclude>
@@ -63,9 +66,6 @@
     <ClInclude Include="MoveDownCommand.h">
       <Filter>Game\Commands</Filter>
     </ClInclude>
-    <ClInclude Include="LevelLoader.h">
-      <Filter>Game</Filter>
-    </ClInclude>
     <ClInclude Include="HorizontalMoveState.h">
       <Filter>Game\states\PlayerStates</Filter>
     </ClInclude>
@@ -75,11 +75,35 @@
     <ClInclude Include="VerticalMoveState.h">
       <Filter>Game\states\PlayerStates</Filter>
     </ClInclude>
-    <ClInclude Include="Level.h">
+    <ClInclude Include="TunnelUpdate.h">
+      <Filter>Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="RockBehaviour.h">
+      <Filter>Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Prefabs.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="TunnelUpdate.h">
-      <Filter>Game</Filter>
+    <ClInclude Include="EnemyCollisionHandler.h">
+      <Filter>Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="WanderState.h">
+      <Filter>Game\states\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="IdleCommand.h">
+      <Filter>Game\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Game\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="LevelLoader.h">
+      <Filter>Game\Level</Filter>
+    </ClInclude>
+    <ClInclude Include="DigDugColllision.h">
+      <Filter>Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Spawner.h">
+      <Filter>Game\Level</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -101,9 +125,6 @@
     <ClCompile Include="DigDugLevel.cpp">
       <Filter>Game\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="DigDugAnimationHandler.cpp">
-      <Filter>Game\Components</Filter>
-    </ClCompile>
     <ClCompile Include="MoveLeftCommand.cpp">
       <Filter>Game\Commands</Filter>
     </ClCompile>
@@ -116,9 +137,6 @@
     <ClCompile Include="MoveDownCommand.cpp">
       <Filter>Game\Commands</Filter>
     </ClCompile>
-    <ClCompile Include="LevelLoader.cpp">
-      <Filter>Game</Filter>
-    </ClCompile>
     <ClCompile Include="HorizontalMoveState.cpp">
       <Filter>Game\states\PlayerStates</Filter>
     </ClCompile>
@@ -128,11 +146,29 @@
     <ClCompile Include="VerticalMoveState.cpp">
       <Filter>Game\states\PlayerStates</Filter>
     </ClCompile>
-    <ClCompile Include="Level.cpp">
-      <Filter>Game</Filter>
+    <ClCompile Include="RockBehaviour.cpp">
+      <Filter>Game\Components</Filter>
     </ClCompile>
     <ClCompile Include="TunnelUpdate.cpp">
-      <Filter>GameLoop</Filter>
+      <Filter>Game\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="EnemyCollisionHandler.cpp">
+      <Filter>Game\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="WanderState.cpp">
+      <Filter>Game\states\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="IdleCommand.cpp">
+      <Filter>Game\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Game\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="LevelLoader.cpp">
+      <Filter>Game\Level</Filter>
+    </ClCompile>
+    <ClCompile Include="DigDugColllision.cpp">
+      <Filter>Game\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -9,6 +9,7 @@ namespace dae
 	{
 	public:
 		void Add(const std::shared_ptr<SceneObject>& object);
+		void Remove(const std::shared_ptr<SceneObject>& object);
 
 		void Update();
 		void Render() const;
