@@ -43,8 +43,13 @@ tileInfo:
 	sprite: straightVertical;
 }
 {
-	tile: 34;14:50 5/20/19
+	tile: 34;
 	sprite: straightVertical;
+}
+{
+	tile: 37;
+	sprite: none;
+	spawn: Rock;
 }
 {
 	tile: 43;

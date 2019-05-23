@@ -10,16 +10,19 @@ public:
 	RockBehaviour(std::shared_ptr<Level> level);
 	~RockBehaviour();
 
+	bool IsBreaking() const { return m_Break; }
+
 protected:
 	void Initialize() override;
 	void Update() override;
-	void OnCollisionEnter(std::shared_ptr<dae::CollisionComponent> other) override;
+
 	void OnTriggerEnter(std::shared_ptr<dae::CollisionComponent> other) override;
 
-private:
+	private:
 	std::shared_ptr<dae::SpriteRenderer> m_SpriteRenderer;
 	std::shared_ptr<Level> m_Level;
-	float m_TriggerTime = 2.0f, m_elapsed = 0, m_BreakTime = 1;
+	float2 m_TileBeneathe;
+	float m_TriggerTime = 0.5f, m_elapsed = 0, m_BreakTime = 1;
 	bool m_Falling = false, m_Trigger = false, m_Break = false;
 };
 

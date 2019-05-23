@@ -34,6 +34,7 @@ namespace dae
 		std::string mName{};
 		std::vector<std::shared_ptr<SceneObject>> mObjects{};
 		std::vector<std::shared_ptr<BaseRenderComponent>> m_RenderComponents;
+		std::vector<std::shared_ptr<SceneObject>> m_ObjectsToRemove;
 
 		std::shared_ptr<RenderCompObserver> m_Observer;
 

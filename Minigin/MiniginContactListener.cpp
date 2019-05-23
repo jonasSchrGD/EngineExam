@@ -9,10 +9,10 @@ void dae::MiniginContactListener::BeginContact(b2Contact* contact)
 	CollisionComponent* bodyUserData2 = static_cast<CollisionComponent*>(contact->GetFixtureB()->GetBody()->GetUserData());
 
 	if (bodyUserData)
-		bodyUserData->SetOverlapping(true, bodyUserData2);
+		bodyUserData->CollisionEnter(bodyUserData2);
 
 	if (bodyUserData2)
-		bodyUserData2->SetOverlapping(true, bodyUserData);
+		bodyUserData2->CollisionEnter(bodyUserData);
 }
 
 void dae::MiniginContactListener::EndContact(b2Contact* contact)
@@ -21,8 +21,8 @@ void dae::MiniginContactListener::EndContact(b2Contact* contact)
 	CollisionComponent* bodyUserData2 = static_cast<CollisionComponent*>(contact->GetFixtureB()->GetBody()->GetUserData());
 
 	if (bodyUserData)
-		bodyUserData->SetOverlapping(false, bodyUserData2);
+		bodyUserData->CollisionLeave(bodyUserData2);
 
 	if (bodyUserData2)
-		bodyUserData2->SetOverlapping(false, bodyUserData);
+		bodyUserData2->CollisionLeave(bodyUserData);
 }

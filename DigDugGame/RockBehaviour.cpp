@@ -3,9 +3,12 @@
 #include "GameObject.h"
 #include "TunnelUpdate.h"
 #include "Time.h"
+#include "EnemyCollisionHandler.h"
+#include "DigDugColllision.h"
 
 RockBehaviour::RockBehaviour(std::shared_ptr<Level> level)
-	:m_Level(level)
+	: m_Level(level)
+	, m_TileBeneathe()
 {
 }
 
@@ -16,54 +19,53 @@ RockBehaviour::~RockBehaviour()
 void RockBehaviour::Initialize()
 {
 	m_SpriteRenderer = GetGameObject()->GetComponent<dae::SpriteRenderer>();
+
+	auto pos = GetGameObject()->GetTransform().lock()->GetPosition();
+	m_TileBeneathe = m_Level->GetNextPos({ pos.x, pos.y }, { 0,1 });
 }
 
 void RockBehaviour::Update()
 {
-	//todo: states
 	if (m_Falling)
-		GetGameObject()->GetTransform().lock()->Translate(0, -9.81f * dae::Time::GetInstance().DeltaTime(), 0);
+		GetGameObject()->GetTransform().lock()->Translate(0, 100 * dae::Time::GetInstance().DeltaTime(), 0);
 	else if (m_Trigger)
 	{
-		//todo: spriterederer => shakeanimation
+		GetGameObject()->GetComponent<dae::SpriteRenderer>()->SetAnimation(int(RockAnimation::Shake));
 		m_elapsed += dae::Time::GetInstance().DeltaTime();
 		if (m_elapsed > m_TriggerTime)
 		{
 			m_Falling = true;
 			m_elapsed = 0;
+			m_SpriteRenderer->SetAnimation(int(RockAnimation::Idle));
+			m_Trigger = false;
 		}
 	}
 	else if (m_Break)
 	{
-		//todo: spriterederer => breakanimation
+		GetGameObject()->GetComponent<dae::SpriteRenderer>()->SetAnimation(int(RockAnimation::Break),false);
 		m_elapsed += dae::Time::GetInstance().DeltaTime();
 		if (m_elapsed > m_TriggerTime)
 		{
 			GetGameObject()->GetScene()->Remove(GetGameObject());
 		}
-		else
-		{
-			auto startpos = GetGameObject()->GetTransform().lock()->GetPosition();
-			float2 pos{ startpos.x, startpos.y - m_Level->GetTileSize().y };
-			if (m_Level->IsTunnel(pos))
-				m_Trigger = true;
-		}
 	}
-}
-
-void RockBehaviour::OnCollisionEnter(std::shared_ptr<dae::CollisionComponent> other)
-{
-	m_Falling = false;
-	m_Break = true;
+	else
+	{
+		if (m_Level->IsTunnel(m_TileBeneathe))
+			m_Trigger = true;
+	}
 }
 
 void RockBehaviour::OnTriggerEnter(std::shared_ptr<dae::CollisionComponent> other)
 {
 	auto tunnel = other->GetGameObject()->GetComponent<dae::SpriteRenderer>();
 
-	if (tunnel->GetAnimation() == int(TunnelSprite::none))
-		m_Falling = false;
-
-	//todo: enemy check
+	if (other->GetGameObject()->GetComponent<EnemyCollisionHandler>() || other->GetGameObject()->GetComponent<DigDugColllision>() || tunnel->GetAnimation() == int(TunnelSprite::none))
+	{
+		if (m_Falling)
+		{
+			m_Break = true;
+			m_Falling = false;
+		}
+	}
 }
-

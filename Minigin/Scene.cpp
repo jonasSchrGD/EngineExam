@@ -43,23 +43,26 @@ void dae::Scene::Add(const std::shared_ptr<SceneObject>& object)
 
 void dae::Scene::Remove(const std::shared_ptr<SceneObject>& object)
 {
-	auto rendercomp = std::static_pointer_cast<GameObject>(object)->GetComponent<BaseRenderComponent>();
-	if (rendercomp)
-		m_RenderComponents.erase(std::remove(m_RenderComponents.begin(), m_RenderComponents.end(), rendercomp));
-
-	auto collisioncomp = std::static_pointer_cast<GameObject>(object)->GetComponent<CollisionComponent>();
-	if (collisioncomp)
-		collisioncomp->Unload();
-
-	mObjects.erase(std::remove(mObjects.begin(), mObjects.end(), object));
+	m_ObjectsToRemove.push_back(object);
 }
 
 void dae::Scene::Update()
 {
 	for(auto gameObject : mObjects)
 	{
-		gameObject->Update();
+		//if (std::find(m_ObjectsToRemove.begin(), m_ObjectsToRemove.end(), gameObject) == m_ObjectsToRemove.end())
+			gameObject->Update();
 	}
+
+	for (auto gameObject : m_ObjectsToRemove)
+	{
+		auto rendercomp = std::static_pointer_cast<GameObject>(gameObject)->GetComponent<BaseRenderComponent>();
+		if (rendercomp)
+			m_RenderComponents.erase(std::remove(m_RenderComponents.begin(), m_RenderComponents.end(), rendercomp));
+
+		mObjects.erase(std::remove(mObjects.begin(), mObjects.end(), gameObject));
+	}
+	m_ObjectsToRemove.clear();
 }
 
 void dae::Scene::Render() const

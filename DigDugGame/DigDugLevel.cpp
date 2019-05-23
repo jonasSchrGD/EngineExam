@@ -7,6 +7,7 @@
 #include "CollisionComponent.h"
 #include "Prefabs.h"
 #include "Spawner.h"
+#include "RockBehaviour.h"
 
 
 DigDugLevel::DigDugLevel(const std::string& name, bool singlePlayer, bool coop)
@@ -47,20 +48,41 @@ void DigDugLevel::SetupScene()
 
 void DigDugLevel::SpawnCharacters()
 {
-	auto pookaSpawns = m_level->GetPookaSpawns(!m_Coop);
-	for (float2 spawn : pookaSpawns)
-	{
-		std::shared_ptr<dae::GameObject> pooka(prefabs::GetPrefab(m_characterSize, m_level, false));
-		Add(pooka);
-		pooka->GetTransform().lock()->SetPosition(spawn.x, spawn.y, 0);
-	}
+	//auto pookaSpawns = m_level->GetPookaSpawns();
+	//for (float2 spawn : pookaSpawns)
+	//{
+	//	std::shared_ptr<dae::GameObject> pooka(prefabs::GetPrefab(m_characterSize, m_level, false));
+	//	Add(pooka);
+	//	pooka->GetTransform().lock()->SetPosition(spawn.x, spawn.y, 0);
+	//}
 
-	auto fygarSpawns = m_level->GetFygarSpawns(!m_Coop);
-	for (float2 spawn : fygarSpawns)
+	//auto fygarSpawns = m_level->GetFygarSpawns(!m_Coop);
+	//for (float2 spawn : fygarSpawns)
+	//{
+	//	std::shared_ptr<dae::GameObject> fygar(prefabs::GetPrefab(m_characterSize, m_level, false, -1, false));
+	//	Add(fygar);
+	//	fygar->GetTransform().lock()->SetPosition(spawn.x, spawn.y, 0);
+	//}
+
+	auto rockSpawns = m_level->GetRockSpawns();
+	for (float2 spawn : rockSpawns)
 	{
-		std::shared_ptr<dae::GameObject> fygar(prefabs::GetPrefab(m_characterSize, m_level, false, -1, false));
-		Add(fygar);
-		fygar->GetTransform().lock()->SetPosition(spawn.x, spawn.y, 0);
+		std::shared_ptr<dae::GameObject> rock = std::make_shared<dae::GameObject>();
+
+		auto spriterenderer = std::make_shared<dae::SpriteRenderer>("Rock.png", 0.2f, 5, 1, 3, float2{30,30});
+		spriterenderer->SetFramesPerAnim(std::vector<int>{2, 1, 2});
+		spriterenderer->SetAnimation((int)RockAnimation::Idle, false);
+		rock->AddComponent(spriterenderer);
+	
+		auto behavior = std::make_shared<RockBehaviour>(m_level);
+		rock->AddComponent(behavior);
+
+		auto collision = std::make_shared<dae::CollisionComponent>(30.f ,30.f, true);
+		collision->SetTrigger(true);
+		rock->AddComponent(collision);
+
+		Add(rock);
+		rock->GetTransform().lock()->SetPosition(spawn.x, spawn.y, 0);
 	}
 
 	if(m_SinglePlayer)

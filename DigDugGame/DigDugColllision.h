@@ -13,8 +13,9 @@ public:
 	bool GetDigging() const { return m_IsDigging; }
 
 protected:
-	void OnTriggerEnter(std::shared_ptr<dae::CollisionComponent> other) override;
 	void Update() override;
+
+	void OnTriggerEnter(std::shared_ptr<dae::CollisionComponent> other) override;
 
 private:
 	DigDugSpawner* m_Spawner;

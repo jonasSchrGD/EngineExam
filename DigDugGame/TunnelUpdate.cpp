@@ -96,7 +96,7 @@ void TunnelUpdate::UpdateDown(std::shared_ptr<dae::GameObject> other, const Tunn
 			animation = TunnelSprite::cornerRD;
 		break;
 	case TunnelSprite::none:
-		if (distanceToCenter < 5)
+		if (distanceToCenter < 10)
 			animation = TunnelSprite::down;
 		break;
 	default:
@@ -150,7 +150,7 @@ void TunnelUpdate::UpdateUp(std::shared_ptr<dae::GameObject> other, const Tunnel
 			animation = TunnelSprite::straightVertical;
 		break;
 	case TunnelSprite::none:
-		if (distanceToCenter < 5)
+		if (distanceToCenter < 10)
 			animation = TunnelSprite::up;
 		break;
 	default:
@@ -204,7 +204,7 @@ void TunnelUpdate::UpdateLeft(std::shared_ptr<dae::GameObject> other, const Tunn
 			animation = TunnelSprite::cornerLD;
 		break;
 	case TunnelSprite::none: 
-		if (distanceToCenter < 5)
+		if (distanceToCenter < 10)
 			animation = TunnelSprite::left;
 		break;
 	default:
@@ -258,7 +258,7 @@ void TunnelUpdate::UpdateRight(std::shared_ptr<dae::GameObject> other, const Tun
 			animation = TunnelSprite::cornerRD;
 		break;
 	case TunnelSprite::none: 
-		if (distanceToCenter < 5)
+		if (distanceToCenter < 10)
 			animation = TunnelSprite::right;
 		break;
 	default:

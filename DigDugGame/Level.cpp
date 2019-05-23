@@ -205,10 +205,10 @@ float2 Level::GetVersusSpawn(bool isPooka)
 	return GetDigDugSpawn();
 }
 
-std::vector<float2> Level::GetPookaSpawns(bool Versus)
+std::vector<float2> Level::GetPookaSpawns()
 {
 	std::vector<float2> spawns{};
-	for (int i = Versus; i < m_Spawns.PookaSpawns.size(); ++i)
+	for (int i = 0; i < m_Spawns.PookaSpawns.size(); ++i)
 	{
 		float2 spawnPos{};
 
@@ -232,6 +232,21 @@ std::vector<float2> Level::GetFygarSpawns(bool Versus)
 
 		spawnPos.x = (m_Spawns.FygarSpawns[i] % m_RowCol.y) * m_TileSize.x + m_Offset.x;
 		spawnPos.y = (m_Spawns.FygarSpawns[i] / m_RowCol.y) * m_TileSize.y + m_Offset.y;
+
+		spawns.push_back(spawnPos);
+	}
+	return spawns;
+}
+
+std::vector<float2> Level::GetRockSpawns()
+{
+	std::vector<float2> spawns{};
+	for (int i = 0; i < m_Spawns.RockSpawns.size(); ++i)
+	{
+		float2 spawnPos{};
+
+		spawnPos.x = (m_Spawns.RockSpawns[i] % m_RowCol.y) * m_TileSize.x + m_Offset.x;
+		spawnPos.y = (m_Spawns.RockSpawns[i] / m_RowCol.y) * m_TileSize.y + m_Offset.y;
 
 		spawnPos.x += (m_TileSize.x - m_CharacterSize.x) / 2;
 		spawnPos.y += (m_TileSize.y - m_CharacterSize.y) / 2;

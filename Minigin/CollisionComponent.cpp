@@ -9,9 +9,6 @@ dae::CollisionComponent::CollisionComponent(float width, float height, bool fixe
 	, m_FixedRotation(fixedRotation)
 	, m_IsStatic(isStatic)
 	, m_Idx(0)
-	, m_IsOverlapping(false)
-	, m_IsOverlappingOld(false)
-	, m_pColliding(nullptr)
 	, m_pCollision(nullptr)
 	, m_IsTrigger(false)
 {
@@ -19,8 +16,6 @@ dae::CollisionComponent::CollisionComponent(float width, float height, bool fixe
 
 dae::CollisionComponent::~CollisionComponent()
 {
-	m_pColliding = nullptr;
-
 	CollisionHandler::GetInstance().RemoveCollisionComp(m_Idx);
 
 	if (m_pCollision)
@@ -69,48 +64,43 @@ void dae::CollisionComponent::Update()
 	if(m_pCollision && !m_IsStatic)
 		m_pCollision->SetTransform(b2Vec2(pos.x / 30, pos.y / 30), 0);
 
-	if (m_IsOverlapping || m_IsOverlappingOld)
-		InvokeCorrespondingFunction();
+	InvokeCorrespondingFunction();
 
-	m_IsOverlappingOld = m_IsOverlapping;
+	m_pCollisionEnter.clear();
+	m_pCollisionLeave.clear();
 }
 
 void dae::CollisionComponent::InvokeCorrespondingFunction()
 {
 	auto gameObject = GetGameObject();
-	auto other = CollisionHandler::GetInstance().GetSharedPtr(m_pColliding->m_Idx);
+	auto& collisionhandler = CollisionHandler::GetInstance();
 
-	if (other)
+	if (m_IsTrigger)
 	{
-		if (m_IsTrigger)
+		for (auto collisions : m_pCollisionStay)
+			gameObject->OnTriggerStay(collisionhandler.GetSharedPtr(collisions->m_Idx));
+
+		for (auto collisions : m_pCollisionLeave)
+			gameObject->OnTriggerLeave(collisionhandler.GetSharedPtr(collisions->m_Idx));
+	
+		for (auto collisions : m_pCollisionEnter)
 		{
-			if (m_IsOverlappingOld)
-			{
-				if (m_IsOverlapping)
-					gameObject->OnTriggerStay(other);
-				else
-				{
-					gameObject->OnTriggerLeave(other);
-					m_pColliding = nullptr;
-				}
-			}
-			else if (m_IsOverlapping)
-				gameObject->OnTriggerEnter(other);
+			gameObject->OnTriggerEnter(collisionhandler.GetSharedPtr(collisions->m_Idx));
+			m_pCollisionStay.push_back(collisions);
 		}
-		else
+	}
+	else
+	{
+		for (auto collisions : m_pCollisionStay)
+			gameObject->OnCollisionStay(collisionhandler.GetSharedPtr(collisions->m_Idx));
+
+		for (auto collisions : m_pCollisionLeave)
+			gameObject->OnCollisionLeave(collisionhandler.GetSharedPtr(collisions->m_Idx));
+
+		for (auto collisions : m_pCollisionEnter)
 		{
-			if (m_IsOverlappingOld)
-			{
-				if (m_IsOverlapping)
-					gameObject->OnCollisionStay(other);
-				else
-				{
-					gameObject->OnCollisionLeave(other);
-					m_pColliding = nullptr;
-				}
-			}
-			else if (m_IsOverlapping)
-				gameObject->OnCollisionEnter(other);
+			gameObject->OnCollisionEnter(collisionhandler.GetSharedPtr(collisions->m_Idx));
+			m_pCollisionStay.push_back(collisions);
 		}
 	}
 }

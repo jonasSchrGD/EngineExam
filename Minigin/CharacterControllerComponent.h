@@ -10,7 +10,9 @@ namespace dae
 		CharacterControllerComponent(std::shared_ptr<BaseState> startState, int playerNr);
 		~CharacterControllerComponent() override {  if(m_pCurrentCommand != nullptr)delete m_pCurrentCommand; }
 
-		int GetPlayerNr() { return m_PlayerNr; }
+		int GetPlayerNr() const { return m_PlayerNr; }
+
+		void SetState(std::shared_ptr<BaseState> state) { m_CurrentState = state; }
 
 	protected:
 		void Update() override;

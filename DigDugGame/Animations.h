@@ -35,3 +35,10 @@ enum class TunnelSprite
 	all,
 	none
 };
+
+enum class RockAnimation
+{
+	Shake,
+	Idle,
+	Break
+};

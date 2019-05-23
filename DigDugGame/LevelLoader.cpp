@@ -5,6 +5,7 @@
 #include "SpriteRenderer.h"
 #include "Animations.h"
 #include "TunnelUpdate.h"
+#include "RockBehaviour.h"
 
 LevelLoader::LevelLoader()
 	: m_Spawns()
@@ -311,6 +312,10 @@ void LevelLoader::ReadTiles(std::ifstream& input)
 
 				if (spawnType == "Fygar")
 					m_Spawns.FygarSpawns.push_back(tileId);
+
+				if (spawnType == "Rock")
+					m_Spawns.RockSpawns.push_back(tileId);
+
 
 				std::getline(input, line);
 			}

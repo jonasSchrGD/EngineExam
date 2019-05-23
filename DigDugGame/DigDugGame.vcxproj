@@ -176,6 +176,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="Animations.h" />
     <ClInclude Include="DigDug.h" />
     <ClInclude Include="DigDugColllision.h" />
+    <ClInclude Include="DigDugDeath.h" />
     <ClInclude Include="DigDugLevel.h" />
     <ClInclude Include="EnemyCollisionHandler.h" />
     <ClInclude Include="HorizontalMoveState.h" />
@@ -200,6 +201,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
   <ItemGroup>
     <ClCompile Include="DigDug.cpp" />
     <ClCompile Include="DigDugColllision.cpp" />
+    <ClCompile Include="DigDugDeath.cpp" />
     <ClCompile Include="DigDugLevel.cpp" />
     <ClCompile Include="EnemyCollisionHandler.cpp" />
     <ClCompile Include="HorizontalMoveState.cpp" />

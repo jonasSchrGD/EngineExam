@@ -13,6 +13,7 @@ public:
 		int DigDugMultiPlayer2;
 		std::vector<int> PookaSpawns;
 		std::vector<int> FygarSpawns;
+		std::vector<int> RockSpawns;
 	};
 
 	Level();
@@ -40,8 +41,9 @@ public:
 	float2 GetDigDugSpawn();
 	float2 GetCoopSpawn(bool FirstPlayer = true);
 	float2 GetVersusSpawn(bool isPooka = false);
-	std::vector<float2> GetPookaSpawns(bool Versus = false);
+	std::vector<float2> GetPookaSpawns();
 	std::vector<float2> GetFygarSpawns(bool Versus = false);
+	std::vector<float2> GetRockSpawns();
 
 private:
 	std::vector<std::shared_ptr<dae::GameObject>> m_LevelObjects;

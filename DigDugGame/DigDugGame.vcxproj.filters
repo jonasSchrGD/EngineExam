@@ -105,6 +105,9 @@
     <ClInclude Include="Spawner.h">
       <Filter>Game\Level</Filter>
     </ClInclude>
+    <ClInclude Include="DigDugDeath.h">
+      <Filter>Game\states\PlayerStates</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -169,6 +172,9 @@
     </ClCompile>
     <ClCompile Include="DigDugColllision.cpp">
       <Filter>Game\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="DigDugDeath.cpp">
+      <Filter>Game\states\PlayerStates</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

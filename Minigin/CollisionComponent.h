@@ -24,10 +24,14 @@ namespace dae
 				m_pCollision->GetFixtureList()->SetSensor(isTrigger);
 		}
 
-		void SetOverlapping(bool isoverlapping, CollisionComponent* other)
+		void CollisionEnter(CollisionComponent* other)
 		{
-			m_IsOverlapping = isoverlapping;
-			m_pColliding = other;
+			m_pCollisionEnter.push_back(other);
+		}
+		void CollisionLeave(CollisionComponent* other)
+		{
+			m_pCollisionStay.erase(std::remove(m_pCollisionStay.begin(), m_pCollisionStay.end(), other));
+			m_pCollisionLeave.push_back(other);
 		}
 
 	protected:
@@ -36,12 +40,15 @@ namespace dae
 	private:
 		float m_Width, m_Height;
 		int m_Idx;
-		bool m_IsOverlapping, m_IsOverlappingOld, m_IsTrigger, m_FixedRotation, m_IsStatic;
+		bool m_IsTrigger, m_FixedRotation, m_IsStatic;
 
 		b2Body* m_pCollision;
-		CollisionComponent* m_pColliding;
 
 		void InvokeCorrespondingFunction();
+
+		std::vector<CollisionComponent*> m_pCollisionEnter;
+		std::vector<CollisionComponent*> m_pCollisionStay;
+		std::vector<CollisionComponent*> m_pCollisionLeave;
 
 	protected:
 		void Initialize() override;
