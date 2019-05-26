@@ -1,6 +1,7 @@
 #pragma once
 #include "BaseComponent.h"
 #include "Box2D/Box2D.h"
+#include "CollisionHandler.h"
 
 namespace dae
 {
@@ -30,9 +31,16 @@ namespace dae
 		}
 		void CollisionLeave(CollisionComponent* other)
 		{
-			m_pCollisionStay.erase(std::remove(m_pCollisionStay.begin(), m_pCollisionStay.end(), other));
+			if (!m_pCollisionStay.empty())
+			{
+				auto col = std::remove(m_pCollisionStay.begin(), m_pCollisionStay.end(), other);
+				if (col != m_pCollisionStay.end())
+					m_pCollisionStay.erase(col);
+			}
 			m_pCollisionLeave.push_back(other);
 		}
+
+		std::vector<std::shared_ptr<CollisionComponent>> GetColliders();
 
 	protected:
 		void Update() override;

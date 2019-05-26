@@ -10,7 +10,7 @@ public:
 	IdleState(std::shared_ptr<Level> level);
 	~IdleState() override = default;
 
-	std::shared_ptr<BaseState> Update(std::shared_ptr<dae::GameObject> gameObject, dae::BaseCommand*& commandOutput) override;
+	std::shared_ptr<BaseState> Update(std::shared_ptr<dae::GameObject> gameObject, dae::BaseCommand*& commandOutput, int controller) override;
 
 private:
 	std::shared_ptr<Level> m_Level;

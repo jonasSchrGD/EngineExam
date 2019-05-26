@@ -21,9 +21,17 @@ public:
 
 	void Initialize(float2 characterSize, float centerRange);
 
-	void AddGameObject(std::shared_ptr<dae::GameObject> object);
+	void AddTunnel(std::pair<int, int> tunnel);
 
 	void AddToScene(std::shared_ptr<dae::Scene> scene);
+	void RemoveFromScene(std::shared_ptr<dae::Scene> scene)
+	{
+		for (auto object : m_LevelObjects)
+		{
+			scene->Remove(object);
+		}
+		m_LevelObjects.clear();
+	}
 
 	void SetOffset(float x, float y) { m_Offset = { x, y }; }
 	void SetTileSize(float width, float height) { m_TileSize = {width, height}; }
@@ -31,8 +39,10 @@ public:
 	void SetRowCol(int rows, int cols) { m_RowCol = { rows, cols }; }
 
 	bool IsTunnel(float2 pos);
+	std::shared_ptr<dae::GameObject> GetCharacterInTile(float2 pos);
 	bool Center(std::shared_ptr<dae::GameObject> object, bool CenterX);
 	bool IsInGrid(float2 pos);
+	int GetLayer(float yPos);
 
 	float2 GetNextPos(float2 currentPos, int2 direction);
 	std::vector<int2> GetPossibleDirections(float2 currentPos);
@@ -47,6 +57,7 @@ public:
 
 private:
 	std::vector<std::shared_ptr<dae::GameObject>> m_LevelObjects;
+	std::vector<std::pair<int, int>> m_Tunnels;
 	Spawns m_Spawns;
 	int2 m_RowCol;
 	float2 m_Offset;

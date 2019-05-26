@@ -174,6 +174,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Animations.h" />
+    <ClInclude Include="AttackBehaviour.h" />
     <ClInclude Include="DigDug.h" />
     <ClInclude Include="DigDugColllision.h" />
     <ClInclude Include="DigDugDeath.h" />
@@ -182,6 +183,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="HorizontalMoveState.h" />
     <ClInclude Include="IdleCommand.h" />
     <ClInclude Include="IdleState.h" />
+    <ClInclude Include="InflatedState.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="MenuInputHandler.h" />
@@ -191,7 +193,11 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="MoveUpCommand.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Prefabs.h" />
+    <ClInclude Include="Projectile.h" />
     <ClInclude Include="RockBehaviour.h" />
+    <ClInclude Include="ScoreObserver.h" />
+    <ClInclude Include="ScoreSystem.h" />
+    <ClInclude Include="SelectedLevel.h" />
     <ClInclude Include="Spawner.h" />
     <ClInclude Include="StartScreen.h" />
     <ClInclude Include="TunnelUpdate.h" />
@@ -199,6 +205,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="WanderState.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AttackBehaviour.cpp" />
     <ClCompile Include="DigDug.cpp" />
     <ClCompile Include="DigDugColllision.cpp" />
     <ClCompile Include="DigDugDeath.cpp" />
@@ -207,6 +214,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClCompile Include="HorizontalMoveState.cpp" />
     <ClCompile Include="IdleCommand.cpp" />
     <ClCompile Include="IdleState.cpp" />
+    <ClCompile Include="InflatedState.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -221,7 +229,10 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="RockBehaviour.cpp" />
+    <ClCompile Include="ScoreObserver.cpp" />
+    <ClCompile Include="ScoreSystem.cpp" />
     <ClCompile Include="StartScreen.cpp" />
     <ClCompile Include="TunnelUpdate.cpp" />
     <ClCompile Include="VerticalMoveState.cpp" />

@@ -39,4 +39,6 @@ void MoveRightCommand::Execute(std::shared_ptr<dae::GameObject> gameObject)
 				m_TunnelTime += dae::Time::GetInstance().DeltaTime();
 			}
 		}
+	else
+		spriterenderer->SetAnimation((int)PookaAnimation::right);
 }

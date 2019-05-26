@@ -22,7 +22,8 @@ namespace dae
 
 	private:
 		std::vector<std::shared_ptr<Scene>> m_Scenes;
-		int m_ActiveScene = 0;
+		int m_ActiveScene = 0, m_newScene = 0;
+		bool m_IsInitialized = false;
 	};
 
 }

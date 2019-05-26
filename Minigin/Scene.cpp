@@ -4,7 +4,6 @@
 #include "FPSComponent.h"
 #include "BaseRenderComponent.h"
 #include "RenderCompObserver.h"
-#include "CollisionComponent.h"
 #include <algorithm>
 
 unsigned int dae::Scene::idCounter = 0;
@@ -27,7 +26,6 @@ void dae::Scene::AddFpsComponent()
 
 void dae::Scene::Add(const std::shared_ptr<SceneObject>& object)
 {
-	mObjects.push_back(object);
 	object->SetScene(shared_from_this());
 
 	auto go = std::dynamic_pointer_cast<GameObject>(object);
@@ -36,9 +34,12 @@ void dae::Scene::Add(const std::shared_ptr<SceneObject>& object)
 
 	if (m_IsInitialized)
 	{
+		m_ObjectsToAdd.push_back(object);
 		object->Initialize();
 		object->Load();
 	}
+	else
+		mObjects.push_back(object);
 }
 
 void dae::Scene::Remove(const std::shared_ptr<SceneObject>& object)
@@ -48,21 +49,18 @@ void dae::Scene::Remove(const std::shared_ptr<SceneObject>& object)
 
 void dae::Scene::Update()
 {
+	for (auto gameObject : m_ObjectsToAdd)
+	{
+		mObjects.push_back(gameObject);
+	}
+	m_ObjectsToAdd.clear();
+
 	for(auto gameObject : mObjects)
 	{
-		//if (std::find(m_ObjectsToRemove.begin(), m_ObjectsToRemove.end(), gameObject) == m_ObjectsToRemove.end())
-			gameObject->Update();
+		gameObject->Update();
 	}
 
-	for (auto gameObject : m_ObjectsToRemove)
-	{
-		auto rendercomp = std::static_pointer_cast<GameObject>(gameObject)->GetComponent<BaseRenderComponent>();
-		if (rendercomp)
-			m_RenderComponents.erase(std::remove(m_RenderComponents.begin(), m_RenderComponents.end(), rendercomp));
-
-		mObjects.erase(std::remove(mObjects.begin(), mObjects.end(), gameObject));
-	}
-	m_ObjectsToRemove.clear();
+	DoRemove();
 }
 
 void dae::Scene::Render() const
@@ -75,17 +73,16 @@ void dae::Scene::Render() const
 
 void dae::Scene::Initialize()
 {
-	AddFpsComponent();
-	for (auto gameObject : mObjects)
+	if (!m_IsInitialized)
 	{
-		gameObject->Initialize();
+		AddFpsComponent();
+		m_IsInitialized = true;
 
-		////gameobject already notified if a rendercomponent has been added
-		//std::shared_ptr<BaseRenderComponent> renderComp = std::dynamic_pointer_cast<GameObject>(gameObject)->GetComponent<BaseRenderComponent>();
-		//if (renderComp)
-		//	m_RenderComponents.push_back(renderComp);
+		for (auto gameObject : mObjects)
+		{
+			gameObject->Initialize();
+		}
 	}
-	m_IsInitialized = true;
 }
 
 void dae::Scene::LoadScene()
@@ -102,4 +99,21 @@ void dae::Scene::UnloadScene()
 	{
 		object->Unload();
 	}
+}
+
+void dae::Scene::DoRemove()
+{
+	for (auto gameObject : m_ObjectsToRemove)
+	{
+		auto rendercomp = std::static_pointer_cast<GameObject>(gameObject)->GetComponent<BaseRenderComponent>();
+
+		auto obj = std::remove(mObjects.begin(), mObjects.end(), gameObject);
+		if (obj != mObjects.end())
+			mObjects.erase(obj);
+
+		auto rend = std::remove(m_RenderComponents.begin(), m_RenderComponents.end(), rendercomp);
+		if (rend != m_RenderComponents.end())
+			m_RenderComponents.erase(rend);
+	}
+	m_ObjectsToRemove.clear();
 }

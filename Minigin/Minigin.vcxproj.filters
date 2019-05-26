@@ -110,9 +110,6 @@
     <ClInclude Include="SpriteRenderer.h">
       <Filter>Framework Files\GameObject\Components</Filter>
     </ClInclude>
-    <ClInclude Include="BoundingBox.h">
-      <Filter>Framework Files\Collision</Filter>
-    </ClInclude>
     <ClInclude Include="Minigin.h">
       <Filter>Framework Files\GameLoop</Filter>
     </ClInclude>
@@ -164,6 +161,7 @@
     <ClInclude Include="TextureLoader.h">
       <Filter>Framework Files\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="LifeTime.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MiniginPCH.cpp">
@@ -217,9 +215,6 @@
     <ClCompile Include="SpriteRenderer.cpp">
       <Filter>Framework Files\GameObject\Components</Filter>
     </ClCompile>
-    <ClCompile Include="BoundingBox.cpp">
-      <Filter>Framework Files\Collision</Filter>
-    </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Framework Files\GameLoop</Filter>
     </ClCompile>
@@ -255,6 +250,9 @@
     </ClCompile>
     <ClCompile Include="ContentManager.cpp">
       <Filter>Framework Files\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="LifeTime.cpp">
+      <Filter>Framework Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

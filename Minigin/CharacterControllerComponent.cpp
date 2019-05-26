@@ -14,7 +14,7 @@ void dae::CharacterControllerComponent::Update()
 	auto gameobject = GetGameObject();
 	BaseCommand* command{};
 
-	auto newstate = m_CurrentState->Update(gameobject, command);
+	auto newstate = m_CurrentState->Update(gameobject, command, m_PlayerNr);
 	if (newstate)
 		m_CurrentState = newstate;
 

@@ -10,34 +10,34 @@ IdleState::IdleState(std::shared_ptr<Level> level)
 {
 }
 
-std::shared_ptr<dae::BaseState> IdleState::Update(std::shared_ptr<dae::GameObject> gameObject, dae::BaseCommand*& commandOutput)
+std::shared_ptr<dae::BaseState> IdleState::Update(std::shared_ptr<dae::GameObject> gameObject, dae::BaseCommand*& commandOutput, int controller)
 {
 	std::shared_ptr<BaseState> returnState{};
 
 	commandOutput = new IdleCommand();
 
-	if (dae::InputManager::GetInstance().IsDown(m_Right) || dae::InputManager::GetInstance().GetAxis(dae::ControllerAxis::JoystickLX, 0) > 0.75f)
+	if (controller == 0 && dae::InputManager::GetInstance().IsDown(m_Right) || dae::InputManager::GetInstance().GetAxis(dae::ControllerAxis::JoystickLX, controller) > 0.75f)
 	{
 		if (m_Level->Center(gameObject, false))
 		{
 			returnState = std::make_shared<HorizontalMoveState>(m_Level);
 		}
 	}
-	else if (dae::InputManager::GetInstance().IsDown(m_Left) || dae::InputManager::GetInstance().GetAxis(dae::ControllerAxis::JoystickLX, 0) < -0.75f)
+	else if (controller == 0 && dae::InputManager::GetInstance().IsDown(m_Left) || dae::InputManager::GetInstance().GetAxis(dae::ControllerAxis::JoystickLX, controller) < -0.75f)
 	{
 		if (m_Level->Center(gameObject, false))
 		{
 			returnState = std::make_shared<HorizontalMoveState>(m_Level);
 		}
 	}
-	else if (dae::InputManager::GetInstance().IsDown(m_Up) || dae::InputManager::GetInstance().GetAxis(dae::ControllerAxis::JoystickLY, 0) > 0.75f)
+	else if (controller == 0 && dae::InputManager::GetInstance().IsDown(m_Up) || dae::InputManager::GetInstance().GetAxis(dae::ControllerAxis::JoystickLY, controller) > 0.75f)
 	{
 		if (m_Level->Center(gameObject, true))
 		{
 			returnState = std::make_shared<VerticalMoveState>(m_Level);
 		}
 	}
-	else if (dae::InputManager::GetInstance().IsDown(m_Down) || dae::InputManager::GetInstance().GetAxis(dae::ControllerAxis::JoystickLY, 0) < -0.75f)
+	else if (controller == 0 && dae::InputManager::GetInstance().IsDown(m_Down) || dae::InputManager::GetInstance().GetAxis(dae::ControllerAxis::JoystickLY, controller) < -0.75f)
 	{
 		if (m_Level->Center(gameObject, true))
 		{

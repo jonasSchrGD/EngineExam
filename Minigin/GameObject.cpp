@@ -5,7 +5,7 @@
 #include <algorithm>
 
 dae::GameObject::GameObject()
-	: m_pTranform(std::make_unique<TransformComponent>())
+	: m_pTranform(std::make_shared<TransformComponent>())
 	, m_IsInitialized(false)
 {
 }
@@ -121,9 +121,9 @@ void dae::GameObject::AddComponent(std::shared_ptr<BaseComponent> component)
 	m_pComponents.push_back(component);
 	component->m_GameObject = weak_from_this();
 
-	//auto raw = component.get();
-	//if (dynamic_cast<BaseRenderComponent*>(raw))
-	//	m_Subject.Notify(shared_from_this());
+	auto raw = component.get();
+	if (dynamic_cast<BaseRenderComponent*>(raw))
+		m_Subject.Notify(shared_from_this());
 
 	if (m_IsInitialized)
 	{

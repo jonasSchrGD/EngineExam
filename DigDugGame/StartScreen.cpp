@@ -55,7 +55,15 @@ void StartScreen::SetupScene()
 
 	std::shared_ptr<dae::GameObject> inputHandler{ std::make_shared<dae::GameObject>() };
 	SDL_Color unselected{255,0,0, 255}, selected{255,255,0, 255};
-	auto inputHandling = std::make_shared<MenuInputHandler>(buttons, commands, unselected, selected);
+	auto inputHandling = std::make_shared<MenuInputHandler>(buttons, commands, unselected, selected, 2);
 	inputHandler->AddComponent(inputHandling);
 	Add(inputHandler);
+
+	font = dae::ContentManager::GetInstance().LoadFont("Lingua.otf", 18);
+	std::shared_ptr<dae::GameObject> images{ std::make_shared<dae::GameObject>() };
+	images->SetPosition(10, 670);
+	comp = std::make_shared<dae::TextRenderComponent>("all images are from other students", font);
+	images->AddComponent(comp);
+	Add(images);
+
 }

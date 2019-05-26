@@ -1,0 +1,129 @@
+mapInfo:
+{
+	rows: 14;
+	cols: 14;
+	width: 40;
+	height: 40;
+	offsetX: 0;
+	offsetY: 120;
+}
+
+tileInfo:
+{
+	tile: 6;
+	sprite: straightVertical;
+}
+{
+	tile: 15;
+	sprite: down;
+	spawn: Pooka;
+}
+{
+	tile: 20;
+	sprite: straightVertical;
+}
+{
+	tile: 23;
+	sprite: right;
+}
+{
+	tile: 24;
+	sprite: straightHorizontal;
+}
+{
+	tile: 25;
+	sprite: straightHorizontal;
+}
+{
+	tile: 26;
+	sprite: left;
+}
+{
+	tile: 29;
+	sprite: straightVertical;
+}
+{
+	tile: 34;
+	sprite: straightVertical;
+}
+{
+	tile: 39;
+	sprite: none;
+	spawn: Rock;
+}
+{
+	tile: 43;
+	sprite: straightVertical;
+}
+{
+	tile: 48;
+	sprite: straightVertical;
+}
+{
+	tile: 57;
+	sprite: straightVertical;
+}
+{
+	tile: 62;
+	sprite: straightVertical;
+}
+{
+	tile: 71;
+	sprite: up;
+	spawn: Fygar;
+}
+{
+	tile: 76;
+	sprite: straightVertical;
+}
+{
+	tile: 89;
+	sprite: right;
+	spawn: DigDugM1;
+}
+{
+	tile: 90;
+	sprite: tUp;
+	spawn: DigDugS;
+}
+{
+	tile: 91;
+	sprite: left;
+	spawn: DigDugM2;
+}
+{
+	tile: 121;
+	sprite: down;
+}
+{
+	tile: 128;
+	sprite: right;
+}
+{
+	tile: 129;
+	sprite: straightHorizontal;
+}
+{
+	tile: 130;
+	sprite: straightHorizontal;
+}
+{
+	tile: 131;
+	sprite: left;
+}
+{
+	tile: 135;
+	sprite: straightVertical;
+}
+{
+	tile: 149;
+	sprite: straightVertical;
+}
+{
+	tile: 163;
+	sprite: straightVertical;
+}
+{
+	tile: 177;
+	sprite: up;
+}

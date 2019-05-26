@@ -12,41 +12,47 @@ TunnelUpdate::TunnelUpdate()
 
 void TunnelUpdate::OnTriggerEnter(std::shared_ptr<dae::CollisionComponent> other)
 {
-	TunnelSprite animation = TunnelSprite(m_SpriteRenderer->GetAnimation());
-	if (animation != TunnelSprite::all)
+	if (other->GetGameObject()->GetComponent<DigDugColllision>())
 	{
-		auto& pos = other->GetGameObject()->GetTransform().lock()->GetPosition();
-		float2 charCenter{ float(pos.x + other->GetWidth() / 2), float(pos.y + other->GetHeight() / 2) };
-		auto gameobject = other->GetGameObject();
+		TunnelSprite animation = TunnelSprite(m_SpriteRenderer->GetAnimation());
+		if (animation != TunnelSprite::all)
+		{
+			auto& pos = other->GetGameObject()->GetTransform().lock()->GetPosition();
+			float2 charCenter{ float(pos.x + other->GetWidth() / 2), float(pos.y + other->GetHeight() / 2) };
+			auto gameobject = other->GetGameObject();
 
-		if (charCenter.y > m_Center.y)
-			UpdateDown(gameobject, animation, charCenter.y - m_Center.y);
-		else if (charCenter.y < m_Center.y)
-			UpdateUp(gameobject, animation, m_Center.y - charCenter.y);
-		else if (charCenter.x > m_Center.x)
-			UpdateRight(gameobject, animation, charCenter.x - m_Center.x);
-		else if (charCenter.x < m_Center.x)
-			UpdateLeft(gameobject, animation, m_Center.x - charCenter.x);
+			if (charCenter.y > m_Center.y)
+				UpdateDown(gameobject, animation, charCenter.y - m_Center.y);
+			else if (charCenter.y < m_Center.y)
+				UpdateUp(gameobject, animation, m_Center.y - charCenter.y);
+			else if (charCenter.x > m_Center.x)
+				UpdateRight(gameobject, animation, charCenter.x - m_Center.x);
+			else if (charCenter.x < m_Center.x)
+				UpdateLeft(gameobject, animation, m_Center.x - charCenter.x);
+		}
 	}
 }
 
 void TunnelUpdate::OnTriggerStay(std::shared_ptr<dae::CollisionComponent> other)
 {
-	TunnelSprite animation = TunnelSprite(m_SpriteRenderer->GetAnimation());
-	if (animation != TunnelSprite::all)
+	if (other->GetGameObject()->GetComponent<DigDugColllision>())
 	{
-		auto& pos = other->GetGameObject()->GetTransform().lock()->GetPosition();
-		float2 charCenter{ float(pos.x + other->GetWidth() / 2), float(pos.y + other->GetHeight() / 2) };
-		auto gameobject = other->GetGameObject();
+		TunnelSprite animation = TunnelSprite(m_SpriteRenderer->GetAnimation());
+		if (animation != TunnelSprite::all)
+		{
+			auto& pos = other->GetGameObject()->GetTransform().lock()->GetPosition();
+			float2 charCenter{ float(pos.x + other->GetWidth() / 2), float(pos.y + other->GetHeight() / 2) };
+			auto gameobject = other->GetGameObject();
 
-		if (charCenter.y > m_Center.y)
-			UpdateDown(gameobject, animation, charCenter.y - m_Center.y);
-		else if (charCenter.y < m_Center.y)
-			UpdateUp(gameobject, animation, m_Center.y - charCenter.y);
-		else if (charCenter.x > m_Center.x)
-			UpdateRight(gameobject, animation, charCenter.x - m_Center.x);
-		else if (charCenter.x < m_Center.x)
-			UpdateLeft(gameobject, animation, m_Center.x - charCenter.x);
+			if (charCenter.y > m_Center.y)
+				UpdateDown(gameobject, animation, charCenter.y - m_Center.y);
+			else if (charCenter.y < m_Center.y)
+				UpdateUp(gameobject, animation, m_Center.y - charCenter.y);
+			else if (charCenter.x > m_Center.x)
+				UpdateRight(gameobject, animation, charCenter.x - m_Center.x);
+			else if (charCenter.x < m_Center.x)
+				UpdateLeft(gameobject, animation, m_Center.x - charCenter.x);
+		}
 	}
 }
 

@@ -51,7 +51,7 @@ namespace dae
 			void update()
 			{
 				previousState = currentState;
-				currentState = XINPUT_STATE();
+				ZeroMemory(&currentState, sizeof(XINPUT_STATE));
 			}
 		};
 		struct MouseState
@@ -91,6 +91,6 @@ namespace dae
 		std::map<SDL_Keycode, KeyState> m_Keys;
 		MouseState m_Mouse;
 		bool m_Exit = false;
-	};//geen commands gebruikt omdat het veel vrijheid wegneemt naar mijn mening
+	};
 
 }

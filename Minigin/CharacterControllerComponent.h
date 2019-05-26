@@ -12,7 +12,11 @@ namespace dae
 
 		int GetPlayerNr() const { return m_PlayerNr; }
 
-		void SetState(std::shared_ptr<BaseState> state) { m_CurrentState = state; }
+		void SetState(std::shared_ptr<BaseState> state)
+		{
+			if(typeid(*state.get()) != typeid(*m_CurrentState.get()))
+			m_CurrentState = state;
+		}
 
 	protected:
 		void Update() override;

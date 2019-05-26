@@ -1,5 +1,4 @@
 #pragma once
-#include "BaseComponent.h"
 #include "Texture2D.h"
 #include "BaseRenderComponent.h"
 
@@ -21,6 +20,5 @@ namespace dae
 	private:
 		std::shared_ptr<Texture2D> mTexture;
 		int m_Width, m_Height;
-		bool m_AddedToRenderer;
 	};
 }

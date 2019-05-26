@@ -199,7 +199,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="BaseComponent.h" />
     <ClInclude Include="BaseRenderComponent.h" />
     <ClInclude Include="BaseState.h" />
-    <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="ChangeSceneCommand.h" />
     <ClInclude Include="CharacterControllerComponent.h" />
     <ClInclude Include="CollisionComponent.h" />
@@ -213,6 +212,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="InputManager.h" />
     <ClInclude Include="BaseLoader.h" />
+    <ClInclude Include="LifeTime.h" />
     <ClInclude Include="Log.h" />
     <ClInclude Include="Minigin.h" />
     <ClInclude Include="MiniginContactListener.h" />
@@ -238,7 +238,6 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
   <ItemGroup>
     <ClCompile Include="BaseComponent.cpp" />
     <ClCompile Include="BaseRenderComponent.cpp" />
-    <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="ChangeSceneCommand.cpp" />
     <ClCompile Include="CharacterControllerComponent.cpp" />
     <ClCompile Include="CollisionComponent.cpp" />
@@ -251,6 +250,7 @@ xcopy "$(SolutionDir)3rdParty\SDL2_ttf\lib\x64\*.dll" "$(OutputPath)" /R /Y</Com
     <ClCompile Include="FPSComponent.cpp" />
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="InputManager.cpp" />
+    <ClCompile Include="LifeTime.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="Minigin.cpp" />
     <ClCompile Include="MiniginContactListener.cpp" />

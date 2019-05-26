@@ -1,10 +1,7 @@
 #include "pch.h"
 #include "LevelLoader.h"
 #include <fstream>
-#include "CollisionComponent.h"
-#include "SpriteRenderer.h"
 #include "Animations.h"
-#include "TunnelUpdate.h"
 #include "RockBehaviour.h"
 
 LevelLoader::LevelLoader()
@@ -25,6 +22,9 @@ LevelLoader::~LevelLoader()
 std::shared_ptr<Level> LevelLoader::LoadContent(const std::string& assetFile)
 {
 	m_Level = std::make_shared<Level>();
+	m_Spawns.FygarSpawns.clear();
+	m_Spawns.PookaSpawns.clear();
+	m_Spawns.RockSpawns.clear();
 
 	std::ifstream input{};
 	input.open(assetFile);
@@ -50,121 +50,77 @@ std::shared_ptr<Level> LevelLoader::LoadContent(const std::string& assetFile)
 	return m_Level;
 }
 
-void LevelLoader::AddEmptyTiles(int startCount, int endCount)
+int LevelLoader::GetTunnelEnum(const std::string& startingState)
 {
-	for (int i = startCount; i < endCount; ++i)
-	{
-		auto tile = std::make_shared<dae::GameObject>();
-		AddCollisionComponent(tile, i);
-		AddSpriteRenderer(tile, "none");
-		AddTunnelUpdate(tile);
-		
-		m_Level->AddGameObject(tile);
-	}
-}
-
-void LevelLoader::AddSpriteRenderer(std::shared_ptr<dae::GameObject> tile, const std::string& startingState)
-{
-	auto spriterenderer = std::make_shared<dae::SpriteRenderer>("Tunnels.png", 0.25f, 4, 4, 16, float2{ m_TileWidth, m_TileHeight });
-	tile->AddComponent(spriterenderer);
-
 	if (startingState == "straightVertical")
 	{
-		spriterenderer->SetAnimation((int)TunnelSprite::straightVertical);
-		return;
+		return (int)TunnelSprite::straightVertical;
 	}
 	if (startingState == "straightHorizontal")
 	{
-		spriterenderer->SetAnimation((int)TunnelSprite::straightHorizontal);
-		return;
+		return (int)TunnelSprite::straightHorizontal;
 	}
 
 	if (startingState == "cornerLU")
 	{
-		spriterenderer->SetAnimation((int)TunnelSprite::cornerLU);
-		return;
+		return (int)TunnelSprite::cornerLU;
 	}
 	if (startingState == "cornerRU")
 	{
-		spriterenderer->SetAnimation((int)TunnelSprite::cornerRU);
-		return;
+		return (int)TunnelSprite::cornerRU;
 	}
 	if (startingState == "cornerLD")
 	{
-		spriterenderer->SetAnimation((int)TunnelSprite::cornerLD);
-		return;
+		return (int)TunnelSprite::cornerLD;
 	}
 	if (startingState == "cornerRD")
 	{
-		spriterenderer->SetAnimation((int)TunnelSprite::cornerRD);
-		return;
+		return (int)TunnelSprite::cornerRD;
 	}
 
 	if (startingState == "tUp")
 	{
-		spriterenderer->SetAnimation((int)TunnelSprite::tUp);
-		return;
+		return (int)TunnelSprite::tUp;
 	}
 	if (startingState == "tDown")
 	{
-		spriterenderer->SetAnimation((int)TunnelSprite::tDown);
-		return;
+		return (int)TunnelSprite::tDown;
 	}
 	if (startingState == "tLeft")
 	{
-		spriterenderer->SetAnimation((int)TunnelSprite::tLeft);
-		return;
+		return (int)TunnelSprite::tLeft;
 	}
 	if (startingState == "tRight")
 	{
-		spriterenderer->SetAnimation((int)TunnelSprite::tRight);
-		return;
+		return (int)TunnelSprite::tRight;
 	}
 
 	if (startingState == "left")
 	{
-		spriterenderer->SetAnimation((int)TunnelSprite::left);
-		return;
+		return (int)TunnelSprite::left;
 	}
 	if (startingState == "up")
 	{
-		spriterenderer->SetAnimation((int)TunnelSprite::up);
-		return;
+		return (int)TunnelSprite::up;
 	}
 	if (startingState == "right")
 	{
-		spriterenderer->SetAnimation((int)TunnelSprite::right);
-		return;
+		return (int)TunnelSprite::right;
 	}
 	if (startingState == "down")
 	{
-		spriterenderer->SetAnimation((int)TunnelSprite::down);
-		return;
+		return (int)TunnelSprite::down;
 	}
 
 	if (startingState == "all")
 	{
-		spriterenderer->SetAnimation((int)TunnelSprite::all);
-		return;
+		return (int)TunnelSprite::all;
 	}
 	if (startingState == "none")
 	{
-		spriterenderer->SetAnimation((int)TunnelSprite::none);
+		return (int)TunnelSprite::none;
 	}
-}
-
-void LevelLoader::AddCollisionComponent(std::shared_ptr<dae::GameObject> tile, int tileId)
-{
-	tile->GetTransform().lock()->SetPosition(m_TileWidth * (tileId % m_Cols) + m_OffsetX, m_TileHeight * (tileId / m_Cols) + m_OffsetY, 0);
-	auto collider = std::make_shared<dae::CollisionComponent>(m_TileWidth, m_TileHeight, true, true);
-	collider->SetTrigger(true);
-	tile->AddComponent(collider);
-}
-
-void LevelLoader::AddTunnelUpdate(std::shared_ptr<dae::GameObject> tile)
-{
-	auto comp = std::make_shared<TunnelUpdate>();
-	tile->AddComponent(comp);
+	return 15;
 }
 
 void LevelLoader::ReadMapInfo(std::ifstream& input)
@@ -271,9 +227,6 @@ void LevelLoader::ReadTiles(std::ifstream& input)
 			int end = (int)line.find(';');
 			int tileId = std::stoi(line.substr(it, end - it));
 
-			//add empty tiles until that tile
-			AddEmptyTiles(tilesAdded, tileId);
-
 			//read starting state of tile
 			std::getline(input, line);
 			it = (int)line.find("sprite:");
@@ -281,16 +234,12 @@ void LevelLoader::ReadTiles(std::ifstream& input)
 			end = (int)line.find(';');
 			std::string state = line.substr(it, end - it);
 
-			//add components to new tiles
-			AddSpriteRenderer(tile, state);
-			AddCollisionComponent(tile, tileId);
-			AddTunnelUpdate(tile);
-
-			m_Level->AddGameObject(tile);
+			m_Level->AddTunnel(std::pair<int, int>(tileId, GetTunnelEnum(state)));
 			tilesAdded = tileId + 1;
 
 			std::getline(input, line);
 
+			//read spawn typy if any defined
 			if(std::find(line.begin(), line.end(), '}') == line.end())
 			{
 				it = (int)line.find("spawn:");
@@ -321,5 +270,4 @@ void LevelLoader::ReadTiles(std::ifstream& input)
 			}
 		}
 	}
-	AddEmptyTiles(tilesAdded, m_Cols * m_Rows);
 }

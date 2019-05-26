@@ -11,14 +11,14 @@ HorizontalMoveState::HorizontalMoveState(std::shared_ptr<Level> level)
 {
 }
 
-std::shared_ptr<dae::BaseState> HorizontalMoveState::Update(std::shared_ptr<dae::GameObject> gameObject, dae::BaseCommand*& commandOutput)
+std::shared_ptr<dae::BaseState> HorizontalMoveState::Update(std::shared_ptr<dae::GameObject> gameObject, dae::BaseCommand*& commandOutput, int controller)
 {
 	std::shared_ptr<BaseState> returnState;
 
-	if (dae::InputManager::GetInstance().IsDown(m_Right) || dae::InputManager::GetInstance().GetAxis(dae::ControllerAxis::JoystickLX, 0) > 0.75f)
+	if (controller == 0 && dae::InputManager::GetInstance().IsDown(m_Right) || dae::InputManager::GetInstance().GetAxis(dae::ControllerAxis::JoystickLX, controller) > 0.75f)
 		commandOutput = new MoveRightCommand(50, m_Level);
 
-	else if (dae::InputManager::GetInstance().IsDown(m_Left) || dae::InputManager::GetInstance().GetAxis(dae::ControllerAxis::JoystickLX, 0) < -0.75f)
+	else if (controller == 0 && dae::InputManager::GetInstance().IsDown(m_Left) || dae::InputManager::GetInstance().GetAxis(dae::ControllerAxis::JoystickLX, controller) < -0.75f)
 		commandOutput = new MoveLeftCommand(50, m_Level);
 	else
 	{

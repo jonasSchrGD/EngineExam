@@ -16,5 +16,6 @@ namespace dae
 		void Translate(float x, float y, float z);
 
 		~TransformComponent() override;
+
 	};
 }

@@ -12,11 +12,7 @@ public:
 	void Initialize() override{}
 
 private:
-	void AddEmptyTiles(int startCount, int endCount);
-
-	void AddSpriteRenderer(std::shared_ptr<dae::GameObject> tile, const std::string& startingState);
-	void AddCollisionComponent(std::shared_ptr<dae::GameObject> tile, int tileId);
-	void AddTunnelUpdate(std::shared_ptr<dae::GameObject> tile);
+	int GetTunnelEnum(const std::string& startingState);
 
 	void ReadMapInfo(std::ifstream& input);
 	void ReadTiles(std::ifstream& input);

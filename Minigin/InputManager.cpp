@@ -15,12 +15,10 @@ dae::InputManager::~InputManager()
 
 bool dae::InputManager::ProcessInput()
 {
-	ZeroMemory(&m_Controllers[0].currentState, sizeof(XINPUT_STATE));
-
 	for (int i = 0; i < 4; i++)
 	{
 		m_Controllers[i].update();
-		auto result = XInputGetState(0, &m_Controllers[i].currentState);
+		auto result = XInputGetState(i, &m_Controllers[i].currentState);
 		m_Controllers[i].isConnected = (result != ERROR_NOT_CONNECTED);
 	}
 

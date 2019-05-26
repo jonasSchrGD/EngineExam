@@ -16,9 +16,60 @@ dae::CollisionComponent::CollisionComponent(float width, float height, bool fixe
 
 dae::CollisionComponent::~CollisionComponent()
 {
+	for (auto collision : m_pCollisionEnter)
+	{
+		if (CollisionHandler::GetInstance().GetSharedPtr(collision->m_Idx) && CollisionHandler::GetInstance().GetSharedPtr(m_Idx))
+		{
+			if (!collision->m_pCollisionStay.empty())
+			{
+				auto col = std::remove(collision->m_pCollisionStay.begin(), collision->m_pCollisionStay.end(), this);
+				if (col != collision->m_pCollisionStay.end())
+					collision->m_pCollisionStay.erase(col);
+			}
+
+			if (collision->m_IsTrigger)
+				collision->GetGameObject()->OnTriggerLeave(CollisionHandler::GetInstance().GetSharedPtr(m_Idx));
+			else
+				collision->GetGameObject()->OnCollisionLeave(CollisionHandler::GetInstance().GetSharedPtr(m_Idx));
+		}
+	}
+	for (auto collision : m_pCollisionStay)
+	{
+		if (CollisionHandler::GetInstance().GetSharedPtr(collision->m_Idx) && CollisionHandler::GetInstance().GetSharedPtr(m_Idx))
+		{
+			if (!collision->m_pCollisionStay.empty())
+			{
+				auto col = std::remove(collision->m_pCollisionStay.begin(), collision->m_pCollisionStay.end(), this);
+				if (col != collision->m_pCollisionStay.end())
+					collision->m_pCollisionStay.erase(col);
+			}
+
+			if (collision->m_IsTrigger)
+				collision->GetGameObject()->OnTriggerLeave(CollisionHandler::GetInstance().GetSharedPtr(m_Idx));
+			else
+				collision->GetGameObject()->OnCollisionLeave(CollisionHandler::GetInstance().GetSharedPtr(m_Idx));
+		}
+	}
+	for (auto collision : m_pCollisionLeave)
+	{
+		if (CollisionHandler::GetInstance().GetSharedPtr(collision->m_Idx) && CollisionHandler::GetInstance().GetSharedPtr(m_Idx))
+		{
+			if (!collision->m_pCollisionStay.empty())
+			{
+				auto col = std::remove(collision->m_pCollisionStay.begin(), collision->m_pCollisionStay.end(), this);
+				if (col != collision->m_pCollisionStay.end())
+					collision->m_pCollisionStay.erase(col);
+			}
+			if (collision->m_IsTrigger)
+				collision->GetGameObject()->OnTriggerLeave(CollisionHandler::GetInstance().GetSharedPtr(m_Idx));
+			else
+				collision->GetGameObject()->OnCollisionLeave(CollisionHandler::GetInstance().GetSharedPtr(m_Idx));
+		}
+	}
+
 	CollisionHandler::GetInstance().RemoveCollisionComp(m_Idx);
 
-	if (m_pCollision)
+	if (m_pCollision != nullptr)
 		CollisionHandler::GetInstance().GetWorld().DestroyBody(m_pCollision);
 }
 
@@ -55,6 +106,32 @@ void dae::CollisionComponent::Load()
 void dae::CollisionComponent::Unload()
 {
 	CollisionHandler::GetInstance().GetWorld().DestroyBody(m_pCollision);
+	m_pCollision = nullptr;
+}
+
+std::vector<std::shared_ptr<dae::CollisionComponent>> dae::CollisionComponent::GetColliders()
+{
+	std::vector<std::shared_ptr<CollisionComponent>> colliders{};
+
+	for (auto collision : m_pCollisionEnter)
+	{
+		auto col = CollisionHandler::GetInstance().GetSharedPtr(collision->m_Idx);
+		if (col)
+			colliders.push_back(col);
+	}
+	for (auto collision : m_pCollisionStay)
+	{
+		auto col = CollisionHandler::GetInstance().GetSharedPtr(collision->m_Idx);
+		if (col)
+			colliders.push_back(col);
+	}
+	for (auto collision : m_pCollisionLeave)
+	{
+		auto col = CollisionHandler::GetInstance().GetSharedPtr(collision->m_Idx);
+		if (col)
+			colliders.push_back(col);
+	}
+	return colliders;
 }
 
 void dae::CollisionComponent::Update()
@@ -78,28 +155,47 @@ void dae::CollisionComponent::InvokeCorrespondingFunction()
 	if (m_IsTrigger)
 	{
 		for (auto collisions : m_pCollisionStay)
-			gameObject->OnTriggerStay(collisionhandler.GetSharedPtr(collisions->m_Idx));
+		{
+			auto other = collisionhandler.GetSharedPtr(collisions->m_Idx);
+			if (other)
+				gameObject->OnTriggerStay(other);
+		}
 
 		for (auto collisions : m_pCollisionLeave)
-			gameObject->OnTriggerLeave(collisionhandler.GetSharedPtr(collisions->m_Idx));
-	
+		{
+			auto other = collisionhandler.GetSharedPtr(collisions->m_Idx);
+			if (other)
+				gameObject->OnTriggerLeave(other);
+		}
+
 		for (auto collisions : m_pCollisionEnter)
 		{
-			gameObject->OnTriggerEnter(collisionhandler.GetSharedPtr(collisions->m_Idx));
+			auto other = collisionhandler.GetSharedPtr(collisions->m_Idx);
+			if (other)
+				gameObject->OnTriggerEnter(other);
 			m_pCollisionStay.push_back(collisions);
 		}
 	}
 	else
 	{
 		for (auto collisions : m_pCollisionStay)
-			gameObject->OnCollisionStay(collisionhandler.GetSharedPtr(collisions->m_Idx));
+		{
+			auto other = collisionhandler.GetSharedPtr(collisions->m_Idx);
+			if (other)
+				gameObject->OnCollisionStay(other);
+		}
 
 		for (auto collisions : m_pCollisionLeave)
-			gameObject->OnCollisionLeave(collisionhandler.GetSharedPtr(collisions->m_Idx));
-
+		{
+			auto other = collisionhandler.GetSharedPtr(collisions->m_Idx);
+			if (other)
+				gameObject->OnCollisionLeave(other);
+		}
 		for (auto collisions : m_pCollisionEnter)
 		{
-			gameObject->OnCollisionEnter(collisionhandler.GetSharedPtr(collisions->m_Idx));
+			auto other = collisionhandler.GetSharedPtr(collisions->m_Idx);
+			if (other)
+				gameObject->OnCollisionEnter(other);
 			m_pCollisionStay.push_back(collisions);
 		}
 	}

@@ -17,8 +17,9 @@ WanderState::~WanderState()
 {
 }
 
-std::shared_ptr<dae::BaseState> WanderState::Update(std::shared_ptr<dae::GameObject> gameObject, dae::BaseCommand*& commandOutput)
+std::shared_ptr<dae::BaseState> WanderState::Update(std::shared_ptr<dae::GameObject> gameObject, dae::BaseCommand*& commandOutput, int controller)
 {
+	UNREFERENCED_PARAMETER(controller);
 	std::shared_ptr<BaseState> returnState{};
 
 	auto& pos = gameObject->GetTransform().lock()->GetPosition();
@@ -26,38 +27,41 @@ std::shared_ptr<dae::BaseState> WanderState::Update(std::shared_ptr<dae::GameObj
 	{
 		auto possibleDirections = m_Level->GetPossibleDirections({ pos.x, pos.y });
 
-		int randDirection = std::rand() % possibleDirections.size();
+		if (!possibleDirections.empty())
+		{
+			int randDirection = std::rand() % possibleDirections.size();
 
-		if (possibleDirections[randDirection].x > 0)
-		{
-			if (m_Level->Center(gameObject, false))
+			if (possibleDirections[randDirection].x > 0)
 			{
-				commandOutput = new MoveRightCommand(40, m_Level);
-				m_NewPos = m_Level->GetNextPos({ pos.x, pos.y }, possibleDirections[randDirection]);
+				if (m_Level->Center(gameObject, false))
+				{
+					commandOutput = new MoveRightCommand(40, m_Level);
+					m_NewPos = m_Level->GetNextPos({ pos.x, pos.y }, possibleDirections[randDirection]);
+				}
 			}
-		}
-		if (possibleDirections[randDirection].x < 0)
-		{
-			if (m_Level->Center(gameObject, false))
+			if (possibleDirections[randDirection].x < 0)
 			{
-				commandOutput = new MoveLeftCommand(40, m_Level);
-				m_NewPos = m_Level->GetNextPos({ pos.x, pos.y }, possibleDirections[randDirection]);
+				if (m_Level->Center(gameObject, false))
+				{
+					commandOutput = new MoveLeftCommand(40, m_Level);
+					m_NewPos = m_Level->GetNextPos({ pos.x, pos.y }, possibleDirections[randDirection]);
+				}
 			}
-		}
-		if (possibleDirections[randDirection].y > 0)
-		{
-			if (m_Level->Center(gameObject, true))
+			if (possibleDirections[randDirection].y > 0)
 			{
-				commandOutput = new MoveDownCommand(40, m_Level);
-				m_NewPos = m_Level->GetNextPos({ pos.x, pos.y }, possibleDirections[randDirection]);
+				if (m_Level->Center(gameObject, true))
+				{
+					commandOutput = new MoveDownCommand(40, m_Level);
+					m_NewPos = m_Level->GetNextPos({ pos.x, pos.y }, possibleDirections[randDirection]);
+				}
 			}
-		}
-		if (possibleDirections[randDirection].y < 0)
-		{
-			if (m_Level->Center(gameObject, true))
+			if (possibleDirections[randDirection].y < 0)
 			{
-				commandOutput = new MoveUpCommand(40, m_Level);
-				m_NewPos = m_Level->GetNextPos({ pos.x, pos.y }, possibleDirections[randDirection]);
+				if (m_Level->Center(gameObject, true))
+				{
+					commandOutput = new MoveUpCommand(40, m_Level);
+					m_NewPos = m_Level->GetNextPos({ pos.x, pos.y }, possibleDirections[randDirection]);
+				}
 			}
 		}
 }

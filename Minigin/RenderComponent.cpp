@@ -6,8 +6,7 @@
 
 
 dae::RenderComponent::RenderComponent(int width, int height)
-	:m_AddedToRenderer(false)
-	,m_Width(width)
+	:m_Width(width)
 	,m_Height(height)
 {
 }

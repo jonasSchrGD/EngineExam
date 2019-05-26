@@ -2,7 +2,8 @@
 #include "Level.h"
 #include "SpriteRenderer.h"
 #include "TunnelUpdate.h"
-
+#include "CollisionComponent.h"
+#include "AttackBehaviour.h"
 
 Level::Level()
 	: m_Spawns()
@@ -24,16 +25,53 @@ void Level::Initialize(float2 characterSize, float centerRange)
 	m_CenterRange = centerRange;
 }
 
-void Level::AddGameObject(std::shared_ptr<dae::GameObject> object)
+void Level::AddTunnel(std::pair<int, int> tunnel)
 {
-	m_LevelObjects.push_back(object);
+	m_Tunnels.push_back(tunnel);
 }
 
 void Level::AddToScene(std::shared_ptr<dae::Scene> scene)
 {
-	for (auto object : m_LevelObjects)
+	m_LevelObjects.clear();
+	int prevTunnel{};
+	for (int i = 0; i < m_Tunnels.size(); i++)
 	{
-		scene->Add(object);
+		for (int j = prevTunnel; j < m_Tunnels[i].first; ++j)
+		{
+			auto tile = std::make_shared<dae::GameObject>();
+			tile->GetTransform().lock()->SetPosition(m_TileSize.x * (j % m_RowCol.y) + m_Offset.x, m_TileSize.y * (j / m_RowCol.y) + m_Offset.y, 0);
+			auto collider = std::make_shared<dae::CollisionComponent>(m_TileSize.x, m_TileSize.y, true, true);
+			collider->SetTrigger(true);
+			tile->AddComponent(collider);
+
+			auto spriterenderer = std::make_shared<dae::SpriteRenderer>("Tunnels.png", 0.25f, 4, 4, 16, m_TileSize);
+			tile->AddComponent(spriterenderer);
+			spriterenderer->SetAnimation(int(TunnelSprite::none));
+
+			auto comp = std::make_shared<TunnelUpdate>();
+			tile->AddComponent(comp);
+
+			scene->Add(tile);
+			m_LevelObjects.push_back(tile);
+		}
+
+		auto tile = std::make_shared<dae::GameObject>();
+		tile->GetTransform().lock()->SetPosition(m_TileSize.x * (m_Tunnels[i].first % m_RowCol.y) + m_Offset.x, m_TileSize.y * (m_Tunnels[i].first / m_RowCol.y) + m_Offset.y, 0);
+		auto collider = std::make_shared<dae::CollisionComponent>(m_TileSize.x, m_TileSize.y, true, true);
+		collider->SetTrigger(true);
+		tile->AddComponent(collider);
+
+		auto spriterenderer = std::make_shared<dae::SpriteRenderer>("Tunnels.png", 0.25f, 4, 4, 16, m_TileSize);
+		tile->AddComponent(spriterenderer);
+		spriterenderer->SetAnimation(m_Tunnels[i].second);
+
+		auto comp = std::make_shared<TunnelUpdate>();
+		tile->AddComponent(comp);
+
+		m_LevelObjects.push_back(tile);
+		scene->Add(tile);
+
+		prevTunnel = m_Tunnels[i].first + 1;
 	}
 }
 
@@ -43,6 +81,22 @@ bool Level::IsTunnel(float2 pos)
 	int row = int((pos.y - m_Offset.y) / m_TileSize.y);
 
 	return m_LevelObjects[row * m_RowCol.y + col]->GetComponent<dae::SpriteRenderer>()->GetAnimation() != (int)TunnelSprite::none;
+}
+
+std::shared_ptr<dae::GameObject> Level::GetCharacterInTile(float2 pos)
+{
+	std::shared_ptr<dae::GameObject> character{ };
+	int col = int((pos.x - m_Offset.x) / m_TileSize.x);
+	int row = int((pos.y - m_Offset.y) / m_TileSize.y);
+
+	auto colliders = m_LevelObjects[row * m_RowCol.y + col]->GetComponent<dae::CollisionComponent>()->GetColliders();
+	for (auto collider : colliders)
+	{
+		auto player = collider->GetGameObject()->GetComponent<AttackBehaviour>();
+		if (player)
+			return collider->GetGameObject();
+	}
+	return character;
 }
 
 bool Level::Center(std::shared_ptr<dae::GameObject> object, bool CenterX)
@@ -97,11 +151,11 @@ bool Level::IsInGrid(float2 pos)
 
 	//is underground inside boundaries?
 	if (center.x <= m_TileSize.x / 2 + (m_RowCol.y - 1) * m_TileSize.x + m_Offset.x && center.x >= m_TileSize.x / 2 + m_Offset.x &&
-		center.x <= m_TileSize.y / 2 + (m_RowCol.x - 1) * m_TileSize.y + m_Offset.y && center.y >= m_TileSize.y / 2 + m_Offset.y)
+		center.y <= m_TileSize.y / 2 + (m_RowCol.x - 1) * m_TileSize.y + m_Offset.y && center.y >= m_TileSize.y / 2 + m_Offset.y)
 		return true;
 
 	//is in tunnel to go above ground?
-	if (center.x == 260 && center.y > 80)
+	if (center.x == 260 && center.y > 80 && center.y < 220)
 		return true;
 
 	//is above ground?
@@ -109,6 +163,19 @@ bool Level::IsInGrid(float2 pos)
 		return true;
 
 	return false;
+}
+
+int Level::GetLayer(float yPos)
+{
+	int row = int((yPos - m_Offset.y) / m_TileSize.y);
+
+	if (row < 3)
+		return 1;
+	if (row < 7)
+		return 2;
+	if (row < 11)
+		return 3;
+	return  4;
 }
 
 float2 Level::GetNextPos(float2 currentPos, int2 direction)
@@ -194,8 +261,8 @@ float2 Level::GetVersusSpawn(bool isPooka)
 	{
 		float2 spawnPos{};
 
-		spawnPos.x = (m_Spawns.PookaSpawns[0] % m_RowCol.y) * m_TileSize.x + m_Offset.x;
-		spawnPos.y = (m_Spawns.PookaSpawns[0] / m_RowCol.y) * m_TileSize.y + m_Offset.y;
+		spawnPos.x = (m_Spawns.FygarSpawns[0] % m_RowCol.y) * m_TileSize.x + m_Offset.x;
+		spawnPos.y = (m_Spawns.FygarSpawns[0] / m_RowCol.y) * m_TileSize.y + m_Offset.y;
 
 		spawnPos.x += (m_TileSize.x - m_CharacterSize.x) / 2;
 		spawnPos.y += (m_TileSize.y - m_CharacterSize.y) / 2;

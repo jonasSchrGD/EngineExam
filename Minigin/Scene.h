@@ -17,8 +17,9 @@ namespace dae
 		void Initialize();
 		virtual void SetupScene() = 0;
 
-		void LoadScene();
-		void UnloadScene();
+		virtual void LoadScene();
+		virtual void UnloadScene();
+		void DoRemove();
 
 		Scene(const std::string& name);
 		virtual ~Scene() = default;
@@ -33,8 +34,9 @@ namespace dae
 	private: 
 		std::string mName{};
 		std::vector<std::shared_ptr<SceneObject>> mObjects{};
-		std::vector<std::shared_ptr<BaseRenderComponent>> m_RenderComponents;
+		std::vector<std::shared_ptr<SceneObject>> m_ObjectsToAdd;
 		std::vector<std::shared_ptr<SceneObject>> m_ObjectsToRemove;
+		std::vector<std::shared_ptr<BaseRenderComponent>> m_RenderComponents;
 
 		std::shared_ptr<RenderCompObserver> m_Observer;
 

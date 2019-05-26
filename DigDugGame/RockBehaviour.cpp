@@ -5,6 +5,7 @@
 #include "Time.h"
 #include "EnemyCollisionHandler.h"
 #include "DigDugColllision.h"
+#include "CharacterControllerComponent.h"
 
 RockBehaviour::RockBehaviour(std::shared_ptr<Level> level)
 	: m_Level(level)
@@ -31,14 +32,20 @@ void RockBehaviour::Update()
 	else if (m_Trigger)
 	{
 		GetGameObject()->GetComponent<dae::SpriteRenderer>()->SetAnimation(int(RockAnimation::Shake));
-		m_elapsed += dae::Time::GetInstance().DeltaTime();
-		if (m_elapsed > m_TriggerTime)
+		auto character = m_Level->GetCharacterInTile(m_TileBeneathe);
+		if(!character)
 		{
-			m_Falling = true;
-			m_elapsed = 0;
-			m_SpriteRenderer->SetAnimation(int(RockAnimation::Idle));
-			m_Trigger = false;
+			m_elapsed += dae::Time::GetInstance().DeltaTime();
+			if (m_elapsed > m_TriggerTime)
+			{
+				m_Falling = true;
+				m_elapsed = 0;
+				m_SpriteRenderer->SetAnimation(int(RockAnimation::Idle));
+				m_Trigger = false;
+			}
 		}
+		else
+			m_PlayerId = character->GetComponent<dae::CharacterControllerComponent>()->GetPlayerNr();
 	}
 	else if (m_Break)
 	{

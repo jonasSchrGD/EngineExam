@@ -16,6 +16,29 @@ enum class DigDugAnimation
 	death
 };
 
+enum class PookaAnimation
+{
+	left,
+	right,
+	inflate1,
+	inflate2,
+	inflate3,
+	inflate4,
+	flat
+};
+
+enum class FygarAnimation
+{
+	left,
+	right,
+	inflate1,
+	inflate2,
+	inflate3,
+	inflate4,
+	flat
+};
+
+
 enum class TunnelSprite
 {
 	straightVertical,

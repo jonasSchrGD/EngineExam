@@ -34,6 +34,9 @@
     <Filter Include="Game\Level">
       <UniqueIdentifier>{b9211cab-3310-45a8-8844-e75374984944}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Game\Observer">
+      <UniqueIdentifier>{719b083b-8d1f-4ed9-a626-15b54617887d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DigDug.h">
@@ -108,6 +111,24 @@
     <ClInclude Include="DigDugDeath.h">
       <Filter>Game\states\PlayerStates</Filter>
     </ClInclude>
+    <ClInclude Include="AttackBehaviour.h">
+      <Filter>Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Projectile.h">
+      <Filter>Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="InflatedState.h">
+      <Filter>Game\states\ai</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreSystem.h">
+      <Filter>Game\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreObserver.h">
+      <Filter>Game\Observer</Filter>
+    </ClInclude>
+    <ClInclude Include="SelectedLevel.h">
+      <Filter>Game</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -175,6 +196,21 @@
     </ClCompile>
     <ClCompile Include="DigDugDeath.cpp">
       <Filter>Game\states\PlayerStates</Filter>
+    </ClCompile>
+    <ClCompile Include="AttackBehaviour.cpp">
+      <Filter>Game\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Projectile.cpp">
+      <Filter>Game\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="InflatedState.cpp">
+      <Filter>Game\states\ai</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreSystem.cpp">
+      <Filter>Game\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreObserver.cpp">
+      <Filter>Game\Observer</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
