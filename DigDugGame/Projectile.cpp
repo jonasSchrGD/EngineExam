@@ -11,6 +11,7 @@ Projectile::Projectile(int2 direction)
 	: m_MaxDistance(80)
 	, m_velocity(160)
 	, m_Direction(direction)
+	, m_PlayerNr(0)
 	, m_Distance()
 {
 }

@@ -7,7 +7,7 @@ void dae::SceneManager::Initialize()
 {
 	if (!m_IsInitialized)
 	{
-		for (int i = 0; i < m_Scenes.size(); ++i)
+		for (int i = 0; i < (int)m_Scenes.size(); ++i)
 		{
 			m_Scenes[i]->Initialize();
 		}

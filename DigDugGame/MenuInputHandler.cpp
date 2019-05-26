@@ -56,7 +56,7 @@ void MenuInputHandler::Update()
 		}
 		m_NoInput = false;
 	}
-	else if(inputmanager.GetAxis(dae::ControllerAxis::JoystickRY, 0) > 0.75f)
+	else if(inputmanager.GetAxis(dae::ControllerAxis::JoystickRY, 0) > 0.75f || inputmanager.IsDown(std::pair<int, int>{SDLK_UP, 0}, 0))
 	{
 		if (m_NoInput)
 		{
@@ -66,7 +66,7 @@ void MenuInputHandler::Update()
 		}
 		m_NoInput = false;
 	}
-	else if (inputmanager.GetAxis(dae::ControllerAxis::JoystickRY, 0) < -0.75f)
+	else if (inputmanager.GetAxis(dae::ControllerAxis::JoystickRY, 0) < -0.75f || inputmanager.IsDown(std::pair<int, int>{SDLK_DOWN, 0}, 0))
 	{
 		if (m_NoInput)
 		{

@@ -34,7 +34,7 @@ void Level::AddToScene(std::shared_ptr<dae::Scene> scene)
 {
 	m_LevelObjects.clear();
 	int prevTunnel{};
-	for (int i = 0; i < m_Tunnels.size(); i++)
+	for (int i = 0; i < (int)m_Tunnels.size(); i++)
 	{
 		for (int j = prevTunnel; j < m_Tunnels[i].first; ++j)
 		{
@@ -275,7 +275,7 @@ float2 Level::GetVersusSpawn(bool isPooka)
 std::vector<float2> Level::GetPookaSpawns()
 {
 	std::vector<float2> spawns{};
-	for (int i = 0; i < m_Spawns.PookaSpawns.size(); ++i)
+	for (int i = 0; i < (int)m_Spawns.PookaSpawns.size(); ++i)
 	{
 		float2 spawnPos{};
 
@@ -293,7 +293,7 @@ std::vector<float2> Level::GetPookaSpawns()
 std::vector<float2> Level::GetFygarSpawns(bool Versus)
 {
 	std::vector<float2> spawns{};
-	for (int i = Versus; i < m_Spawns.FygarSpawns.size(); ++i)
+	for (int i = Versus; i < (int)m_Spawns.FygarSpawns.size(); ++i)
 	{
 		float2 spawnPos{};
 
@@ -308,7 +308,7 @@ std::vector<float2> Level::GetFygarSpawns(bool Versus)
 std::vector<float2> Level::GetRockSpawns()
 {
 	std::vector<float2> spawns{};
-	for (int i = 0; i < m_Spawns.RockSpawns.size(); ++i)
+	for (int i = 0; i < (int)m_Spawns.RockSpawns.size(); ++i)
 	{
 		float2 spawnPos{};
 
@@ -325,7 +325,7 @@ std::vector<float2> Level::GetRockSpawns()
 
 bool Level::AreConnected(int tile1, int tile2)
 {
-	if (tile2 > 0 && tile2 < m_LevelObjects.size())
+	if (tile2 > 0 && tile2 < (int)m_LevelObjects.size())
 	{
 		TunnelSprite tile1Sprite = (TunnelSprite)m_LevelObjects[tile1]->GetComponent<dae::SpriteRenderer>()->GetAnimation();
 		TunnelSprite tile2Sprite = (TunnelSprite)m_LevelObjects[tile2]->GetComponent<dae::SpriteRenderer>()->GetAnimation();

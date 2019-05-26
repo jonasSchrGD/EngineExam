@@ -71,7 +71,7 @@ void dae::GameObject::Update()
 			child->Update();
 	}
 
-	for (int i = 0; i < m_pComponentsToRemove.size(); ++i)
+	for (int i = 0; i < (int)m_pComponentsToRemove.size(); ++i)
 	{
 		m_pComponents.erase(std::remove(m_pComponents.begin(), m_pComponents.end(), m_pComponentsToRemove[i]));
 	}
@@ -83,7 +83,7 @@ void dae::GameObject::Initialize()
 	if (!m_IsInitialized)
 	{
 		//for (auto child : m_pComponents)//can't handle change in container
-		for (int i = 0; i < m_pComponents.size(); ++i)
+		for (int i = 0; i < (int)m_pComponents.size(); ++i)
 		{
 			auto raw = m_pComponents[i].get();
 			if (dynamic_cast<BaseRenderComponent*>(raw))
